@@ -1,0 +1,32 @@
+@startuml
+Cliente "1"*--"*" Cuenta
+Cuenta "1"*--"*" Tag
+Tag "1"*--"1" Saldo
+Cuenta "1"*--"1" Saldo
+Saldo "1"*--"*" Movimiento
+Movimiento "*"*--"1" Tipo_movimiento
+
+Cliente : ID
+Cliente : Nombre
+
+Cuenta : ID
+
+Tag : ID
+Tag : Matricula
+Tag : Autorecarga
+Tag : EsVip
+Tag : EsExento
+Tag : EsDescuento
+
+Saldo : ID
+Saldo : Cantidad
+Saldo : Cantidad_virtual
+
+Movimiento : ID
+Movimiento : Cantidad
+Movimiento : esVirtual
+
+Tipo_movimiento : ID
+Tipo_movimiento : Descripción
+
+@enduml

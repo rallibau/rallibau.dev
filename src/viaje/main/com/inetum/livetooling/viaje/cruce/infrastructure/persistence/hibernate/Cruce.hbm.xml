@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.inetum.livetooling.viaje.cruce.domain.Cruce" table="viajes">
+        <composite-id name="id" class="com.inetum.livetooling.viaje.cruce.domain.CruceId" access="field">
+            <key-property column="id" name="value" length="36" access="field" />
+        </composite-id>
+
+        <component name="ruta" class="com.inetum.livetooling.viaje.cruce.domain.CruceRuta" access="field">
+            <property name="value" column="ruta" type="string" access="field" />
+        </component>
+
+        <component name="estado" class="com.inetum.livetooling.viaje.cruce.domain.CruceEstado" access="field">
+            <property name="value" column="estado" type="string" access="field" />
+        </component>
+
+        <property name="tagNumero" column="tagNumero" type="string" access="field" />
+    </class>
+</hibernate-mapping>
