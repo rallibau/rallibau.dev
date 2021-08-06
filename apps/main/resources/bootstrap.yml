@@ -1,4 +1,0 @@
-spring:
-  cloud:
-    config:
-      uri: http://configserver:8888

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 
-@Primary
+//@Primary
 @Service
 public class RabbitMqEventBus implements EventBus {
     private final RabbitMqPublisher publisher;
