@@ -1,4 +1,4 @@
-rootProject.name = 'livetooling'
+rootProject.name = 'rallibau.dev'
 
 include ':shared'
 project(':shared').projectDir = new File('src/shared')

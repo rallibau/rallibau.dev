@@ -28,6 +28,8 @@ public final class HibernateConfigurationFactory {
     @Value("${database.show_sql}")
     private String SHOW_SQL;
     private String DIALECT;
+    @Value("${base.package}")
+    private String BASE_PATH;
 
 
     private final ResourcePatternResolver resourceResolver;
@@ -109,16 +111,16 @@ public final class HibernateConfigurationFactory {
     private List<String> subdirectoriesFor(String contextName) {
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
-        String path = "./src/" + contextName + "/main/com/inetum/livetooling/" + contextName + "/";
+        String path = "./src/" + contextName + "/main/"+ BASE_PATH +"/" + contextName + "/";
 
         String[] files = new File(path).list((current, name) -> new File(current, name).isDirectory());
 
         if (null == files) {
-            path = "./main/com/inetum/livetooling/" + contextName + "/";
+            path = "./main/" + BASE_PATH + "/" + contextName + "/";
             files = new File(path).list((current, name) -> new File(current, name).isDirectory());
         }
         if (null == files) {
-            path = "./app/src/" + contextName + "/main/com/inetum/livetooling/" + contextName + "/";
+            path = "./app/src/" + contextName + "/main/" + BASE_PATH + "/" + contextName + "/";
             files = new File(path).list((current, name) -> new File(current, name).isDirectory());
         }
 

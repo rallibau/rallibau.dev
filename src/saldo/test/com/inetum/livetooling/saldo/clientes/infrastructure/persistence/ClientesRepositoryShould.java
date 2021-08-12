@@ -11,7 +11,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class InMemoryClientesRepositoryShould extends ClienteModuleInfraestructureTestCase {
+class ClientesRepositoryShould extends ClienteModuleInfraestructureTestCase {
 
     @Test
     void save_a_cliente() {
