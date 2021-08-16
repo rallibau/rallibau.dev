@@ -1,6 +1,6 @@
 package com.inetum.livetooling.saldo.clientes.domain;
 
-import com.inetum.livetooling.shared.domain.events.ClienteCreatedDomainEvent;
+import com.rallibau.shared.domain.events.ClienteCreatedDomainEvent;
 
 public class ClienteCreatedDomainEventMother {
 

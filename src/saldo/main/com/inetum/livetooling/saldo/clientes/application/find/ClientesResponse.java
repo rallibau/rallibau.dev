@@ -1,6 +1,6 @@
 package com.inetum.livetooling.saldo.clientes.application.find;
 
-import com.inetum.livetooling.shared.domain.bus.query.Response;
+import com.rallibau.shared.domain.bus.query.Response;
 
 import java.util.List;
 

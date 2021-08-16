@@ -1,6 +1,6 @@
 package com.inetum.livetooling.saldo.clientes.application.create;
 
-import com.inetum.livetooling.shared.domain.bus.command.Command;
+import com.rallibau.shared.domain.bus.command.Command;
 
 public final class CreateClienteCommand implements Command {
     private final String id;

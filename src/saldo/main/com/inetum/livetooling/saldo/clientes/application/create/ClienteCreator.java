@@ -4,8 +4,8 @@ import com.inetum.livetooling.saldo.clientes.domain.Cliente;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteId;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteName;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteRepository;
-import com.inetum.livetooling.shared.domain.Service;
-import com.inetum.livetooling.shared.domain.bus.event.EventBus;
+import com.rallibau.shared.domain.Service;
+import com.rallibau.shared.domain.bus.event.EventBus;
 
 @Service
 public final class ClienteCreator {

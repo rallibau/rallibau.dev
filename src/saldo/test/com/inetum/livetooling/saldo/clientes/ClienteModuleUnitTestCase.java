@@ -2,7 +2,7 @@ package com.inetum.livetooling.saldo.clientes;
 
 import com.inetum.livetooling.saldo.clientes.domain.Cliente;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteRepository;
-import com.inetum.livetooling.shared.infraestructure.UnitTestCase;
+import com.rallibau.shared.infraestructure.UnitTestCase;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.*;

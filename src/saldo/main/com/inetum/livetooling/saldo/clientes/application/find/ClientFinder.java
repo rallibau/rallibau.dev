@@ -3,8 +3,8 @@ package com.inetum.livetooling.saldo.clientes.application.find;
 import com.inetum.livetooling.saldo.clientes.domain.Cliente;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteId;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteRepository;
-import com.inetum.livetooling.shared.domain.Service;
-import com.inetum.livetooling.shared.domain.criteria.*;
+import com.rallibau.shared.domain.Service;
+import com.rallibau.shared.domain.criteria.*;
 
 import java.util.ArrayList;
 import java.util.List;

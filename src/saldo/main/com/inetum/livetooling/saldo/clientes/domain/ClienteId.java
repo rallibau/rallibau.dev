@@ -1,6 +1,6 @@
 package com.inetum.livetooling.saldo.clientes.domain;
 
-import com.inetum.livetooling.shared.domain.Identifier;
+import com.rallibau.shared.domain.Identifier;
 
 public final class ClienteId extends Identifier {
     public ClienteId(String value) {

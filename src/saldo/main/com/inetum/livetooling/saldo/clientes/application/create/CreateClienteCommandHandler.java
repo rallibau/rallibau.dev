@@ -2,8 +2,8 @@ package com.inetum.livetooling.saldo.clientes.application.create;
 
 import com.inetum.livetooling.saldo.clientes.domain.ClienteId;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteName;
-import com.inetum.livetooling.shared.domain.Service;
-import com.inetum.livetooling.shared.domain.bus.command.CommandHandler;
+import com.rallibau.shared.domain.Service;
+import com.rallibau.shared.domain.bus.command.CommandHandler;
 
 @Service
 public final class CreateClienteCommandHandler implements CommandHandler<CreateClienteCommand> {

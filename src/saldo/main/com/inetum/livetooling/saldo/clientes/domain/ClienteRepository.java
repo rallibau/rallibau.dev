@@ -1,6 +1,6 @@
 package com.inetum.livetooling.saldo.clientes.domain;
 
-import com.inetum.livetooling.shared.domain.criteria.Criteria;
+import com.rallibau.shared.domain.criteria.Criteria;
 
 import java.util.List;
 import java.util.Optional;

@@ -3,7 +3,7 @@ package com.inetum.livetooling.saldo.clientes.infrastructure.persistence;
 import com.inetum.livetooling.saldo.clientes.domain.Cliente;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteId;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteRepository;
-import com.inetum.livetooling.shared.domain.criteria.Criteria;
+import com.rallibau.shared.domain.criteria.Criteria;
 
 import java.util.ArrayList;
 import java.util.HashMap;

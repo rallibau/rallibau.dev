@@ -1,6 +1,6 @@
 package com.inetum.livetooling.saldo.clientes.domain;
 
-import com.inetum.livetooling.shared.domain.StringValueObject;
+import com.rallibau.shared.domain.StringValueObject;
 
 public final class ClienteName extends StringValueObject {
     public ClienteName(String value) {

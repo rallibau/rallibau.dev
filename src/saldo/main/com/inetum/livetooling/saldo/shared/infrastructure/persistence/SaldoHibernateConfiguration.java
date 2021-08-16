@@ -1,6 +1,6 @@
 package com.inetum.livetooling.saldo.shared.infrastructure.persistence;
 
-import com.inetum.livetooling.shared.infraestructure.hibernate.HibernateConfigurationFactory;
+import com.rallibau.shared.infraestructure.hibernate.HibernateConfigurationFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

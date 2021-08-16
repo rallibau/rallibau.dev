@@ -1,6 +1,6 @@
 package com.inetum.livetooling.saldo.clientes.domain;
 
-import com.inetum.livetooling.shared.domain.UuidMother;
+import com.rallibau.shared.domain.UuidMother;
 
 public final class ClienteIdMother {
     public static ClienteId create(String value){

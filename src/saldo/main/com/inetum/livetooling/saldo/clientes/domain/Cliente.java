@@ -1,7 +1,7 @@
 package com.inetum.livetooling.saldo.clientes.domain;
 
-import com.inetum.livetooling.shared.domain.AggregateRoot;
-import com.inetum.livetooling.shared.domain.events.ClienteCreatedDomainEvent;
+import com.rallibau.shared.domain.AggregateRoot;
+import com.rallibau.shared.domain.events.ClienteCreatedDomainEvent;
 
 
 import java.util.Objects;

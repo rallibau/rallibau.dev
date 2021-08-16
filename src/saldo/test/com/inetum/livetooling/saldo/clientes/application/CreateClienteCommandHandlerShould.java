@@ -7,7 +7,7 @@ import com.inetum.livetooling.saldo.clientes.application.create.CreateClienteCom
 import com.inetum.livetooling.saldo.clientes.domain.Cliente;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteCreatedDomainEventMother;
 import com.inetum.livetooling.saldo.clientes.domain.ClienteMother;
-import com.inetum.livetooling.shared.domain.events.ClienteCreatedDomainEvent;
+import com.rallibau.shared.domain.events.ClienteCreatedDomainEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
