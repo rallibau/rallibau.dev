@@ -1,15 +1,10 @@
 package com.inetum.livetooling.apps;
 
-import com.inetum.livetooling.apps.gestionLista.GestionListaApplication;
 import com.inetum.livetooling.apps.gestionSaldo.GestionSaldoApplication;
-import com.inetum.livetooling.apps.gestionViaje.GestionViajeApplication;
-import com.inetum.livetooling.apps.livetooling.LivetoolingApplication;
-import com.inetum.livetooling.apps.tagReader.TagReaderApplication;
 import com.inetum.livetooling.shared.infraestructure.cli.ConsoleCommand;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.context.ConfigurableApplicationContext;
-
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,10 +72,6 @@ public class Starter {
         HashMap<String, Class<?>> applications = new HashMap<>();
 
         applications.put("gestionSaldo", GestionSaldoApplication.class);
-        applications.put("gestionViaje", GestionViajeApplication.class);
-        applications.put("gestionLista", GestionListaApplication.class);
-        applications.put("livetooling", LivetoolingApplication.class);
-        applications.put("tagReader", TagReaderApplication.class);
 
         return applications;
     }
@@ -89,10 +80,6 @@ public class Starter {
         HashMap<String, HashMap<String, Class<?>>> commands = new HashMap<>();
 
         commands.put("gestionSaldo", GestionSaldoApplication.commands());
-        commands.put("gestionViaje", GestionViajeApplication.commands());
-        commands.put("gestionLista", GestionListaApplication.commands());
-        commands.put("livetooling", LivetoolingApplication.commands());
-        commands.put("tagReader", TagReaderApplication.commands());
         return commands;
     }
 

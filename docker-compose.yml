@@ -21,39 +21,6 @@ services:
     networks:
       - livetooling-net
 
-
-  gestionviaje:
-    container_name: inetum-livetooling-gestionviaje
-    build:
-      context: .
-      dockerfile: apps/main/com/inetum/livetooling/apps/gestionViaje/Dockerfile
-    restart: unless-stopped
-    ports:
-      - "8031:8080"
-    volumes:
-      - .:/app:delegated
-    env_file:
-      - .env
-    tty: true
-    networks:
-      - livetooling-net
-
-  gestionlista:
-    container_name: inetum-livetooling-gestionlista
-    build:
-      context: .
-      dockerfile: apps/main/com/inetum/livetooling/apps/gestionLista/Dockerfile
-    restart: unless-stopped
-    ports:
-      - "8032:8080"
-    volumes:
-      - .:/app:delegated
-    env_file:
-      - .env
-    tty: true
-    networks:
-      - livetooling-net
-
   mysql:
     container_name: inetum-livetooling-mysql
     image: mysql:8
