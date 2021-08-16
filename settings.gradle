@@ -3,11 +3,5 @@ rootProject.name = 'rallibau.dev'
 include ':shared'
 project(':shared').projectDir = new File('src/shared')
 
-include ':viaje'
-project(':viaje').projectDir = new File('src/viaje')
-
 include ':saldo'
 project(':saldo').projectDir = new File('src/saldo')
-
-include ':lista'
-project(':lista').projectDir = new File('src/lista')

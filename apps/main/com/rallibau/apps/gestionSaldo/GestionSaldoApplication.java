@@ -11,7 +11,7 @@ import java.util.HashMap;
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
 @ComponentScan(
         includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class),
-        value = {"com.rallibau.shared", "com.inetum.livetooling.saldo", "com.rallibau.apps.gestionSaldo"}
+        value = {"com.rallibau.shared", "com.rallibau.saldo", "com.rallibau.apps.gestionSaldo"}
 )
 public class GestionSaldoApplication {
 
