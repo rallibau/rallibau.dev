@@ -1,7 +1,7 @@
 package com.rallibau.apps.gestionSaldo.controller.clientes;
 
-import com.inetum.livetooling.saldo.clientes.application.find.ClientesResponse;
-import com.inetum.livetooling.saldo.clientes.application.find.FindClientQuery;
+import com.rallibau.saldo.clientes.application.find.ClientesResponse;
+import com.rallibau.saldo.clientes.application.find.FindClientQuery;
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
