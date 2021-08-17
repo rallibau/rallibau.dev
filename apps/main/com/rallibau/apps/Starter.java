@@ -1,5 +1,6 @@
 package com.rallibau.apps;
 
+import com.rallibau.apps.bpm.BpmApplication;
 import com.rallibau.apps.gestionSaldo.GestionSaldoApplication;
 import com.rallibau.shared.infraestructure.cli.ConsoleCommand;
 import org.springframework.boot.SpringApplication;
@@ -72,6 +73,7 @@ public class Starter {
         HashMap<String, Class<?>> applications = new HashMap<>();
 
         applications.put("gestionSaldo", GestionSaldoApplication.class);
+        applications.put("bpm", BpmApplication.class);
 
         return applications;
     }
@@ -80,6 +82,7 @@ public class Starter {
         HashMap<String, HashMap<String, Class<?>>> commands = new HashMap<>();
 
         commands.put("gestionSaldo", GestionSaldoApplication.commands());
+        commands.put("bpm", BpmApplication.commands());
         return commands;
     }
 

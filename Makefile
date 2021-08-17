@@ -23,16 +23,7 @@ run:
 start-gestionSaldo:
 	@./gradlew :run --args="gestionSaldo server"
 
-start-gestionLista:
-	@./gradlew :run --args="gestionLista server"
-
-start-gestionViaje:
-	@./gradlew :run --args="gestionViaje server"
-
-start-livetooling:
-	@./gradlew :run --args="livetooling server"
-
-start-tagreader:
-	@./gradlew :run --args="tagReader server"
+start-bpm:
+	@./gradlew :run --args="bpm server"
 
 

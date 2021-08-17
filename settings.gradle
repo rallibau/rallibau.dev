@@ -5,3 +5,6 @@ project(':shared').projectDir = new File('src/shared')
 
 include ':saldo'
 project(':saldo').projectDir = new File('src/saldo')
+
+include ':bpm'
+project(':bpm').projectDir = new File('src/bpm')
