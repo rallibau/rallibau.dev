@@ -1,4 +1,4 @@
-package com.rallibau.bpm.process.application;
+package com.rallibau.bpm.process.application.create;
 
 import com.rallibau.shared.domain.bus.command.Command;
 

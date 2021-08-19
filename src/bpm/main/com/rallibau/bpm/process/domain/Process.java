@@ -1,11 +1,11 @@
 package com.rallibau.bpm.process.domain;
 
 import com.rallibau.shared.domain.AggregateRoot;
-import com.rallibau.shared.domain.events.bpm.CreateProcessDomainEvent;
+import com.rallibau.shared.domain.events.bpm.ProcessCreatedDomainEvent;
 
 import java.util.Objects;
 
-public class Process extends AggregateRoot {
+public final class Process extends AggregateRoot {
     private final ProcessId id;
     private final ProcessName name;
 
@@ -39,7 +39,7 @@ public class Process extends AggregateRoot {
 
     public static Process create(ProcessId id, ProcessName name) {
         Process process = new Process(id, name);
-        process.record(new CreateProcessDomainEvent(id.value(),name.value()));
+        process.record(new ProcessCreatedDomainEvent(id.value(),name.value()));
         return process;
     }
 

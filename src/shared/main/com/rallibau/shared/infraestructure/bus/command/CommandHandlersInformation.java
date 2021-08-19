@@ -16,7 +16,7 @@ public final class CommandHandlersInformation {
     HashMap<Class<? extends Command>, Class<? extends CommandHandler>> indexedCommandHandlers;
 
     public CommandHandlersInformation() {
-        Reflections reflections = new Reflections("com.inetum.livetooling");
+        Reflections reflections = new Reflections("com.rallibau");
         Set<Class<? extends CommandHandler>> classes = reflections.getSubTypesOf(CommandHandler.class);
 
         indexedCommandHandlers = formatHandlers(classes);

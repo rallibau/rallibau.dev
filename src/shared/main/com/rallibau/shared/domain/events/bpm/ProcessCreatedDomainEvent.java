@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 
-public final class CreateProcessDomainEvent extends DomainEvent {
+public final class ProcessCreatedDomainEvent extends DomainEvent {
 
     private final String name;
 
-    public CreateProcessDomainEvent(String aggregateId, String name) {
+    public ProcessCreatedDomainEvent(String aggregateId, String name) {
         super(aggregateId);
         this.name = name;
     }
@@ -38,7 +38,7 @@ public final class CreateProcessDomainEvent extends DomainEvent {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        CreateProcessDomainEvent that = (CreateProcessDomainEvent) o;
+        ProcessCreatedDomainEvent that = (ProcessCreatedDomainEvent) o;
         return aggregateId().equals(that.aggregateId());
     }
 

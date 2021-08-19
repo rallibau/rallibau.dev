@@ -1,4 +1,4 @@
-package com.rallibau.bpm.process.application;
+package com.rallibau.bpm.process.application.create;
 
 import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.bpm.process.domain.ProcessId;

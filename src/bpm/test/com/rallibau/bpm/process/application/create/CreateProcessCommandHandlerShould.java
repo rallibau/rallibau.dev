@@ -1,12 +1,11 @@
-package com.rallibau.bpm.process.application;
+package com.rallibau.bpm.process.application.create;
 
 import com.rallibau.apps.bpm.BpmApplication;
 import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.bpm.process.domain.ProcessMother;
 import com.rallibau.bpm.process.domain.ProcessRepository;
 import com.rallibau.shared.domain.bus.event.EventBus;
-import com.rallibau.shared.domain.bus.query.QueryBus;
-import com.rallibau.shared.domain.events.bpm.CreateProcessDomainEvent;
+import com.rallibau.shared.domain.events.bpm.ProcessCreatedDomainEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,12 +33,12 @@ public class CreateProcessCommandHandlerShould {
     @Test
     public void create_valid_process() {
         Process process = ProcessMother.random();
-        CreateProcessDomainEvent createProcessDomainEvent = new CreateProcessDomainEvent(process.id().value(),process.name().value());
+        ProcessCreatedDomainEvent processCreatedDomainEvent = new ProcessCreatedDomainEvent(process.id().value(),process.name().value());
         CreateProcessCommand createProcessCommand = new CreateProcessCommand(process.id().value(),
                 process.name().value());
         createProcessCommandHandler.handle(createProcessCommand);
         verify(processRepository, atLeastOnce()).save(process);
-        verify(eventBus, atLeastOnce()).publish(Collections.singletonList(createProcessDomainEvent));
+        verify(eventBus, atLeastOnce()).publish(Collections.singletonList(processCreatedDomainEvent));
 
     }
 }
