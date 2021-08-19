@@ -1,7 +1,6 @@
 package com.rallibau.apps;
 
 import com.rallibau.apps.bpm.BpmApplication;
-import com.rallibau.apps.gestionSaldo.GestionSaldoApplication;
 import com.rallibau.shared.infraestructure.cli.ConsoleCommand;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -13,14 +12,14 @@ import java.util.HashMap;
 public class Starter {
     public static void main(String[] args) {
         if (args.length < 2) {
-           // throw new RuntimeException("There are not enough arguments");
+            // throw new RuntimeException("There are not enough arguments");
             args = new String[2];
             args[0] = "gestionSaldo";
             args[1] = "server";
         }
 
-        String  applicationName = args[0];
-        String  commandName     = args[1];
+        String applicationName = args[0];
+        String commandName = args[1];
         boolean isServerCommand = commandName.equals("server");
 
         ensureApplicationExist(applicationName);
@@ -36,7 +35,6 @@ public class Starter {
         }
 
         ConfigurableApplicationContext context = app.run(args);
-
 
 
         if (!isServerCommand) {
@@ -72,7 +70,6 @@ public class Starter {
     private static HashMap<String, Class<?>> applications() {
         HashMap<String, Class<?>> applications = new HashMap<>();
 
-        applications.put("gestionSaldo", GestionSaldoApplication.class);
         applications.put("bpm", BpmApplication.class);
 
         return applications;
@@ -81,7 +78,6 @@ public class Starter {
     private static HashMap<String, HashMap<String, Class<?>>> commands() {
         HashMap<String, HashMap<String, Class<?>>> commands = new HashMap<>();
 
-        commands.put("gestionSaldo", GestionSaldoApplication.commands());
         commands.put("bpm", BpmApplication.commands());
         return commands;
     }
