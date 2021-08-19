@@ -19,7 +19,7 @@ public class CreateProcessCommandHandler implements CommandHandler<CreateProcess
     @Override
     public void handle(CreateProcessCommand command) {
 
-        processCreator.create(new Process(new ProcessId(command.id()),
+        processCreator.create(Process.create(new ProcessId(command.id()),
                 new ProcessName(command.name())));
     }
 }
