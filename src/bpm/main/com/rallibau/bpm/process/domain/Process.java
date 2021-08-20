@@ -27,9 +27,9 @@ public final class Process extends AggregateRoot {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Process cliente = (Process) o;
-        return id.equals(cliente.id) &&
-                name.equals(cliente.name);
+        Process node = (Process) o;
+        return id.equals(node.id) &&
+                name.equals(node.name);
     }
 
     @Override

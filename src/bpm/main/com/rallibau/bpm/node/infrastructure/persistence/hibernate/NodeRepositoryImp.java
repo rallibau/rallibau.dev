@@ -1,5 +1,8 @@
-package com.rallibau.bpm.process.infrastructure.persistence.hibernate;
+package com.rallibau.bpm.node.infrastructure.persistence.hibernate;
 
+import com.rallibau.bpm.node.domain.Node;
+import com.rallibau.bpm.node.domain.NodeId;
+import com.rallibau.bpm.node.domain.NodeRepository;
 import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.bpm.process.domain.ProcessId;
 import com.rallibau.bpm.process.domain.ProcessRepository;
@@ -15,29 +18,29 @@ import java.util.Optional;
 
 @Service
 @Transactional("bpm-transaction_manager")
-public final class ProcessRepositoryImp extends HibernateRepository<Process> implements ProcessRepository {
+public final class NodeRepositoryImp extends HibernateRepository<Node> implements NodeRepository {
 
-    public ProcessRepositoryImp(@Qualifier("bpm-session_factory")SessionFactory sessionFactory) {
-        super(sessionFactory,Process.class);
+    public NodeRepositoryImp(@Qualifier("bpm-session_factory")SessionFactory sessionFactory) {
+        super(sessionFactory,Node.class);
     }
 
     @Override
-    public void save(Process process) {
-        persist(process);
+    public void save(Node node) {
+        persist(node);
     }
 
     @Override
-    public Optional<Process> get(ProcessId id) {
+    public Optional<Node> get(NodeId id) {
         return byId(id);
     }
 
     @Override
-    public List<Process> searchAll() {
+    public List<Node> searchAll() {
         return all();
     }
 
     @Override
-    public List<Process> matching(Criteria criteria) {
+    public List<Node> matching(Criteria criteria) {
         return byCriteria(criteria);
     }
 }

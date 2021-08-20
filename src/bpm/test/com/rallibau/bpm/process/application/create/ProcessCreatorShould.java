@@ -1,7 +1,6 @@
 package com.rallibau.bpm.process.application.create;
 
 import com.rallibau.apps.bpm.BpmApplication;
-import com.rallibau.bpm.process.application.create.ProcessCreator;
 import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.bpm.process.domain.ProcessMother;
 import com.rallibau.bpm.process.domain.ProcessRepository;
@@ -28,7 +27,7 @@ public class ProcessCreatorShould {
     }
 
     @Test
-    public void create_process_dont_failure(){
+    public void create_process_dont_failure() {
         Process process = ProcessMother.random();
         processCreator.create(process);
         verify(processRepository, atLeastOnce()).save(process);
