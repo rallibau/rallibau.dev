@@ -68,11 +68,11 @@ public final class HibernateCriteriaConverter<T> {
     }
 
     private Predicate greaterThanPredicateTransformer(Filter filter, Root<T> root) {
-        return builder.greaterThan(root.get(filter.field().value()), filter.value().value());
+        return builder.greaterThan(root.get(filter.field().value()).get("value"), filter.value().value());
     }
 
     private Predicate lowerThanPredicateTransformer(Filter filter, Root<T> root) {
-        return builder.lessThan(root.get(filter.field().value()), filter.value().value());
+        return builder.lessThan(root.get(filter.field().value()).get("value"), filter.value().value());
     }
 
     private Predicate containsPredicateTransformer(Filter filter, Root<T> root) {
@@ -80,6 +80,6 @@ public final class HibernateCriteriaConverter<T> {
     }
 
     private Predicate notContainsPredicateTransformer(Filter filter, Root<T> root) {
-        return builder.notLike(root.get(filter.field().value()), String.format("%%%s%%", filter.value().value()));
+        return builder.notLike(root.get(filter.field().value()).get("value"), String.format("%%%s%%", filter.value().value()));
     }
 }
