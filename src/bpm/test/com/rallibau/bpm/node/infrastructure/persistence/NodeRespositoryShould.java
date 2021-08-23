@@ -42,10 +42,13 @@ public class NodeRespositoryShould {
 
     @Test
     public void search_by_criteria(){
-        Node node1 = NodeMother.create(NodeIdMother.random(), NodeName.create("Un nombre cualquiera"));
+        Node node1 = NodeMother.create(NodeIdMother.random(), NodeName.create("xxxx rallibau xxxxxx"));
         repository.save(node1);
 
-        Criteria criteria = new Criteria(new Filters(Arrays.asList(Filter.create("name","contains","mon"))), Order.asc("name"));
+        Node node2 = NodeMother.create(NodeIdMother.random(), NodeName.create("xxxxGLBRTx"));
+        repository.save(node1);
+
+        Criteria criteria = new Criteria(new Filters(Arrays.asList(Filter.create("name","contains","rallibau"))), Order.asc("name"));
 
         assertThat(Arrays.asList(node1),containsInAnyOrder(repository.matching(criteria).toArray()));
 
