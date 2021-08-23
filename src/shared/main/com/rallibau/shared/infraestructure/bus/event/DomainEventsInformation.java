@@ -15,7 +15,7 @@ public final class DomainEventsInformation {
     HashMap<String, Class<? extends DomainEvent>> indexedDomainEvents;
 
     public DomainEventsInformation() {
-        Reflections reflections = new Reflections("com.inetum");
+        Reflections reflections = new Reflections("com.rallibau");
         Set<Class<? extends DomainEvent>> classes = reflections.getSubTypesOf(DomainEvent.class);
 
         try {

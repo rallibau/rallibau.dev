@@ -10,6 +10,10 @@ public final class ProcessCreatedDomainEvent extends DomainEvent {
 
     private final String name;
 
+    public ProcessCreatedDomainEvent() {
+        this.name = null;
+    }
+
     public ProcessCreatedDomainEvent(String aggregateId, String name) {
         super(aggregateId);
         this.name = name;

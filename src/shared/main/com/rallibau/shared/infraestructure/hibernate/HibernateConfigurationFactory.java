@@ -29,7 +29,7 @@ public final class HibernateConfigurationFactory {
     private String SHOW_SQL;
     private String DIALECT;
     @Value("${base.package}")
-    private String BASE_PATH;
+    private String BASE_PACKAGE;
 
 
     private final ResourcePatternResolver resourceResolver;
@@ -110,6 +110,7 @@ public final class HibernateConfigurationFactory {
 
     private List<String> subdirectoriesFor(String contextName) {
         Path currentRelativePath = Paths.get("");
+        String BASE_PATH = BASE_PACKAGE.replace(".","/");
         String s = currentRelativePath.toAbsolutePath().toString();
         String path = "./src/" + contextName + "/main/"+ BASE_PATH +"/" + contextName + "/";
 
