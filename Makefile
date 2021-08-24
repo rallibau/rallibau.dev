@@ -11,8 +11,6 @@ build:
 run-tests:
 	@./gradlew test --warning-mode all
 
-test:
-	@docker exec inetum-livetooling ./gradlew test --warning-mode all
 
 run:
 	@./gradlew :run
