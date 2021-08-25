@@ -17,11 +17,19 @@ run:
 	
 
 # Start the app
-#set enviroment: set spring.profiles.active=produccion
+#set enviroment: set env=local
 start-gestionSaldo:
 	@./gradlew :run --args="gestionSaldo server"
 
 start-bpm:
-	@./gradlew :run --args="bpm server"
+	@export env=local
+	@./gradlew :run --args="bpm server" -Denv=compose-local
+
+compose-bpm:
+	@./gradlew build --warning-mode all && docker-compose up -d --build bpm
+
+
+
+
 
 

@@ -3,4 +3,4 @@ VOLUME /tmp
 COPY build/libs/rallibau-0.0.1.jar app.jar
 EXPOSE 8080
 RUN sh -c 'touch app.jar'
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=dearrollo -Djava.security.egd=file:/dev/./urandom -jar app.jar bpm server" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Denv=compose-local -Djava.security.egd=file:/dev/./urandom -jar app.jar bpm server" ]
