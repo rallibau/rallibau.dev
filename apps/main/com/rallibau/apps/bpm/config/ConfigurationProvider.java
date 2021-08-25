@@ -5,5 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:application.properties")
+@PropertySource("classpath:application-${env}.properties")
 public class ConfigurationProvider {
 }
