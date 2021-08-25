@@ -17,12 +17,11 @@ run:
 	
 
 # Start the app
-#set enviroment: set env=local
+#set enviroment: export env=local
 start-gestionSaldo:
 	@./gradlew :run --args="gestionSaldo server"
 
 start-bpm:
-	@export env=local
 	@./gradlew :run --args="bpm server" -Denv=compose-local
 
 compose-bpm:
