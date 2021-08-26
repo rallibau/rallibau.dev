@@ -9,7 +9,7 @@ import org.springframework.context.event.EventListener;
 
 @Service
 @DomainEventSubscriber({ProcessCreatedDomainEvent.class})
-public final class NotifyProcessCreated {
+public  class NotifyProcessCreated {
 
     private static final Logger logger = LogManager.getLogger(NotifyProcessCreated.class);
 

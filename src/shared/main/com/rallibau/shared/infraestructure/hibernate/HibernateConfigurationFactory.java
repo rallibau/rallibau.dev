@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public final class HibernateConfigurationFactory {
+public  class HibernateConfigurationFactory {
     @Value("${database.auto_ddl}")
     private String AUTO_DDL;
     @Value("${database.show_sql}")

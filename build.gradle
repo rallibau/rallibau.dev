@@ -40,11 +40,15 @@ allprojects {
         implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:6.8.4'
         implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
         implementation 'commons-io:commons-io:2.6'
+        implementation 'org.aspectj:aspectjweaver:1.9.5'
+
 
         runtime 'io.jsonwebtoken:jjwt-impl:0.11.2'
         runtime 'io.jsonwebtoken:jjwt-jackson:0.11.2'
         runtime 'mysql:mysql-connector-java:8.0.18'
         runtime 'com.h2database:h2'
+        runtime 'org.aspectj:aspectjrt:1.9.5'
+
 
 
         // Test
