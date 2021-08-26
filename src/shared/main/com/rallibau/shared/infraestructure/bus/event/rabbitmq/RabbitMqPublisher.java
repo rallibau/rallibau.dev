@@ -9,7 +9,7 @@ import org.springframework.amqp.core.MessagePropertiesBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @Service
-public final class RabbitMqPublisher {
+public class RabbitMqPublisher {
     private final RabbitTemplate rabbitTemplate;
 
     public RabbitMqPublisher(RabbitTemplate rabbitTemplate) {

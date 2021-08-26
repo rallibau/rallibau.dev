@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 @Service
-public final class CommandHandlersInformation {
+public  class CommandHandlersInformation {
     HashMap<Class<? extends Command>, Class<? extends CommandHandler>> indexedCommandHandlers;
 
     public CommandHandlersInformation() {

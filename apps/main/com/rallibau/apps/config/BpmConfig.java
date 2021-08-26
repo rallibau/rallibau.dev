@@ -1,4 +1,4 @@
-package com.rallibau.apps.bpm.config;
+package com.rallibau.apps.config;
 
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import org.springframework.context.annotation.Bean;

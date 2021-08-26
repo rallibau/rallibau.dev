@@ -4,7 +4,7 @@ import com.rallibau.shared.domain.Service;
 import io.github.cdimascio.dotenv.Dotenv;
 
 @Service
-public final class Parameter {
+public  class Parameter {
     private final Dotenv dotenv;
 
     public Parameter(Dotenv dotenv) {

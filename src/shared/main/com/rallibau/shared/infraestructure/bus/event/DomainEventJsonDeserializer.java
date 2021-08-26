@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 @Service
-public final class DomainEventJsonDeserializer {
+public  class DomainEventJsonDeserializer {
     private final DomainEventsInformation information;
 
     public DomainEventJsonDeserializer(DomainEventsInformation information) {

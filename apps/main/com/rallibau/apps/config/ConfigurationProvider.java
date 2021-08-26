@@ -1,4 +1,4 @@
-package com.rallibau.apps.bpm.config;
+package com.rallibau.apps.config;
 
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;

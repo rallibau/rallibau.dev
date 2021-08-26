@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Service
-public final class DomainEventsInformation {
+public  class DomainEventsInformation {
     HashMap<String, Class<? extends DomainEvent>> indexedDomainEvents;
 
     public DomainEventsInformation() {

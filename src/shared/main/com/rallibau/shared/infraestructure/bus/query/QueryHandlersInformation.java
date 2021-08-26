@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 @Service
-public final class QueryHandlersInformation {
+public class QueryHandlersInformation {
     HashMap<Class<? extends Query>, Class<? extends QueryHandler>> indexedQueryHandlers;
 
     public QueryHandlersInformation() {

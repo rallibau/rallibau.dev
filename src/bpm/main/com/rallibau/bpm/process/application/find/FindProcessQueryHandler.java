@@ -4,7 +4,7 @@ import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.QueryHandler;
 
 @Service
-public final class FindProcessQueryHandler implements QueryHandler<ProcessFinderQuery,ProcessResponse> {
+public class FindProcessQueryHandler implements QueryHandler<ProcessFinderQuery,ProcessResponse> {
 
     private final ProcessFinder processFinder;
 
