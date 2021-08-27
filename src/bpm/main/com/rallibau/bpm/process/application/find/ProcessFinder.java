@@ -2,6 +2,7 @@ package com.rallibau.bpm.process.application.find;
 
 import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.bpm.process.domain.ProcessRepository;
+import com.rallibau.shared.domain.Monitor;
 import com.rallibau.shared.domain.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class ProcessFinder {
         this.processRepository = processRepository;
     }
 
+    @Monitor
     public ProcessResponse findAll() {
         return new ProcessResponse(processRepository.searchAll());
     }

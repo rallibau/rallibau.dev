@@ -1,5 +1,6 @@
 package com.rallibau.bpm.process.application.onProcessCreated;
 
+import com.rallibau.shared.domain.Monitor;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.event.DomainEventSubscriber;
 import com.rallibau.shared.domain.events.bpm.ProcessCreatedDomainEvent;
@@ -14,6 +15,7 @@ public  class NotifyProcessCreated {
     private static final Logger logger = LogManager.getLogger(NotifyProcessCreated.class);
 
     @EventListener
+    @Monitor
     public void on(ProcessCreatedDomainEvent event){
 
         logger.error("creado proceso "+event.eventId());
