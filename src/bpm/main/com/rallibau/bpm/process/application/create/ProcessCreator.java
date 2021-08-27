@@ -2,6 +2,7 @@ package com.rallibau.bpm.process.application.create;
 
 import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.bpm.process.domain.ProcessRepository;
+import com.rallibau.shared.domain.Monitor;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.event.EventBus;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +20,7 @@ public class ProcessCreator {
         this.eventBus = eventBus;
     }
 
+    @Monitor
     public void create(Process process) {
         processRepository.save(process);
         logger.info("Process "+process.id().value()+" crated");

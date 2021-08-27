@@ -41,6 +41,7 @@ allprojects {
         implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
         implementation 'commons-io:commons-io:2.6'
         implementation 'org.aspectj:aspectjweaver:1.9.5'
+        implementation 'org.json:json:20090211'
 
 
         runtime 'io.jsonwebtoken:jjwt-impl:0.11.2'

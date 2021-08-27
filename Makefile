@@ -18,14 +18,16 @@ run:
 
 # Start the app
 #set enviroment: export env=local
-start-gestionSaldo:
-	@./gradlew :run --args="gestionSaldo server"
 
 start-bpm:
-	@./gradlew :run --args="bpm server" -Denv=compose-local
+	@./gradlew :run --args="bpm server"
 
-compose-bpm:
+start-bpm-compose:
 	@./gradlew build --warning-mode all && docker-compose up -d --build bpm
+
+stop-bpm-compose:
+	@docker-compose stop bpm
+
 
 
 

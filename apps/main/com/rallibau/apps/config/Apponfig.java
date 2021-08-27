@@ -7,10 +7,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class BpmConfig {
+public class Apponfig {
     private final CommandBus bus;
 
-    public BpmConfig(CommandBus bus) {
+    public Apponfig(CommandBus bus) {
         this.bus = bus;
     }
 
