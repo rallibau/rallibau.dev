@@ -52,10 +52,10 @@ public class NodeRespositoryShould {
 
     @Test
     public void search_by_criteria(){
-        Node node1 = NodeMother.create(NodeIdMother.random(), NodeName.create("xxxx rallibau xxxxxx"));
+        Node node1 = NodeMother.create(NodeIdMother.random(), NodeName.create("xxxx rallibau xxxxxx"),NodeTypeMother.random());
         repository.save(node1);
 
-        Node node2 = NodeMother.create(NodeIdMother.random(), NodeName.create("xxxxGLBRTx"));
+        Node node2 = NodeMother.create(NodeIdMother.random(), NodeName.create("xxxxGLBRTx"),NodeTypeMother.random());
         repository.save(node1);
 
         Criteria criteria = new Criteria(new Filters(Arrays.asList(Filter.create("name","contains","rallibau"))), Order.asc("name"));

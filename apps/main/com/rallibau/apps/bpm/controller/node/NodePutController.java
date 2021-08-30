@@ -1,7 +1,6 @@
 package com.rallibau.apps.bpm.controller.node;
 
 import com.rallibau.bpm.node.application.create.CreateNodeCommand;
-import com.rallibau.bpm.process.application.create.CreateProcessCommand;
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
@@ -27,7 +26,7 @@ public class NodePutController extends ApiController {
             @PathVariable String id
     ) throws CommandHandlerExecutionError {
 
-        dispatch(new CreateNodeCommand(id, "nombre"));
+        dispatch(new CreateNodeCommand(id, "nombre", "TASK"));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
