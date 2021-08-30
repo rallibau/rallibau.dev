@@ -28,7 +28,7 @@ public class CreateNodeCommandHandlerShould {
     @Test
     public void create_valid_node() {
         Node node = NodeMother.random();
-        createNodeCommandHandler.handle(new CreateNodeCommand(node.id().value(), node.name().value()));
+        createNodeCommandHandler.handle(new CreateNodeCommand(node.id().value(), node.name().value(),node.nodeType().value()));
         verify(nodeRepository, atLeastOnce()).save(node);
     }
 }

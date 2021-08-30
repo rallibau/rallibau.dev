@@ -12,5 +12,9 @@
         <component name="name" class="com.rallibau.bpm.node.domain.NodeName" access="field">
             <property name="value" column="name" type="string" access="field" />
         </component>
+
+        <component name="nodeType" class="com.rallibau.bpm.node.domain.NodeType" access="field">
+            <property name="value" column="type" type="string" access="field" />
+        </component>
     </class>
 </hibernate-mapping>
