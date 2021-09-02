@@ -9,6 +9,7 @@ import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.command.CommandHandler;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Service
 public class CreateProcessCommandHandler implements CommandHandler<CreateProcessCommand> {
@@ -24,6 +25,6 @@ public class CreateProcessCommandHandler implements CommandHandler<CreateProcess
     public void handle(CreateProcessCommand command) {
 
         processCreator.create(Process.create(new ProcessId(command.id()),
-                new ProcessName(command.name()), new ArrayList<NodeId>()));
+                new ProcessName(command.name()), command.nodesId().stream().map(value -> new NodeId(value)).collect(Collectors.toList())));
     }
 }

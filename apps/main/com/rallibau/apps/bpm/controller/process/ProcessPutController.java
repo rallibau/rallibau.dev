@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
@@ -26,7 +27,7 @@ public class ProcessPutController extends ApiController {
             @PathVariable String id
     ) throws CommandHandlerExecutionError {
 
-        dispatch(new CreateProcessCommand(id, "nombre"));
+        dispatch(new CreateProcessCommand(id, "nombre", new ArrayList<>()));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
