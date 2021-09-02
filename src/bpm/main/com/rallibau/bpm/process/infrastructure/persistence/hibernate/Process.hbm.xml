@@ -12,5 +12,11 @@
         <component name="name" class="com.rallibau.bpm.process.domain.ProcessName" access="field">
             <property name="value" column="name" type="string" access="field" />
         </component>
+
+        <property name="nodes" column="nodes" access="field">
+            <type name="json_string">
+                <param name="list_of">com.rallibau.bpm.node.domain.NodeId</param>
+            </type>
+        </property>
     </class>
 </hibernate-mapping>
