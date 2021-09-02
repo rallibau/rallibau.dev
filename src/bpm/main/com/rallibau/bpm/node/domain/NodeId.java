@@ -4,14 +4,14 @@ import com.rallibau.shared.domain.Identifier;
 
 public final class NodeId extends Identifier {
 
-    public NodeId(String id) {
-        super(id);
+    public NodeId(String value) {
+        super(value);
     }
 
     public NodeId() {
     }
 
-    public static NodeId create(String id) {
-        return new NodeId(id);
+    public static NodeId create(String value) {
+        return new NodeId(value);
     }
 }
