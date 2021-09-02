@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.mockito.Mockito.*;
@@ -35,7 +36,7 @@ public class CreateProcessCommandHandlerShould {
         Process process = ProcessMother.random();
         ProcessCreatedDomainEvent processCreatedDomainEvent = new ProcessCreatedDomainEvent(process.id().value(),process.name().value());
         CreateProcessCommand createProcessCommand = new CreateProcessCommand(process.id().value(),
-                process.name().value());
+                process.name().value(), new ArrayList<>());
         createProcessCommandHandler.handle(createProcessCommand);
         verify(processRepository, atLeastOnce()).save(process);
         verify(eventBus, atLeastOnce()).publish(Collections.singletonList(processCreatedDomainEvent));

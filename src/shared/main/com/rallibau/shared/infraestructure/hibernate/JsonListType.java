@@ -65,9 +65,11 @@ public class JsonListType implements UserType, DynamicParameterizedType {
     }
 
     public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException, SQLException {
+
         String value = rs.getString(names[0]).replace("\\\"value\\\"", "")
                 .replace("\\\"", "\"").replace("{:", "").replace("}", "").replace("\"[", "[")
                 .replace("]\"", "]");
+        value = value.replace("\"value\"", "").replace("{:", "").replace("}", "");
         Object result = null;
         if (valueType == null) {
             throw new HibernateException("Value type not set.");
