@@ -1,7 +1,7 @@
 package com.rallibau.apps.bpm.controller.processFile;
 
-import com.rallibau.bpm.processFile.application.fileProcess.FileProcesor;
-import com.rallibau.bpm.processFile.domain.BpmModel;
+import com.rallibau.bpm.processFile.application.fileProcess.FileProcessor;
+import com.rallibau.bpm.processFile.domain.BpmModelExtractorException;
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
@@ -12,38 +12,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 public class ProcessFilePutController extends ApiController {
 
     @Autowired
-    private FileProcesor fileProcesor;
+    private FileProcessor fileProcessor;
 
     public ProcessFilePutController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
 
     @PutMapping(value = "/processFile")
-    public ResponseEntity<String> index() throws CommandHandlerExecutionError, URISyntaxException, ParserConfigurationException, IOException, SAXException {
-
-        URL resource = getClass().getClassLoader().getResource("diagram _pizzas.bpmn");
-        if (resource == null) {
-            throw new IllegalArgumentException("file not found!");
-        }
-        File file = new File(resource.toURI());
-
-
-        List<BpmModel> bpmModels = fileProcesor.process(file);
-        fileProcesor.persist(fileProcesor.process(file));
+    public ResponseEntity<String> index() throws CommandHandlerExecutionError, BpmModelExtractorException {
+        fileProcessor.persist(fileProcessor.process(getClass().getClassLoader().getResource("diagram _pizzas.bpmn").getPath()));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
