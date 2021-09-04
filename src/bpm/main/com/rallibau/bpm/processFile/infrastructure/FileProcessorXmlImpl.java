@@ -21,12 +21,18 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class FileProcessorXmlImpl implements BpmModelExtractor {
+
+    public static final String PROCESS = "semantic:process";
+    public static final String PROCESS_NAME = "name";
+    public static final String COMMON_EXCEPTION = "Error processing xml process";
+    public static final String ID = "id";
 
     @Override
     public List<BpmModel> extractProcess(String filePath) throws BpmModelExtractorException {
@@ -39,16 +45,17 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
             }
             return bpmModels;
         } catch (Exception e) {
-            throw new BpmModelExtractorException("Error procesing xml process", e);
+            throw new BpmModelExtractorException(COMMON_EXCEPTION, e);
         }
     }
 
     private void extractProcess(List<BpmModel> bpmModels, NodeList nList, int temp) {
         BpmModel bpmProcessModel = new BpmModel(new ArrayList<>());
-        String processUid = UUID.randomUUID().toString();
+
 
         Node node = nList.item(temp);
         Element element = (Element) node;
+        String processUid = generateUuid(element.getAttribute(ID)).toString();
         bpmProcessModel.setProcess(new Process(
                 new ProcessId(processUid),
                 new ProcessName(node.getNodeName()),
@@ -64,12 +71,15 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
         NodeList processTask = nNode.getChildNodes();
         for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
             Node node = processTask.item(nodesPointer);
-            String nodeUid = UUID.randomUUID().toString();
             if (node instanceof Element) {
-                Element eElement2 = (Element) node;
+                Element element = (Element) node;
+                if(!NodeType.NODE_TYPE.existNodeType(element.getTagName())){
+                   continue;
+                }
+                String nodeUid = generateUuid(element.getAttribute(ID)).toString();
                 bpmProcessModel.nodes().add(new com.rallibau.bpm.node.domain.Node(new NodeId(nodeUid),
-                        new NodeName(eElement2.getAttribute("name")),
-                        new NodeType(NodeType.NODE_TYPE.TASK)));
+                        new NodeName(element.getAttribute(PROCESS_NAME)),
+                        new NodeType(NodeType.NODE_TYPE.valueByTagName(element.getTagName()).get())));
 
                 bpmProcessModel.process().nodes().add(new NodeId(nodeUid));
             }
@@ -83,7 +93,15 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document document = db.parse(file);
         document.getDocumentElement().normalize();
-        NodeList nodeList = document.getElementsByTagName("semantic:process");
+        NodeList nodeList = document.getElementsByTagName(PROCESS);
         return nodeList;
+    }
+
+    private static UUID generateUuid(String seed) {
+        try {
+            return UUID.nameUUIDFromBytes(seed.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(String.format("UnsupportedEncodingException: %f", e.getMessage()));
+        }
     }
 }

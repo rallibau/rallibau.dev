@@ -1,6 +1,7 @@
 package com.rallibau.apps.bpm.controller.processFile;
 
 import com.rallibau.bpm.processFile.application.fileProcess.FileProcessor;
+import com.rallibau.bpm.processFile.domain.BpmModel;
 import com.rallibau.bpm.processFile.domain.BpmModelExtractorException;
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
@@ -13,7 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class ProcessFilePutController extends ApiController {
@@ -26,8 +30,13 @@ public class ProcessFilePutController extends ApiController {
     }
 
     @PutMapping(value = "/processFile")
-    public ResponseEntity<String> index() throws CommandHandlerExecutionError, BpmModelExtractorException {
-        fileProcessor.persist(fileProcessor.process(getClass().getClassLoader().getResource("diagram _pizzas.bpmn").getPath()));
+    public ResponseEntity<String> index() throws CommandHandlerExecutionError, BpmModelExtractorException, URISyntaxException {
+        URL resource = getClass().getClassLoader().getResource("diagram _pizzas.bpmn");
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found!");
+        }
+        List<BpmModel> bpmModels = fileProcessor.process(resource.toURI().getPath());
+        fileProcessor.persist(bpmModels);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
