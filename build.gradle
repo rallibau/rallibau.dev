@@ -159,6 +159,7 @@ dependencies {
 
     implementation project(":shared")
     implementation project(":bpm")
+    implementation project(":schedule")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.1.8.RELEASE'
     testImplementation project(":shared").sourceSets.test.output
