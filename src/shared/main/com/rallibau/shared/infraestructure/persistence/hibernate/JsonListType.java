@@ -1,4 +1,4 @@
-package com.rallibau.shared.infraestructure.hibernate;
+package com.rallibau.shared.infraestructure.persistence.hibernate;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

@@ -1,66 +1,61 @@
 package com.rallibau.bpm.node.infrastructure.persistence;
 
-import com.rallibau.apps.bpm.BpmApplication;
-import com.rallibau.bpm.node.domain.*;
-import com.rallibau.bpm.process.application.create.ProcessCreator;
-import com.rallibau.bpm.process.domain.ProcessRepository;
-import com.rallibau.shared.domain.bus.event.EventBus;
+import com.rallibau.bpm.node.domain.Node;
+import com.rallibau.bpm.node.domain.NodeMother;
+import com.rallibau.bpm.node.domain.NodeRepository;
+import com.rallibau.bpm.node.infrastructure.persistence.inMemory.NodeRepositoryInMemoryImpl;
 import com.rallibau.shared.domain.criteria.Criteria;
 import com.rallibau.shared.domain.criteria.Filter;
 import com.rallibau.shared.domain.criteria.Filters;
 import com.rallibau.shared.domain.criteria.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.mockito.Mockito.mock;
 
-@ContextConfiguration(classes = BpmApplication.class)
-@SpringBootTest
+
 public class NodeRespositoryShould {
 
-    @Autowired
     private NodeRepository repository;
 
     @BeforeEach
-    protected void setUp() {
-
+    public void prepare() {
+        repository = new NodeRepositoryInMemoryImpl();
     }
 
+
     @Test
-    public void create_a_valid_node(){
+    protected void save_a_task() {
         repository.save(NodeMother.random());
+
     }
 
-    @Test
-    public void search_all_existing_nodes(){
 
+    @Test
+    public void search_all_existing_nodes() {
         Node node1 = NodeMother.random();
-        Node node2 = NodeMother.random();
-
         repository.save(node1);
+        Node node2 = NodeMother.random();
         repository.save(node2);
-
-        //assertThat(Arrays.asList(node1,node2),containsInAnyOrder(repository.searchAll().toArray()));
+        repository.searchAll().forEach(xx -> System.out.println(xx.name().value()));
+        assertThat(Arrays.asList(node1, node2), containsInAnyOrder(repository.searchAll().toArray()));
     }
 
     @Test
-    public void search_by_criteria(){
-        Node node1 = NodeMother.create(NodeIdMother.random(), NodeName.create("xxxx rallibau xxxxxx"),NodeTypeMother.random());
-        repository.save(node1);
-
-        Node node2 = NodeMother.create(NodeIdMother.random(), NodeName.create("xxxxGLBRTx"),NodeTypeMother.random());
-        repository.save(node1);
-
-        Criteria criteria = new Criteria(new Filters(Arrays.asList(Filter.create("name","contains","rallibau"))), Order.asc("name"));
-
-        assertThat(Arrays.asList(node1),containsInAnyOrder(repository.matching(criteria).toArray()));
+    public void search_by_criteria() {
+        Node node = NodeMother.random();
+        repository.save(node);
+        Criteria criteria = new Criteria(
+                new Filters(
+                        Arrays.asList(
+                                Filter.create("name",
+                                        "contains",
+                                        node.name().value()))),
+                Order.asc("name"));
+        assertThat(Arrays.asList(node), containsInAnyOrder(repository.matching(criteria).toArray()));
 
     }
 }

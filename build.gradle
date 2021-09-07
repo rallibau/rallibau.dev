@@ -44,11 +44,11 @@ allprojects {
         implementation 'org.json:json:20090211'
 
 
-        runtime 'io.jsonwebtoken:jjwt-impl:0.11.2'
-        runtime 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-        runtime 'mysql:mysql-connector-java:8.0.18'
-        runtime 'com.h2database:h2'
-        runtime 'org.aspectj:aspectjrt:1.9.5'
+        runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+        runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+        runtimeOnly 'mysql:mysql-connector-java:8.0.18'
+        runtimeOnly 'com.h2database:h2'
+        runtimeOnly 'org.aspectj:aspectjrt:1.9.5'
 
 
 
@@ -148,8 +148,8 @@ sourceSets {
 apply plugin: 'application'
 
 bootJar {
-    baseName = 'rallibau'
-    version = '0.0.1'
+    archiveBaseName = 'rallibau'
+    archiveVersion = '0.0.1'
 }
 
 mainClassName = 'com.rallibau.apps.Starter'

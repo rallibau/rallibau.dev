@@ -4,5 +4,5 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <typedef class="com.rallibau.shared.infraestructure.hibernate.JsonListType" name="json_string" />
+    <typedef class="com.rallibau.shared.infraestructure.persistence.hibernate.JsonListType" name="json_string" />
 </hibernate-mapping>

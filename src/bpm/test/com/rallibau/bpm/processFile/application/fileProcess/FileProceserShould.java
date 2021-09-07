@@ -1,35 +1,28 @@
 package com.rallibau.bpm.processFile.application.fileProcess;
 
-import com.rallibau.apps.bpm.BpmApplication;
 import com.rallibau.bpm.processFile.domain.BpmModel;
 import com.rallibau.bpm.processFile.domain.BpmModelExtractor;
 import com.rallibau.bpm.processFile.domain.BpmModelExtractorException;
+import com.rallibau.bpm.processFile.infrastructure.FileProcessorXmlImpl;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
 
-@ContextConfiguration(classes = BpmApplication.class)
-@SpringBootTest
 public class FileProceserShould {
-    @Autowired
-    private CommandBus commandBus;
     private FileProcessor fileProcessor;
-    @Autowired
     private BpmModelExtractor bpmModelExtractor;
 
     @BeforeEach
     protected void setUp() {
-        //commandBus = mock(CommandBus.class);
-        fileProcessor = new FileProcessor(commandBus, bpmModelExtractor);
+        bpmModelExtractor = new FileProcessorXmlImpl();
+        fileProcessor = new FileProcessor(mock(CommandBus.class), bpmModelExtractor);
     }
 
     @Test
