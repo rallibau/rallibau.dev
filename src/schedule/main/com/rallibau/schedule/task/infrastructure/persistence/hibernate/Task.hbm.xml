@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.rallibau.bpm.node.domain.Node" table="node">
+        <composite-id name="id" class="com.rallibau.bpm.node.domain.NodeId" access="field">
+            <key-property column="id" name="value" length="36" access="field" />
+        </composite-id>
+
+        <component name="name" class="com.rallibau.bpm.node.domain.NodeName" access="field">
+            <property name="value" column="name" type="string" access="field" />
+        </component>
+
+        <component name="nodeType" class="com.rallibau.bpm.node.domain.NodeType" access="field">
+            <property name="value" column="type" type="string" access="field" />
+        </component>
+
+    </class>
+</hibernate-mapping>
