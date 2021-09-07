@@ -5,7 +5,7 @@ import com.rallibau.schedule.task.domain.TaskId;
 import com.rallibau.schedule.task.domain.TaskRepository;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.criteria.Criteria;
-import com.rallibau.shared.infraestructure.hibernate.HibernateRepository;
+import com.rallibau.shared.infraestructure.persistence.hibernate.HibernateRepository;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,22 +22,22 @@ public  class TaskRepositoryImpl extends HibernateRepository<Task> implements Ta
     }
 
     @Override
-    public void save(Task random) {
-
+    public void save(Task task) {
+        persist(task);
     }
 
     @Override
     public Optional<Task> get(TaskId id) {
-        return Optional.empty();
+        return byId(id);
     }
 
     @Override
     public List<Task> searchAll() {
-        return null;
+        return all();
     }
 
     @Override
     public List<Task> matching(Criteria criteria) {
-        return null;
+        return byCriteria(criteria);
     }
 }

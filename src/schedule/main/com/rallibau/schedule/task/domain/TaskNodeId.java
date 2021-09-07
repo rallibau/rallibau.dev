@@ -1,7 +1,17 @@
 package com.rallibau.schedule.task.domain;
 
-public class TaskNodeId {
-    public static TaskNodeId create(String random) {
-            return new TaskNodeId();
+import com.rallibau.shared.domain.Identifier;
+
+public class TaskNodeId extends Identifier {
+    public TaskNodeId(String value) {
+        super(value);
+    }
+
+    public TaskNodeId() {
+
+    }
+
+    public static TaskNodeId create(String value) {
+            return new TaskNodeId(value);
     }
 }

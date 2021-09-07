@@ -1,4 +1,4 @@
-package com.rallibau.shared.infraestructure.hibernate;
+package com.rallibau.shared.infraestructure.persistence.hibernate;
 
 import com.rallibau.shared.domain.Service;
 import org.apache.logging.log4j.LogManager;

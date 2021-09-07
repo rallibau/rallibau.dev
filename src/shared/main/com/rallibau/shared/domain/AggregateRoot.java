@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AggregateRoot {
+public abstract class AggregateRoot<T> {
     private List<DomainEvent> domainEvents = new ArrayList<>();
 
     final public List<DomainEvent> pullDomainEvents() {
@@ -20,4 +20,6 @@ public abstract class AggregateRoot {
     final protected void record(DomainEvent event) {
         domainEvents.add(event);
     }
+
+    public abstract Identifier id();
 }

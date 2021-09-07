@@ -4,18 +4,13 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.rallibau.bpm.node.domain.Node" table="node">
-        <composite-id name="id" class="com.rallibau.bpm.node.domain.NodeId" access="field">
+    <class name="com.rallibau.schedule.task.domain.Task" table="task">
+        <composite-id name="id" class="com.rallibau.schedule.task.domain.TaskId" access="field">
             <key-property column="id" name="value" length="36" access="field" />
         </composite-id>
 
-        <component name="name" class="com.rallibau.bpm.node.domain.NodeName" access="field">
-            <property name="value" column="name" type="string" access="field" />
+        <component name="taskNodeId" class="com.rallibau.schedule.task.domain.TaskNodeId" access="field">
+            <property name="value" column="task_node_id" type="string" access="field" />
         </component>
-
-        <component name="nodeType" class="com.rallibau.bpm.node.domain.NodeType" access="field">
-            <property name="value" column="type" type="string" access="field" />
-        </component>
-
     </class>
 </hibernate-mapping>
