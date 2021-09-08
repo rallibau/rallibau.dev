@@ -40,7 +40,6 @@ public class NodeRespositoryShould {
         repository.save(node1);
         Node node2 = NodeMother.random();
         repository.save(node2);
-        repository.searchAll().forEach(xx -> System.out.println(xx.name().value()));
         assertThat(Arrays.asList(node1, node2), containsInAnyOrder(repository.searchAll().toArray()));
     }
 

@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.rallibau.bpm.connection.domain.Connection" table="connection">
+        <composite-id name="id" class="com.rallibau.bpm.connection.domain.ConnectionId" access="field">
+            <key-property column="id" name="value" length="36" access="field" />
+        </composite-id>
+
+        <component name="connectionType" class="com.rallibau.bpm.connection.domain.ConnectionType" access="field">
+            <property name="value" column="connection_type" type="string" access="field" />
+        </component>
+
+        <component name="nodeIdOwner" class="com.rallibau.bpm.connection.domain.NodeIdOwner" access="field">
+            <property name="value" column="node_id_owner" type="string" access="field" />
+        </component>
+
+        <component name="nodeIdTarget" class="com.rallibau.bpm.connection.domain.NodeIdTarget" access="field">
+            <property name="value" column="node_id_target" type="string" access="field" />
+        </component>
+    </class>
+</hibernate-mapping>
