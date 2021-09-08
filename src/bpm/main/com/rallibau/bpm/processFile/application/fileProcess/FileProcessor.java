@@ -1,5 +1,6 @@
 package com.rallibau.bpm.processFile.application.fileProcess;
 
+import com.rallibau.bpm.connection.application.create.CreateConnectionCommand;
 import com.rallibau.bpm.node.application.create.CreateNodeCommand;
 import com.rallibau.bpm.node.domain.NodeId;
 import com.rallibau.bpm.process.application.create.CreateProcessCommand;
@@ -34,6 +35,10 @@ public class FileProcessor {
         bpmModels.forEach(bpmModel -> bpmModel.nodes().forEach(node -> commandBus.dispatch(new CreateNodeCommand(node.id().value(),
                 node.name().value(),
                 node.nodeType().value()))));
+        bpmModels.forEach(bpmModel -> bpmModel.connections().forEach(connection -> commandBus.dispatch(new CreateConnectionCommand(connection.id().value(),
+                connection.connectionType().value(),
+                connection.nodeIdOwner().value(),
+                connection.nodeIdTarget().value()))));
     }
 
 }

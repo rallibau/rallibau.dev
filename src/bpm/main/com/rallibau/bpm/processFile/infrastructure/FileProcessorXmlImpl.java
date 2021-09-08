@@ -1,5 +1,6 @@
 package com.rallibau.bpm.processFile.infrastructure;
 
+import com.rallibau.bpm.connection.domain.*;
 import com.rallibau.bpm.node.domain.NodeId;
 import com.rallibau.bpm.node.domain.NodeName;
 import com.rallibau.bpm.node.domain.NodeType;
@@ -50,7 +51,7 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
     }
 
     private void extractProcess(List<BpmModel> bpmModels, NodeList nList, int temp) {
-        BpmModel bpmProcessModel = new BpmModel(new ArrayList<>());
+        BpmModel bpmProcessModel = new BpmModel(new ArrayList<>(), new ArrayList<>());
 
 
         Node node = nList.item(temp);
@@ -59,7 +60,7 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
         bpmProcessModel.setProcess(new Process(
                 new ProcessId(processUid),
                 new ProcessName(node.getNodeName()),
-                new ArrayList<NodeId>()));
+                new ArrayList<>()));
 
         bpmModels.add(bpmProcessModel);
 
@@ -70,19 +71,55 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
     private void extractNodes(BpmModel bpmProcessModel, Node nNode) {
         NodeList processTask = nNode.getChildNodes();
         for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
-            Node node = processTask.item(nodesPointer);
-            if (node instanceof Element) {
-                Element element = (Element) node;
-                if(!NodeType.NODE_TYPE.existNodeType(element.getTagName())){
-                   continue;
-                }
-                String nodeUid = generateUuid(element.getAttribute(ID)).toString();
-                bpmProcessModel.nodes().add(new com.rallibau.bpm.node.domain.Node(new NodeId(nodeUid),
-                        new NodeName(element.getAttribute(PROCESS_NAME)),
-                        new NodeType(NodeType.NODE_TYPE.valueByTagName(element.getTagName()).get())));
+            extractNode(bpmProcessModel, processTask, nodesPointer);
+        }
+    }
 
-                bpmProcessModel.process().nodes().add(new NodeId(nodeUid));
+    private void extractNode(BpmModel bpmProcessModel, NodeList processTask, int nodesPointer) {
+        Node node = processTask.item(nodesPointer);
+        if (node instanceof Element == false) {
+            return;
+        }
+        Element element = (Element) node;
+        if (!NodeType.NODE_TYPE.existNodeType(element.getTagName())) {
+            return;
+        }
+        String nodeUid = generateUuid(element.getAttribute(ID)).toString();
+        com.rallibau.bpm.node.domain.Node nodeDomain = new com.rallibau.bpm.node.domain.Node(new NodeId(nodeUid),
+                new NodeName(element.getAttribute(PROCESS_NAME)),
+                new NodeType(NodeType.NODE_TYPE.valueByTagName(element.getTagName()).get()));
+        bpmProcessModel.nodes().add(nodeDomain);
+
+        bpmProcessModel.process().nodes().add(new NodeId(nodeUid));
+
+        processNodeConnection(nodeUid, node, bpmProcessModel);
+
+    }
+
+    private void processNodeConnection(String idNodeParent, Node nNode, BpmModel bpmProcessModel) {
+
+        NodeList processTask = nNode.getChildNodes();
+        for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
+            Node node = processTask.item(nodesPointer);
+            if (node instanceof Element == false) {
+                continue;
             }
+            Element element = (Element) node;
+            if (element.getTextContent() == null || element.getTextContent().isEmpty()) {
+                continue;
+            }
+            if (!element.getTagName().equals("semantic:incoming") && !element.getTagName().equals("semantic:outgoing")) {
+                continue;
+            }
+            //System.out.println("id ---------------__>" + generateUuid(idNodeParent + element.getNodeValue()));
+            //System.out.println("tipo ---------------__>" + element.getTagName());
+            //System.out.println("owner ---------------__>" + idNodeParent);
+            //System.out.println("target ---------------__>" + element.getTextContent());
+            Connection connection = Connection.create(new ConnectionId(generateUuid(idNodeParent + element.getNodeValue()).toString()),
+                    new ConnectionType(element.getTagName()),
+                    new NodeIdOwner(idNodeParent),
+                    new NodeIdTarget(generateUuid(element.getTextContent()).toString()));
+            bpmProcessModel.connections().add(connection);
 
         }
     }

@@ -10,7 +10,6 @@ public interface NodeRepository {
 
     Optional<Node> get(NodeId id);
 
-
     List<Node> searchAll();
 
     List<Node> matching(Criteria criteria);
