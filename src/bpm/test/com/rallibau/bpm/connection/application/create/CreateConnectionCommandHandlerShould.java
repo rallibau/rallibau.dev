@@ -22,7 +22,6 @@ public class CreateConnectionCommandHandlerShould {
     public void create_valid_connection() {
         Connection connection = ConnectionMother.random();
         CreateConnectionCommand createConnectionCommand = new CreateConnectionCommand(connection.id().value(),
-                connection.connectionType().value(),
                 connection.nodeIdOwner().value(),
                 connection.nodeIdTarget().value());
 

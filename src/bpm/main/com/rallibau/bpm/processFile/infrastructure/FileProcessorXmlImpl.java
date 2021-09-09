@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +35,8 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
     public static final String PROCESS_NAME = "name";
     public static final String COMMON_EXCEPTION = "Error processing xml process";
     public static final String ID = "id";
+    public static final String INCOMMING = "semantic:incoming";
+    public static final String OUTGOING = "semantic:outgoing";
 
     @Override
     public List<BpmModel> extractProcess(String filePath) throws BpmModelExtractorException {
@@ -52,7 +55,7 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
 
     private void extractProcess(List<BpmModel> bpmModels, NodeList nList, int temp) {
         BpmModel bpmProcessModel = new BpmModel(new ArrayList<>(), new ArrayList<>());
-
+        HashMap<String,String> incomingConection = new HashMap<>();
 
         Node node = nList.item(temp);
         Element element = (Element) node;
@@ -65,17 +68,40 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
         bpmModels.add(bpmProcessModel);
 
 
-        extractNodes(bpmProcessModel, node);
+        extractNodes(bpmProcessModel, node,incomingConection);
+        extractConnection(bpmProcessModel, node,incomingConection);
     }
 
-    private void extractNodes(BpmModel bpmProcessModel, Node nNode) {
+    private void extractConnection(BpmModel bpmProcessModel, Node nNode,HashMap<String,String> incomingConection) {
         NodeList processTask = nNode.getChildNodes();
+
+
         for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
-            extractNode(bpmProcessModel, processTask, nodesPointer);
+            Node node = processTask.item(nodesPointer);
+            if (node instanceof Element == false) {
+                continue;
+            }
+            Element element = (Element) node;
+            if (!NodeType.NODE_TYPE.existNodeType(element.getTagName())) {
+                continue;
+            }
+            String nodeUid = generateUuid(element.getAttribute(ID)).toString();
+            processOutgoingConnection(nodeUid, node, bpmProcessModel,incomingConection);
         }
+
     }
 
-    private void extractNode(BpmModel bpmProcessModel, NodeList processTask, int nodesPointer) {
+    private void extractNodes(BpmModel bpmProcessModel, Node nNode,HashMap<String,String> incomingConection) {
+        NodeList processTask = nNode.getChildNodes();
+
+
+        for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
+            extractNode(bpmProcessModel, processTask, nodesPointer,incomingConection);
+        }
+
+    }
+
+    private void extractNode(BpmModel bpmProcessModel, NodeList processTask, int nodesPointer,HashMap<String,String> incomingConection) {
         Node node = processTask.item(nodesPointer);
         if (node instanceof Element == false) {
             return;
@@ -92,11 +118,13 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
 
         bpmProcessModel.process().nodes().add(new NodeId(nodeUid));
 
-        processNodeConnection(nodeUid, node, bpmProcessModel);
+        processIncommingConnection(nodeUid,node,incomingConection);
 
     }
 
-    private void processNodeConnection(String idNodeParent, Node nNode, BpmModel bpmProcessModel) {
+
+
+    private void processIncommingConnection(String idNodeParent, Node nNode,  HashMap<String,String> incomingConection) {
 
         NodeList processTask = nNode.getChildNodes();
         for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
@@ -108,18 +136,35 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
             if (element.getTextContent() == null || element.getTextContent().isEmpty()) {
                 continue;
             }
-            if (!element.getTagName().equals("semantic:incoming") && !element.getTagName().equals("semantic:outgoing")) {
+            Connection connection = null;
+            if (element.getTagName().equals(INCOMMING)) {
+                incomingConection.put(element.getTextContent(),idNodeParent);
+            }
+        }
+    }
+
+    private void processOutgoingConnection(String idNodeParent, Node nNode, BpmModel bpmProcessModel, HashMap<String, String> incomingConection) {
+
+        NodeList processTask = nNode.getChildNodes();
+        for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
+            Node node = processTask.item(nodesPointer);
+            if (node instanceof Element == false) {
                 continue;
             }
-            //System.out.println("id ---------------__>" + generateUuid(idNodeParent + element.getNodeValue()));
-            //System.out.println("tipo ---------------__>" + element.getTagName());
-            //System.out.println("owner ---------------__>" + idNodeParent);
-            //System.out.println("target ---------------__>" + element.getTextContent());
-            Connection connection = Connection.create(new ConnectionId(generateUuid(idNodeParent + element.getNodeValue()).toString()),
-                    new ConnectionType(element.getTagName()),
-                    new NodeIdOwner(idNodeParent),
-                    new NodeIdTarget(generateUuid(element.getTextContent()).toString()));
-            bpmProcessModel.connections().add(connection);
+            Element element = (Element) node;
+            if (element.getTextContent() == null || element.getTextContent().isEmpty()) {
+                continue;
+            }
+
+            Connection connection = null;
+            if (element.getTagName().equals(OUTGOING)) {
+                connection = Connection.create(new ConnectionId(generateUuid(idNodeParent + element.getTextContent()).toString()),
+                        new NodeIdOwner(idNodeParent),
+                        new NodeIdTarget(incomingConection.get(element.getTextContent())));
+            }
+            if(connection !=null) {
+                bpmProcessModel.connections().add(connection);
+            }
 
         }
     }

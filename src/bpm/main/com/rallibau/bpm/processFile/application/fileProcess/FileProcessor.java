@@ -36,7 +36,6 @@ public class FileProcessor {
                 node.name().value(),
                 node.nodeType().value()))));
         bpmModels.forEach(bpmModel -> bpmModel.connections().forEach(connection -> commandBus.dispatch(new CreateConnectionCommand(connection.id().value(),
-                connection.connectionType().value(),
                 connection.nodeIdOwner().value(),
                 connection.nodeIdTarget().value()))));
     }

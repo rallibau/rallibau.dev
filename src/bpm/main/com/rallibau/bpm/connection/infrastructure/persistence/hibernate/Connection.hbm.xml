@@ -9,9 +9,6 @@
             <key-property column="id" name="value" length="36" access="field" />
         </composite-id>
 
-        <component name="connectionType" class="com.rallibau.bpm.connection.domain.ConnectionType" access="field">
-            <property name="value" column="connection_type" type="string" access="field" />
-        </component>
 
         <component name="nodeIdOwner" class="com.rallibau.bpm.connection.domain.NodeIdOwner" access="field">
             <property name="value" column="node_id_owner" type="string" access="field" />
