@@ -11,6 +11,10 @@ public class ProcessResponse implements Response {
         this.id = id;
         this.name = name;
     }
+    public ProcessResponse() {
+        this.id = "";
+        this.name = "";
+    }
 
     public String getId() {
         return id;

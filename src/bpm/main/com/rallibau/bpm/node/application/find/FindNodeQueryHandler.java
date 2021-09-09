@@ -19,7 +19,8 @@ public class FindNodeQueryHandler implements QueryHandler<NodeFinderQuery, NodeR
     public NodeResponse handle(NodeFinderQuery query) {
         Optional<Node> node = nodeFinder.find(query.nodeId());
         if (node.isPresent()) {
-            return new NodeResponse(node.get().id().value(),
+            return new NodeResponse(
+                    node.get().id().value(),
                     node.get().name().value(),
                     node.get().nodeType().value());
         }
