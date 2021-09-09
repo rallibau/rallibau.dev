@@ -21,7 +21,7 @@ public class NodeGetAllQueryHandler implements QueryHandler<NodeGetAllQuery, Nod
         List<Node> nodes = nodeFinder.find();
         List<NodeResponse> nodeResponseList = new ArrayList<>();
         NodesResponse nodesResponse = new NodesResponse(nodeResponseList);
-        nodes.forEach(node -> nodesResponse.getNodeResponseList().add(new NodeResponse(
+        nodes.forEach(node -> nodesResponse.getNodes().add(new NodeResponse(
                 node.id().value(),
                 node.name().value(),
                 node.nodeType().value())));
