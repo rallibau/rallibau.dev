@@ -6,9 +6,10 @@ import com.rallibau.shared.domain.bus.query.QueryHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class FindProcessQueryHandler implements QueryHandler<ProcessFinderQuery, ProcessesResponse> {
+public class FindProcessQueryHandler implements QueryHandler<ProcessFindQuery, ProcessResponse> {
 
     private final ProcessFinder processFinder;
 
@@ -17,14 +18,16 @@ public class FindProcessQueryHandler implements QueryHandler<ProcessFinderQuery,
     }
 
     @Override
-    public ProcessesResponse handle(ProcessFinderQuery query) {
+    public ProcessResponse handle(ProcessFindQuery query) {
         List<ProcessResponse> processResponseList = new ArrayList<>();
         ProcessesResponse processesResponse = new ProcessesResponse(processResponseList);
-        List<Process> processes = processFinder.findAll();
-        processes.forEach(process -> processResponseList.add(new ProcessResponse(
-                process.id().value(),
-                process.name().value())));
-
-        return processesResponse;
+        Optional<Process> process = processFinder.find(query.getId());
+        if(process.isPresent()){
+            return new ProcessResponse(
+                    process.get().id().value(),
+                    process.get().name().value());
+        }else{
+            return new ProcessResponse();
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.rallibau.apps.bpm.controller.node;
 
 import com.rallibau.bpm.node.application.find.NodeFinderQuery;
+import com.rallibau.bpm.node.application.find.NodeGetAllQuery;
 import com.rallibau.bpm.node.application.find.NodeResponse;
+import com.rallibau.bpm.node.application.find.NodesResponse;
 import com.rallibau.bpm.node.domain.NodeId;
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
@@ -25,11 +27,15 @@ public class NodeGetController extends ApiController {
     }
 
     @GetMapping(value = "/node/{id}")
-    public NodeResponse index(@PathVariable String id) throws QueryHandlerExecutionError {
-
-        NodeResponse response = ask(new NodeFinderQuery(id));
-        return response;
+    public NodeResponse byId(@PathVariable String id) throws QueryHandlerExecutionError {
+        return ask(new NodeFinderQuery(id));
     }
+
+    @GetMapping(value = "/node")
+    public NodesResponse all() throws QueryHandlerExecutionError {
+        return ask(new NodeGetAllQuery());
+    }
+
 
     @Override
     public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {

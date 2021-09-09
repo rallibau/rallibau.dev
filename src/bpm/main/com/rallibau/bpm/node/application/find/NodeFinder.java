@@ -5,6 +5,7 @@ import com.rallibau.bpm.node.domain.NodeId;
 import com.rallibau.bpm.node.domain.NodeRepository;
 import com.rallibau.shared.domain.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,5 +18,9 @@ public class NodeFinder {
 
     public Optional<Node> find(String id) {
         return nodeRepository.get(new NodeId(id));
+    }
+
+    public List<Node> find() {
+        return nodeRepository.searchAll();
     }
 }
