@@ -1,11 +1,13 @@
 package com.rallibau.bpm.process.application.find;
 
+import com.rallibau.bpm.node.domain.NodeId;
 import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.QueryHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GetAllProcessQueryHandler implements QueryHandler<ProcessGetAllQuery, ProcessesResponse> {
@@ -23,7 +25,7 @@ public class GetAllProcessQueryHandler implements QueryHandler<ProcessGetAllQuer
         List<Process> processes = processFinder.find();
         processes.forEach(process -> processResponseList.add(new ProcessResponse(
                 process.id().value(),
-                process.name().value())));
+                process.name().value(), process.nodes().stream().map(NodeId::value).collect(Collectors.toList()))));
 
         return processesResponse;
     }

@@ -1,5 +1,6 @@
 package com.rallibau.bpm.process.application.find;
 
+import com.rallibau.bpm.node.domain.NodeId;
 import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.QueryHandler;
@@ -7,6 +8,7 @@ import com.rallibau.shared.domain.bus.query.QueryHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FindProcessQueryHandler implements QueryHandler<ProcessFindQuery, ProcessResponse> {
@@ -22,11 +24,11 @@ public class FindProcessQueryHandler implements QueryHandler<ProcessFindQuery, P
         List<ProcessResponse> processResponseList = new ArrayList<>();
         ProcessesResponse processesResponse = new ProcessesResponse(processResponseList);
         Optional<Process> process = processFinder.find(query.getId());
-        if(process.isPresent()){
+        if (process.isPresent()) {
             return new ProcessResponse(
                     process.get().id().value(),
-                    process.get().name().value());
-        }else{
+                    process.get().name().value(), process.get().nodes().stream().map(NodeId::value).collect(Collectors.toList()));
+        } else {
             return new ProcessResponse();
         }
     }

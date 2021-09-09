@@ -1,7 +1,5 @@
 package com.rallibau.apps.bpm.controller.process;
 
-import com.rallibau.bpm.node.application.find.NodeResponse;
-import com.rallibau.bpm.node.domain.NodeId;
 import com.rallibau.bpm.process.application.find.ProcessFindQuery;
 import com.rallibau.bpm.process.application.find.ProcessGetAllQuery;
 import com.rallibau.bpm.process.application.find.ProcessResponse;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class ProcessGetController extends ApiController {
@@ -41,11 +37,4 @@ public class ProcessGetController extends ApiController {
     public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
         return null;
     }
-
-    private List<String> createNodeList(List<NodeId> nodesId) {
-        return nodesId.stream().map(NodeId::value).collect(Collectors.toList());
-
-    }
-
-
 }
