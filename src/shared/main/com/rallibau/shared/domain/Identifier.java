@@ -39,6 +39,8 @@ public abstract class Identifier<Z> implements Serializable {
     }
 
     private void ensureValidUuid(String value) throws IllegalArgumentException {
-        UUID.fromString(value);
+        if (value != null && !value.isEmpty()) {
+            UUID.fromString(value);
+        }
     }
 }

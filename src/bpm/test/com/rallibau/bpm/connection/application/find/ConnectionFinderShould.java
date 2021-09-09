@@ -32,7 +32,7 @@ public class ConnectionFinderShould {
                                 Filter.create("nodeIdOwner",
                                         FilterOperator.EQUAL.value(),
                                         nodeIdOwner.value()))),
-                Order.asc("taskNodeId"));
+                Order.asc("id"));
         List<Connection> connections = connectionFinder.find(criteria);
         verify(connectionRepository, atLeastOnce()).matching(criteria);
     }

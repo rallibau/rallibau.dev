@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS `node` (
 
 CREATE TABLE IF NOT EXISTS `connection` (
     `id` CHAR(36) NOT NULL,
-    `connection_type` VARCHAR(255) NOT NULL,
     `node_id_owner` CHAR(36) NOT NULL,
-    `node_id_target` CHAR(36) NOT NULL,
+    `node_id_target` CHAR(36) NULL,
     PRIMARY KEY (`id`)
 );

@@ -15,7 +15,6 @@ public class CreateConnectionCommandHandler implements CommandHandler<CreateConn
 
     public void handle(CreateConnectionCommand createConnectionCommand) {
         Connection connection = Connection.create(new ConnectionId(createConnectionCommand.id()),
-                new ConnectionType(createConnectionCommand.type()),
                 new NodeIdOwner(createConnectionCommand.owner()),
                 new NodeIdTarget(createConnectionCommand.target()));
         connectionCreator.create(connection);
