@@ -16,7 +16,7 @@ public class ProcessFinder {
     }
 
     @Monitor
-    public ProcessResponse findAll() {
-        return new ProcessResponse(processRepository.searchAll());
+    public List<Process> findAll() {
+        return processRepository.searchAll();
     }
 }

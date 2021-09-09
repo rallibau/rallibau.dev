@@ -1,18 +1,22 @@
 package com.rallibau.bpm.process.application.find;
 
-import com.rallibau.bpm.process.domain.Process;
 import com.rallibau.shared.domain.bus.query.Response;
 
-import java.util.List;
-
 public class ProcessResponse implements Response {
-    private final  List<Process> processList;
+    private final String id;
+    private final String name;
 
-    public ProcessResponse(List<Process> processList) {
-        this.processList = processList;
+
+    public ProcessResponse(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public List<Process> processList() {
-        return processList;
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

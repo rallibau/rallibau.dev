@@ -33,7 +33,7 @@ public class ProceesFinderShould {
 
     @Test
     public void find_curses_dont_failure() {
-        assertThat(process, containsInAnyOrder(processFinder.findAll().processList().toArray()));
+        assertThat(process, containsInAnyOrder(processFinder.findAll().toArray()));
         verify(processRepository, atLeastOnce()).searchAll();
     }
 }
