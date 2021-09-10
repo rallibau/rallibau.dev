@@ -1,4 +1,4 @@
-package com.rallibau.apps.bpm.controller.health_check;
+package com.rallibau.apps.schedule.controller.health_check;
 
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-public class HealthCheckGetController extends ApiController {
-    public HealthCheckGetController(QueryBus queryBus, CommandBus commandBus) {
+public class SchedulerHealthCheckGetController extends ApiController {
+    public SchedulerHealthCheckGetController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
 
-    @GetMapping("/bpm/health-check")
+    @GetMapping("/scheduler/health-check")
     public HashMap<String, String> index() {
         HashMap<String, String> status = new HashMap<>();
-        status.put("application", "bpm");
+        status.put("application", "scheduler");
         status.put("status", "ok");
 
         return status;

@@ -19,8 +19,12 @@ run:
 # Start the app
 #set enviroment: export env=local
 
+start-monolit:
+	@./gradlew :run --args="monolit server"
 start-bpm:
 	@./gradlew :run --args="bpm server"
+start-scheduler:
+	@./gradlew :run --args="scheduler server"
 
 start-bpm-compose:
 	@./gradlew build --warning-mode all && docker-compose up -d --build bpm

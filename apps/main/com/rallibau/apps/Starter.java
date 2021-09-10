@@ -1,6 +1,8 @@
 package com.rallibau.apps;
 
 import com.rallibau.apps.bpm.BpmApplication;
+import com.rallibau.apps.monolit.MonolitApplication;
+import com.rallibau.apps.schedule.ScheduleApplication;
 import com.rallibau.shared.infraestructure.cli.ConsoleCommand;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -70,7 +72,9 @@ public class Starter {
     private static HashMap<String, Class<?>> applications() {
         HashMap<String, Class<?>> applications = new HashMap<>();
 
+        applications.put("monolit", MonolitApplication.class);
         applications.put("bpm", BpmApplication.class);
+        applications.put("scheduler", ScheduleApplication.class);
 
         return applications;
     }
@@ -79,6 +83,8 @@ public class Starter {
         HashMap<String, HashMap<String, Class<?>>> commands = new HashMap<>();
 
         commands.put("bpm", BpmApplication.commands());
+        commands.put("scheduler", ScheduleApplication.commands());
+        commands.put("monolit", MonolitApplication.commands());
         return commands;
     }
 
