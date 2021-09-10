@@ -1,6 +1,9 @@
 package com.rallibau.bpm.processFile.infrastructure;
 
-import com.rallibau.bpm.connection.domain.*;
+import com.rallibau.bpm.connection.domain.Connection;
+import com.rallibau.bpm.connection.domain.ConnectionId;
+import com.rallibau.bpm.connection.domain.NodeIdOwner;
+import com.rallibau.bpm.connection.domain.NodeIdTarget;
 import com.rallibau.bpm.node.domain.NodeId;
 import com.rallibau.bpm.node.domain.NodeName;
 import com.rallibau.bpm.node.domain.NodeType;
@@ -22,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +47,9 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
             List<BpmModel> bpmModels = new ArrayList<>();
             File file = new File(filePath);
             NodeList nodeList = openDocument(file);
+            HashMap<String, String> participants = getParticipants(file);
             for (int nodesPointer = 0; nodesPointer < nodeList.getLength(); nodesPointer++) {
-                extractProcess(bpmModels, nodeList, nodesPointer);
+                extractProcess(bpmModels, nodeList, nodesPointer, participants);
             }
             return bpmModels;
         } catch (Exception e) {
@@ -53,32 +57,32 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
         }
     }
 
-    private void extractProcess(List<BpmModel> bpmModels, NodeList nList, int temp) {
+    private void extractProcess(List<BpmModel> bpmModels, NodeList nList, int temp, HashMap<String, String> participants) {
         BpmModel bpmProcessModel = new BpmModel(new ArrayList<>(), new ArrayList<>());
-        HashMap<String,String> incomingConection = new HashMap<>();
+        HashMap<String, String> incomingConection = new HashMap<>();
 
         Node node = nList.item(temp);
         Element element = (Element) node;
         String processUid = generateUuid(element.getAttribute(ID)).toString();
         bpmProcessModel.setProcess(new Process(
                 new ProcessId(processUid),
-                new ProcessName(node.getNodeName()),
+                new ProcessName(participants.get(element.getAttribute(ID))),
                 new ArrayList<>()));
 
         bpmModels.add(bpmProcessModel);
 
 
-        extractNodes(bpmProcessModel, node,incomingConection);
-        extractConnection(bpmProcessModel, node,incomingConection);
+        extractNodes(bpmProcessModel, node, incomingConection);
+        extractConnection(bpmProcessModel, node, incomingConection);
     }
 
-    private void extractConnection(BpmModel bpmProcessModel, Node nNode,HashMap<String,String> incomingConection) {
+    private void extractConnection(BpmModel bpmProcessModel, Node nNode, HashMap<String, String> incomingConection) {
         NodeList processTask = nNode.getChildNodes();
 
 
         for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
             Node node = processTask.item(nodesPointer);
-            if (node instanceof Element == false) {
+            if (!(node instanceof Element)) {
                 continue;
             }
             Element element = (Element) node;
@@ -86,24 +90,24 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
                 continue;
             }
             String nodeUid = generateUuid(element.getAttribute(ID)).toString();
-            processOutgoingConnection(nodeUid, node, bpmProcessModel,incomingConection);
+            processOutgoingConnection(nodeUid, node, bpmProcessModel, incomingConection);
         }
 
     }
 
-    private void extractNodes(BpmModel bpmProcessModel, Node nNode,HashMap<String,String> incomingConection) {
+    private void extractNodes(BpmModel bpmProcessModel, Node nNode, HashMap<String, String> incomingConection) {
         NodeList processTask = nNode.getChildNodes();
 
 
         for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
-            extractNode(bpmProcessModel, processTask, nodesPointer,incomingConection);
+            extractNode(bpmProcessModel, processTask, nodesPointer, incomingConection);
         }
 
     }
 
-    private void extractNode(BpmModel bpmProcessModel, NodeList processTask, int nodesPointer,HashMap<String,String> incomingConection) {
+    private void extractNode(BpmModel bpmProcessModel, NodeList processTask, int nodesPointer, HashMap<String, String> incomingConection) {
         Node node = processTask.item(nodesPointer);
-        if (node instanceof Element == false) {
+        if (!(node instanceof Element)) {
             return;
         }
         Element element = (Element) node;
@@ -118,27 +122,25 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
 
         bpmProcessModel.process().nodes().add(new NodeId(nodeUid));
 
-        processIncommingConnection(nodeUid,node,incomingConection);
+        processIncommingConnection(nodeUid, node, incomingConection);
 
     }
 
 
-
-    private void processIncommingConnection(String idNodeParent, Node nNode,  HashMap<String,String> incomingConection) {
+    private void processIncommingConnection(String idNodeParent, Node nNode, HashMap<String, String> incomingConection) {
 
         NodeList processTask = nNode.getChildNodes();
         for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
             Node node = processTask.item(nodesPointer);
-            if (node instanceof Element == false) {
+            if (!(node instanceof Element)) {
                 continue;
             }
             Element element = (Element) node;
             if (element.getTextContent() == null || element.getTextContent().isEmpty()) {
                 continue;
             }
-            Connection connection = null;
             if (element.getTagName().equals(INCOMMING)) {
-                incomingConection.put(element.getTextContent(),idNodeParent);
+                incomingConection.put(element.getTextContent(), idNodeParent);
             }
         }
     }
@@ -148,7 +150,7 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
         NodeList processTask = nNode.getChildNodes();
         for (int nodesPointer = 0; nodesPointer < processTask.getLength(); nodesPointer++) {
             Node node = processTask.item(nodesPointer);
-            if (node instanceof Element == false) {
+            if (!(node instanceof Element)) {
                 continue;
             }
             Element element = (Element) node;
@@ -162,7 +164,7 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
                         new NodeIdOwner(idNodeParent),
                         new NodeIdTarget(incomingConection.get(element.getTextContent())));
             }
-            if(connection !=null) {
+            if (connection != null) {
                 bpmProcessModel.connections().add(connection);
             }
 
@@ -175,15 +177,30 @@ public class FileProcessorXmlImpl implements BpmModelExtractor {
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document document = db.parse(file);
         document.getDocumentElement().normalize();
-        NodeList nodeList = document.getElementsByTagName(PROCESS);
-        return nodeList;
+        return document.getElementsByTagName(PROCESS);
+    }
+
+    private HashMap<String, String> getParticipants(File file) throws ParserConfigurationException, SAXException, IOException {
+        HashMap<String, String> participants = new HashMap<>();
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document document = db.parse(file);
+        document.getDocumentElement().normalize();
+        NodeList nodeList = document.getElementsByTagName("semantic:collaboration").item(0).getChildNodes();
+        for (int nodesPointer = 0; nodesPointer < nodeList.getLength(); nodesPointer++) {
+            Node node = nodeList.item(nodesPointer);
+            if (!(node instanceof Element)) {
+                continue;
+            }
+            Element element = (Element) node;
+            if (element.getTagName().equals("semantic:participant")) {
+                participants.put(element.getAttribute("processRef"), element.getAttribute("name"));
+            }
+        }
+        return participants;
     }
 
     private static UUID generateUuid(String seed) {
-        try {
-            return UUID.nameUUIDFromBytes(seed.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(String.format("UnsupportedEncodingException: %f", e.getMessage()));
-        }
+        return UUID.nameUUIDFromBytes(seed.getBytes(StandardCharsets.UTF_8));
     }
 }

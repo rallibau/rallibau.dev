@@ -31,7 +31,7 @@ public class ProcessFilePutController extends ApiController {
 
     @PutMapping(value = "/processFile")
     public ResponseEntity<String> index() throws CommandHandlerExecutionError, BpmModelExtractorException, URISyntaxException {
-        URL resource = getClass().getClassLoader().getResource("diagram _pizzas.bpmn");
+        URL resource = getClass().getClassLoader().getResource("diagram_guardia_civil.bpmn");
         if (resource == null) {
             throw new IllegalArgumentException("file not found!");
         }

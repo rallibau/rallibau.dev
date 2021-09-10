@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.rallibau.schedule.story.domain.Story" table="story">
+        <composite-id name="id" class="com.rallibau.schedule.story.domain.StoryId" access="field">
+            <key-property column="id" name="value" length="36" access="field" />
+        </composite-id>
+        <component name="name" class="com.rallibau.schedule.story.domain.StoryName" access="field">
+            <property name="value" column="name" type="string" access="field" />
+        </component>
+        <component name="processId" class="com.rallibau.schedule.story.domain.StoryProcessId" access="field">
+            <property name="value" column="process_id" type="string" access="field" />
+        </component>
+    </class>
+</hibernate-mapping>
