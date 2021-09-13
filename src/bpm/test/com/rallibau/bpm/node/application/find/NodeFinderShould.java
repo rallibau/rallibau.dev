@@ -30,8 +30,8 @@ public class NodeFinderShould {
     public void find_a_existing_node() {
         Node node = NodeMother.random();
         when(nodeRepository.get(node.id())).thenReturn(Optional.of(node));
-        Optional<Node> nodeResponse = nodeFinder.find(node.id().value());
-        assertThat("obtnemos un nodo", nodeResponse.isPresent());
+        Node nodeResponse = nodeFinder.find(node.id().value());
+        assertThat("obtnemos un nodo", node != null);
     }
 
 }
