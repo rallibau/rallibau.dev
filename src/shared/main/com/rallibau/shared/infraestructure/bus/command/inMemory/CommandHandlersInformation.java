@@ -1,4 +1,4 @@
-package com.rallibau.shared.infraestructure.bus.command;
+package com.rallibau.shared.infraestructure.bus.command.inMemory;
 
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.command.Command;
