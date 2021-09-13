@@ -33,11 +33,12 @@ public class StoryPutController extends ApiController {
     @PutMapping(value = "/story/{id}")
     public ResponseEntity<String> index(
             @PathVariable String id,
-            @RequestParam String processId
+            @RequestParam String processId,
+            @RequestParam String storyName
     ) throws CommandHandlerExecutionError {
 
         storyCreator.create(new Story(new StoryId(id),
-                new StoryName("nombre de la historia"),
+                new StoryName(storyName),
                 new StoryProcessId(processId)));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
