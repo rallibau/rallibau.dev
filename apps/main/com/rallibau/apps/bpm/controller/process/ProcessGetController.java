@@ -4,6 +4,7 @@ import com.rallibau.bpm.process.application.find.ProcessFindQuery;
 import com.rallibau.bpm.process.application.find.ProcessGetAllQuery;
 import com.rallibau.bpm.process.application.find.ProcessResponse;
 import com.rallibau.bpm.process.application.find.ProcessesResponse;
+import com.rallibau.bpm.process.domain.ProcessNotExist;
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.query.QueryBus;
@@ -35,6 +36,8 @@ public class ProcessGetController extends ApiController {
 
     @Override
     public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
-        return null;
+        return new HashMap<Class<? extends DomainError>, HttpStatus>() {{
+            put(ProcessNotExist.class, HttpStatus.NOT_FOUND);
+        }};
     }
 }

@@ -2,16 +2,15 @@ package com.rallibau.bpm.node.application.find;
 
 import com.rallibau.bpm.connection.application.find.ConnectionFinder;
 import com.rallibau.bpm.connection.domain.Connection;
-import com.rallibau.bpm.connection.domain.NodeIdOwner;
 import com.rallibau.bpm.connection.domain.NodeIdTarget;
 import com.rallibau.bpm.node.domain.Node;
+import com.rallibau.bpm.process.domain.ProcessNotExist;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.QueryHandler;
 import com.rallibau.shared.domain.criteria.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,15 +25,13 @@ public class FindNodeQueryHandler implements QueryHandler<NodeFinderQuery, NodeR
     }
 
     @Override
-    public NodeResponse handle(NodeFinderQuery query) {
-        Optional<Node> node = nodeFinder.find(query.nodeId());
-        if (node.isPresent()) {
-            return new NodeResponse(
-                    node.get().id().value(),
-                    node.get().name().value(),
-                    node.get().nodeType().value(), getConnections(node.get().id().value()));
-        }
-        return new NodeResponse();
+    public NodeResponse handle(NodeFinderQuery query) throws ProcessNotExist {
+        Node node = nodeFinder.find(query.nodeId());
+        return new NodeResponse(
+                node.id().value(),
+                node.name().value(),
+                node.nodeType().value(), getConnections(node.id().value()));
+
     }
 
     private List<String> getConnections(String nodeId) {

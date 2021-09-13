@@ -4,7 +4,7 @@ import com.rallibau.bpm.node.application.find.NodeFinderQuery;
 import com.rallibau.bpm.node.application.find.NodeGetAllQuery;
 import com.rallibau.bpm.node.application.find.NodeResponse;
 import com.rallibau.bpm.node.application.find.NodesResponse;
-import com.rallibau.bpm.node.domain.NodeId;
+import com.rallibau.bpm.node.domain.NodeNotExist;
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.query.QueryBus;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class NodeGetController extends ApiController {
@@ -39,13 +37,9 @@ public class NodeGetController extends ApiController {
 
     @Override
     public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
-        return null;
+        return new HashMap<Class<? extends DomainError>, HttpStatus>() {{
+            put(NodeNotExist.class, HttpStatus.NOT_FOUND);
+        }};
     }
-
-    private List<String> createNodeList(List<NodeId> nodesId) {
-        return nodesId.stream().map(NodeId::value).collect(Collectors.toList());
-
-    }
-
 
 }
