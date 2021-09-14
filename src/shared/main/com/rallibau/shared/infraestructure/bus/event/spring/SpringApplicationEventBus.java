@@ -1,15 +1,12 @@
 package com.rallibau.shared.infraestructure.bus.event.spring;
 
-import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.event.DomainEvent;
 import com.rallibau.shared.domain.bus.event.EventBus;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 
-//@Primary
-//@Service
+
 public class SpringApplicationEventBus implements EventBus {
 
     private final ApplicationEventPublisher publisher;
