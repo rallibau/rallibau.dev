@@ -4,10 +4,11 @@ import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.event.DomainEvent;
 import com.rallibau.shared.domain.bus.event.EventBus;
 import org.springframework.amqp.AmqpException;
+import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 
-//@Primary
+@Primary
 @Service
 public class RabbitMqEventBus implements EventBus {
     private final RabbitMqPublisher publisher;

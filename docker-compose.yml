@@ -21,6 +21,22 @@ services:
     networks:
       - rallibau-net
 
+  schedule:
+    container_name: rallibau-schedule
+    build:
+      context: .
+      dockerfile: apps/main/com/rallibau/apps/schedule/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8082:8081"
+    volumes:
+      - .:/app:delegated
+    env_file:
+      - .env
+    tty: true
+    networks:
+      - rallibau-net
+
   mysql:
     container_name: rallibau-mysql
     image: mysql:8
@@ -48,7 +64,7 @@ services:
       - 5672:5672
       - 15672:15672
     environment:
-      - RABBITMQ_DEFAULT_USER=livetooling
+      - RABBITMQ_DEFAULT_USER=rallibau
       - RABBITMQ_DEFAULT_PASS=secreto
     networks:
       - rallibau-net

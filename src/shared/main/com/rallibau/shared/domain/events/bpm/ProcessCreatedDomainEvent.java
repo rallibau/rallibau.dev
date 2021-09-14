@@ -8,15 +8,15 @@ import java.util.Objects;
 
 public final class ProcessCreatedDomainEvent extends DomainEvent {
 
-    private final String name;
+    private final String processName;
 
     public ProcessCreatedDomainEvent() {
-        this.name = null;
+        this.processName = null;
     }
 
-    public ProcessCreatedDomainEvent(String aggregateId, String name) {
+    public ProcessCreatedDomainEvent(String aggregateId, String processName) {
         super(aggregateId);
-        this.name = name;
+        this.processName = processName;
     }
 
     @Override
@@ -26,12 +26,15 @@ public final class ProcessCreatedDomainEvent extends DomainEvent {
 
     @Override
     public HashMap<String, Serializable> toPrimitives() {
-        return null;
+        return new HashMap<String, Serializable>() {{
+            put("name", processName);
+        }};
     }
 
     @Override
-    public DomainEvent fromPrimitives(String aggregateId, HashMap<String, Serializable> body, String eventId, String occurredOn) {
-        return null;
+    public ProcessCreatedDomainEvent fromPrimitives(String aggregateId, HashMap<String, Serializable> body, String eventId, String occurredOn) {
+        return new ProcessCreatedDomainEvent(aggregateId,
+                (String) body.get("name"));
     }
 
     @Override

@@ -53,7 +53,7 @@ public  class RabbitMqDomainEventsConsumer {
         container.start();
     }
 
-    @RabbitListener(id = CONSUMER_NAME, autoStartup = "false")
+    @RabbitListener(id = CONSUMER_NAME, autoStartup = "true")
     public void consumer(Message message) throws Exception {
         String serializedMessage = new String(message.getBody());
         DomainEvent domainEvent = deserializer.deserialize(serializedMessage);
