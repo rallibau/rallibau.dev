@@ -44,6 +44,6 @@ public final class DomainEventSubscriberInformation {
     }
 
     public String formatRabbitMqQueueName() {
-        return String.format("com.inetum.%s.%s.%s", contextName(), moduleName(), Utils.toSnake(className()));
+        return String.format("com.rallibau.%s.%s.%s", contextName(), moduleName(), Utils.toSnake(className()));
     }
 }

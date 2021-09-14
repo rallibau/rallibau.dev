@@ -29,6 +29,9 @@ start-scheduler:
 start-bpm-compose:
 	@./gradlew build --warning-mode all && docker-compose up -d --build bpm
 
+start-schedule-compose:
+	@./gradlew build --warning-mode all && docker-compose up -d --build schedule
+
 stop-bpm-compose:
 	@docker-compose stop bpm
 

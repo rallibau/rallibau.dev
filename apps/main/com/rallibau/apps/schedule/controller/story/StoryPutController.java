@@ -1,5 +1,6 @@
 package com.rallibau.apps.schedule.controller.story;
 
+import com.rallibau.schedule.story.application.create.CreateStoryCommand;
 import com.rallibau.schedule.story.application.create.StoryCreator;
 import com.rallibau.schedule.story.domain.Story;
 import com.rallibau.schedule.story.domain.StoryId;
@@ -36,10 +37,7 @@ public class StoryPutController extends ApiController {
             @RequestParam String processId,
             @RequestParam String storyName
     ) throws CommandHandlerExecutionError {
-
-        storyCreator.create(new Story(new StoryId(id),
-                new StoryName(storyName),
-                new StoryProcessId(processId)));
+        dispatch(new CreateStoryCommand(id,storyName,processId));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

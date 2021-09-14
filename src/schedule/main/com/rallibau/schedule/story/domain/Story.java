@@ -1,6 +1,7 @@
 package com.rallibau.schedule.story.domain;
 
 import com.rallibau.shared.domain.AggregateRoot;
+import com.rallibau.shared.domain.events.scheduler.StoryCreatedDomainEvent;
 
 import java.util.Objects;
 
@@ -22,10 +23,13 @@ public class Story extends AggregateRoot {
     }
 
     public static Story create(StoryId id, StoryName storyName, StoryProcessId storyProcessId) {
-        return new Story(
+        Story story = new Story(
                 id,
                 storyName,
                 storyProcessId);
+        story.record(new StoryCreatedDomainEvent(id.value(), storyName.value(), storyProcessId.value()));
+
+        return story;
     }
 
     public StoryId id() {

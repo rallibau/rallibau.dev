@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 
-@Primary
-@Service
+//@Primary
+//@Service
 public class SpringApplicationEventBus implements EventBus {
 
     private final ApplicationEventPublisher publisher;

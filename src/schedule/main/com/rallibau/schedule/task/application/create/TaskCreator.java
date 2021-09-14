@@ -1,4 +1,4 @@
-package com.rallibau.schedule.task.application;
+package com.rallibau.schedule.task.application.create;
 
 import com.rallibau.schedule.task.domain.Task;
 import com.rallibau.schedule.task.domain.TaskRepository;
