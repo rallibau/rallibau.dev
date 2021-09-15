@@ -1,4 +1,4 @@
-package com.rallibau.shared.command;
+package com.rallibau.shared.infraestructure.bus.event.rabbitmq.command;
 
 
 import com.rallibau.shared.domain.Service;

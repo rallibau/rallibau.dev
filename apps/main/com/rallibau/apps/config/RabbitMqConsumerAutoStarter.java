@@ -1,7 +1,7 @@
 package com.rallibau.apps.config;
 
 
-import com.rallibau.shared.command.ConsumeRabbitMqDomainEventsCommand;
+import com.rallibau.shared.infraestructure.bus.event.rabbitmq.command.ConsumeRabbitMqDomainEventsCommand;
 import com.rallibau.shared.domain.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
