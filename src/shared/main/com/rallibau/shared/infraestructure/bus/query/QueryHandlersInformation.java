@@ -1,4 +1,4 @@
-package com.rallibau.shared.infraestructure.bus.query.inMemory;
+package com.rallibau.shared.infraestructure.bus.query;
 
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.Query;

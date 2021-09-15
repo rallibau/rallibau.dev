@@ -2,8 +2,11 @@ package com.rallibau.shared.infraestructure.bus.query.inMemory;
 
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.*;
+import com.rallibau.shared.infraestructure.bus.query.QueryHandlersInformation;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Primary;
 
+@Primary
 @Service
 public class InMemoryQueryBus implements QueryBus {
     private final QueryHandlersInformation information;
