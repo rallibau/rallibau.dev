@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 @Service
-public  class DomainEventSubscribersInformation {
+public class DomainEventSubscribersInformation {
     HashMap<Class<?>, DomainEventSubscriberInformation> information;
     @Value("${base.package}")
     private String BASE_PACKAGE;
