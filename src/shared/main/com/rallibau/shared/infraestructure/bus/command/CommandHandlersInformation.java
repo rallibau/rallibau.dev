@@ -8,11 +8,10 @@ import org.reflections.Reflections;
 
 
 import java.lang.reflect.ParameterizedType;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public  class CommandHandlersInformation {
+public  class CommandHandlersInformation  {
     HashMap<Class<? extends Command>, Class<? extends CommandHandler>> indexedCommandHandlers;
 
     public CommandHandlersInformation() {
@@ -45,5 +44,9 @@ public  class CommandHandlersInformation {
         }
 
         return handlers;
+    }
+
+    public Collection<Command> all() {
+        return new ArrayList(indexedCommandHandlers.keySet());
     }
 }
