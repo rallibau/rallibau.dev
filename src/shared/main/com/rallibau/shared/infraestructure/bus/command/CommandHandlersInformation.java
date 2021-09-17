@@ -6,12 +6,13 @@ import com.rallibau.shared.domain.bus.command.CommandHandler;
 import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
 import org.reflections.Reflections;
 
-
 import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 @Service
-public  class CommandHandlersInformation  {
+public class CommandHandlersInformation {
     HashMap<Class<? extends Command>, Class<? extends CommandHandler>> indexedCommandHandlers;
 
     public CommandHandlersInformation() {
@@ -46,7 +47,21 @@ public  class CommandHandlersInformation  {
         return handlers;
     }
 
-    public Collection<Command> all() {
-        return new ArrayList(indexedCommandHandlers.keySet());
+    public HashMap<Class<? extends Command>, Class<? extends CommandHandler>> all() {
+        return indexedCommandHandlers;
+    }
+
+    public String[] rabbitMqFormattedNames() {
+        ArrayList<String> queues = new ArrayList<>();
+        indexedCommandHandlers.keySet().forEach(command ->{
+            try {
+                queues.add(command.newInstance().formatQueueName());
+            } catch (InstantiationException e) {
+               // e.printStackTrace();
+            } catch (IllegalAccessException e) {
+               // e.printStackTrace();
+            }
+        });
+        return (String[]) queues.toArray();
     }
 }

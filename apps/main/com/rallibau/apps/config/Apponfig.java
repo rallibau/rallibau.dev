@@ -3,7 +3,7 @@ package com.rallibau.apps.config;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.event.EventBus;
 import com.rallibau.shared.infraestructure.bus.event.rabbitmq.RabbitMqEventBus;
-import com.rallibau.shared.infraestructure.bus.event.rabbitmq.RabbitMqPublisher;
+import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqPublisher;
 import com.rallibau.shared.infraestructure.bus.event.spring.SpringApplicationEventBus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
