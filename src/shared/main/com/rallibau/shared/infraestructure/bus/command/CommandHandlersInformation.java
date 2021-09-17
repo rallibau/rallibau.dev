@@ -53,15 +53,19 @@ public class CommandHandlersInformation {
 
     public String[] rabbitMqFormattedNames() {
         ArrayList<String> queues = new ArrayList<>();
-        indexedCommandHandlers.keySet().forEach(command ->{
+        indexedCommandHandlers.keySet().forEach(command -> {
             try {
                 queues.add(command.newInstance().formatQueueName());
             } catch (InstantiationException e) {
-               // e.printStackTrace();
+                // e.printStackTrace();
             } catch (IllegalAccessException e) {
-               // e.printStackTrace();
+                // e.printStackTrace();
             }
         });
-        return (String[]) queues.toArray();
+        return queues.toArray(new String[0]);
+    }
+
+    public Class<? extends Command> forName(String name) {
+        return indexedCommandHandlers.keySet().stream().filter(command -> command.getName().equals(name)).findFirst().get();
     }
 }
