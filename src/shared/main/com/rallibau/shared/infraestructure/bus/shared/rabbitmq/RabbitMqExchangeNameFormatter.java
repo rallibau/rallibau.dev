@@ -1,4 +1,4 @@
-package com.rallibau.shared.infraestructure.bus.event.rabbitmq;
+package com.rallibau.shared.infraestructure.bus.shared.rabbitmq;
 
 public final class RabbitMqExchangeNameFormatter {
     public static String retry(String exchangeName) {

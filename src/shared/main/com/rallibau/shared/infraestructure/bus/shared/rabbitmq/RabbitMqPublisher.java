@@ -3,6 +3,7 @@ package com.rallibau.shared.infraestructure.bus.shared.rabbitmq;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.command.Command;
 import com.rallibau.shared.domain.bus.event.DomainEvent;
+import com.rallibau.shared.infraestructure.bus.command.CommandJsonSerializer;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventJsonSerializer;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
@@ -32,8 +33,9 @@ public class RabbitMqPublisher {
     }
 
     public void publish(Command command, String exchangeName) throws AmqpException {
+        String serializedCommandEvent = CommandJsonSerializer.serialize(command);
         Message message = new Message(
-                "test".getBytes(),
+                serializedCommandEvent.getBytes(),
                 MessagePropertiesBuilder.newInstance()
                         .setContentEncoding("utf-8")
                         .setContentType("application/json")

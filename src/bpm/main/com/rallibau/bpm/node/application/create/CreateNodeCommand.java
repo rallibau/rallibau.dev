@@ -2,7 +2,10 @@ package com.rallibau.bpm.node.application.create;
 
 import com.rallibau.shared.domain.bus.command.Command;
 
-public class CreateNodeCommand implements Command {
+import java.io.Serializable;
+import java.util.HashMap;
+
+public class CreateNodeCommand extends Command {
     private final String id;
     private final String name;
     private final String nodeType;
@@ -12,11 +15,27 @@ public class CreateNodeCommand implements Command {
         this.name = name;
         this.nodeType = nodeType;
     }
-    public String id(){
+
+    @Override
+    public HashMap<String, Serializable> toPrimitives() {
+        return new HashMap<String, Serializable>() {{
+            put("name", name);
+            put("nodeType", nodeType);
+        }};
+    }
+
+    @Override
+    public CreateNodeCommand fromPrimitives(String aggregateId, HashMap<String, Serializable> body, String eventId, String occurredOn) {
+        return new CreateNodeCommand(aggregateId,
+                (String) body.get("name"),
+                (String) body.get("nodeType"));
+    }
+
+    public String id() {
         return id;
     }
 
-    public String name(){
+    public String name() {
         return name;
     }
 

@@ -3,7 +3,6 @@ package com.rallibau.shared.infraestructure.bus.shared.rabbitmq;
 import com.rallibau.shared.infraestructure.bus.command.CommandHandlersInformation;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventSubscribersInformation;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventsInformation;
-import com.rallibau.shared.infraestructure.bus.event.rabbitmq.RabbitMqExchangeNameFormatter;
 import com.rallibau.shared.infraestructure.bus.event.rabbitmq.RabbitMqQueueNameFormatter;
 import com.rallibau.shared.infraestructure.config.ParameterNotExist;
 import org.jetbrains.annotations.Contract;
