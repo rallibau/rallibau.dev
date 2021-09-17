@@ -1,6 +1,7 @@
-package com.rallibau.shared.infraestructure.bus.event.rabbitmq;
+package com.rallibau.shared.infraestructure.bus.shared.rabbitmq;
 
 import com.rallibau.shared.domain.Service;
+import com.rallibau.shared.domain.bus.command.Command;
 import com.rallibau.shared.domain.bus.event.DomainEvent;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventJsonSerializer;
 import org.springframework.amqp.AmqpException;
@@ -28,6 +29,18 @@ public class RabbitMqPublisher {
         );
 
         rabbitTemplate.send(exchangeName, domainEvent.eventName(), message);
+    }
+
+    public void publish(Command command, String exchangeName) throws AmqpException {
+        Message message = new Message(
+                "test".getBytes(),
+                MessagePropertiesBuilder.newInstance()
+                        .setContentEncoding("utf-8")
+                        .setContentType("application/json")
+                        .build()
+        );
+
+        rabbitTemplate.send(exchangeName, command.formatQueueName(), message);
     }
 
     public void publish(Message domainEvent, String exchangeName, String routingKey) throws AmqpException {

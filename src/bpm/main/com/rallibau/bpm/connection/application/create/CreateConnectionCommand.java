@@ -13,6 +13,11 @@ public class CreateConnectionCommand implements Command {
         this.owner = owner;
         this.target = target;
     }
+    public CreateConnectionCommand(){
+        this.id = null;
+        this.owner = null;
+        this.target = null;
+    }
 
     public String id() {
         return id;

@@ -2,6 +2,7 @@ package com.rallibau.shared.infraestructure.bus.event.rabbitmq;
 
 import com.rallibau.shared.domain.bus.event.DomainEvent;
 import com.rallibau.shared.domain.bus.event.EventBus;
+import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqPublisher;
 import org.springframework.amqp.AmqpException;
 
 import java.util.List;

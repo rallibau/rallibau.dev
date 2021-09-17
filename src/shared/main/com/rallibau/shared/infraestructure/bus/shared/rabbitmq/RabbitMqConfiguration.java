@@ -9,15 +9,13 @@ import com.rallibau.shared.infraestructure.config.ParameterNotExist;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -74,19 +72,28 @@ public class RabbitMqConfiguration {
         String retryExchangeName = RabbitMqExchangeNameFormatter.retry(exchangeName);
         String deadLetterExchangeName = RabbitMqExchangeNameFormatter.deadLetter(exchangeName);
 
-        TopicExchange domainEventsExchange = new TopicExchange(exchangeName, true, false);
-        TopicExchange retryDomainEventsExchange = new TopicExchange(retryExchangeName, true, false);
-        TopicExchange deadLetterDomainEventsExchange = new TopicExchange(deadLetterExchangeName, true, false);
+        TopicExchange exchange = new TopicExchange(exchangeName, true, false);
+        TopicExchange retryExchange = new TopicExchange(retryExchangeName, true, false);
+        TopicExchange deadLetterExchange = new TopicExchange(deadLetterExchangeName, true, false);
         List<Declarable> declarables = new ArrayList<>();
-        declarables.add(domainEventsExchange);
-        declarables.add(retryDomainEventsExchange);
-        declarables.add(deadLetterDomainEventsExchange);
+        declarables.add(exchange);
+        declarables.add(retryExchange);
+        declarables.add(deadLetterExchange);
 
         if (exchangeName.equals(RABBITMQ_EVENT_EXCHANGE)) {
-            Collection<Declarable> queuesAndBindings = declareQueuesAndBindings(
-                    domainEventsExchange,
-                    retryDomainEventsExchange,
-                    deadLetterDomainEventsExchange
+            Collection<Declarable> queuesAndBindings = declareQueuesAndBindingsEvents(
+                    exchange,
+                    retryExchange,
+                    deadLetterExchange
+            ).stream().flatMap(Collection::stream).collect(Collectors.toList());
+            declarables.addAll(queuesAndBindings);
+        }
+
+        if (exchangeName.equals(RABBITMQ_COMMAND_EXCHANGE)) {
+            Collection<Declarable> queuesAndBindings = declareQueuesAndBindingsCommand(
+                    exchange,
+                    retryExchange,
+                    deadLetterExchange
             ).stream().flatMap(Collection::stream).collect(Collectors.toList());
             declarables.addAll(queuesAndBindings);
         }
@@ -94,8 +101,72 @@ public class RabbitMqConfiguration {
         return declarables;
     }
 
+    private Collection<Collection<Declarable>> declareQueuesAndBindingsCommand(
+            TopicExchange topicExchange,
+            TopicExchange retryTopicEchange,
+            TopicExchange deadLetterTopicExchange
+    ) {
+        Collection<Collection<Declarable>> result = new ArrayList<>();
+        commandHandlersInformation.all().keySet().forEach(
+                command -> {
+                    try {
+                        String queueName = command.newInstance().formatQueueName();
+                        String retryQueueName = command.newInstance().formatQueueRetry();
+                        String deadLetterQueueName = command.newInstance().formatQueueRetryLetter();
 
-    private Collection<Collection<Declarable>> declareQueuesAndBindings(
+
+                        Queue queue = QueueBuilder.durable(queueName).build();
+                        Queue retryQueue = QueueBuilder.durable(retryQueueName).withArguments(
+                                retryQueueArguments(topicExchange, queueName)
+                        ).build();
+                        Queue deadLetterQueue = QueueBuilder.durable(deadLetterQueueName).build();
+
+                        Binding fromExchangeSameQueueBinding = BindingBuilder
+                                .bind(queue)
+                                .to(topicExchange)
+                                .with(queueName);
+
+                        Binding fromRetryExchangeSameQueueBinding = BindingBuilder
+                                .bind(retryQueue)
+                                .to(retryTopicEchange)
+                                .with(queueName);
+
+                        Binding fromDeadLetterExchangeSameQueueBinding = BindingBuilder
+                                .bind(deadLetterQueue)
+                                .to(deadLetterTopicExchange)
+                                .with(queueName);
+
+
+                        List<Binding> fromExchangeDomainEventsBindings = Arrays.asList(
+                                BindingBuilder
+                                        .bind(queue)
+                                        .to(topicExchange)
+                                        .with(command.getCanonicalName())
+                        );
+
+                        List<Declarable> queuesAndBindings = new ArrayList<>();
+                        queuesAndBindings.add(queue);
+                        queuesAndBindings.add(fromExchangeSameQueueBinding);
+                        queuesAndBindings.addAll(fromExchangeDomainEventsBindings);
+
+                        queuesAndBindings.add(retryQueue);
+                        queuesAndBindings.add(fromRetryExchangeSameQueueBinding);
+
+                        queuesAndBindings.add(deadLetterQueue);
+                        queuesAndBindings.add(fromDeadLetterExchangeSameQueueBinding);
+                        result.add(queuesAndBindings);
+                    } catch (InstantiationException e) {
+                        //e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        // e.printStackTrace();
+                    }
+                });
+
+        return result;
+    }
+
+
+    private Collection<Collection<Declarable>> declareQueuesAndBindingsEvents(
             TopicExchange topicExchange,
             TopicExchange retryTopicEchange,
             TopicExchange deadLetterTopicExchange

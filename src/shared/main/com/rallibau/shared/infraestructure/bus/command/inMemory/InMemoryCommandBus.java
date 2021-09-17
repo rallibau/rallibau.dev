@@ -9,7 +9,7 @@ import com.rallibau.shared.infraestructure.bus.command.CommandHandlersInformatio
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Primary;
 
-@Primary
+//@Primary
 @Service
 public class InMemoryCommandBus implements CommandBus {
 

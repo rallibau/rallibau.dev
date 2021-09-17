@@ -14,6 +14,13 @@ public class CreateProcessCommand implements Command {
         this.name = name;
         this.nodesId = nodesId;
     }
+
+    public CreateProcessCommand() {
+        this.id = null;
+        this.name = null;
+        this.nodesId = null;
+    }
+
     public String id(){
         return id;
     }

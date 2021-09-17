@@ -5,6 +5,7 @@ import com.rallibau.shared.domain.Utils;
 import com.rallibau.shared.domain.bus.event.DomainEvent;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventJsonDeserializer;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventSubscribersInformation;
+import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqPublisher;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessagePropertiesBuilder;
