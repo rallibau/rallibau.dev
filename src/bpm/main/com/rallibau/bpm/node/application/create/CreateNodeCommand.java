@@ -16,6 +16,12 @@ public class CreateNodeCommand extends Command {
         this.nodeType = nodeType;
     }
 
+    public CreateNodeCommand() {
+        this.id = null;
+        this.name = null;
+        this.nodeType = null;
+    }
+
     @Override
     public HashMap<String, Serializable> toPrimitives() {
         return new HashMap<String, Serializable>() {{
@@ -30,6 +36,7 @@ public class CreateNodeCommand extends Command {
                 (String) body.get("name"),
                 (String) body.get("nodeType"));
     }
+
 
     public String id() {
         return id;

@@ -17,6 +17,12 @@ public class CreateStoryCommand extends Command {
         this.processId = processId;
     }
 
+    public CreateStoryCommand() {
+        this.id = null;
+        this.name = null;
+        this.processId = null;
+    }
+
     public String id() {
         return id;
     }
