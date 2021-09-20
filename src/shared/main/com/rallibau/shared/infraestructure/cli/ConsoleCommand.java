@@ -2,6 +2,7 @@ package com.rallibau.shared.infraestructure.cli;
 
 
 import com.rallibau.shared.domain.Service;
+import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
 
 @Service
 public abstract class ConsoleCommand {

@@ -3,6 +3,7 @@ package com.rallibau.shared.infraestructure.bus.command.rabbitmq;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.Utils;
 import com.rallibau.shared.domain.bus.command.Command;
+import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
 import com.rallibau.shared.infraestructure.bus.command.CommandHandlersInformation;
 import com.rallibau.shared.infraestructure.bus.command.CommandJsonDeserializer;
 import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqExchangeNameFormatter;
@@ -19,17 +20,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class RabbitMqCommandsConsumer {
     private final String CONSUMER_NAME = "command_events_consumer";
-    private final int MAX_RETRIES = 2;
     private final CommandJsonDeserializer deserializer;
     private final ApplicationContext context;
     private final RabbitMqPublisher publisher;
     private final HashMap<String, Object> commandsSubscribers = new HashMap<>();
     RabbitListenerEndpointRegistry registry;
-    private CommandHandlersInformation information;
+    private final CommandHandlersInformation information;
 
     public RabbitMqCommandsConsumer(
             RabbitListenerEndpointRegistry registry,
@@ -50,7 +51,11 @@ public class RabbitMqCommandsConsumer {
                 CONSUMER_NAME
         );
 
-        container.addQueueNames(information.rabbitMqFormattedNames());
+        try {
+            container.addQueueNames(information.rabbitMqFormattedNames());
+        } catch (CommandNotRegisteredError commandNotRegisteredError) {
+            commandNotRegisteredError.printStackTrace();
+        }
 
         container.start();
     }
@@ -60,31 +65,31 @@ public class RabbitMqCommandsConsumer {
         String serializedMessage = new String(message.getBody());
         String queue = message.getMessageProperties().getConsumerQueue();
 
-        System.out.println(serializedMessage);
-        System.out.println(queue);
-
         Object subscriber = commandsSubscribers.containsKey(queue)
                 ? commandsSubscribers.get(queue)
                 : subscriberFor(queue);
 
+        Optional<Command> command = deserializer.deserialize(serializedMessage);
+        if (!command.isPresent()) {
+            throw new Exception(String.format(
+                    "The subscriber <%s> can't deserialize the message",
+                    queue));
+        }
         try {
-            Command command = deserializer.deserialize(serializedMessage);
-            Method commandHandleMethod = subscriber.getClass().getMethod("handle", command.getClass());
+
+            Method commandHandleMethod = subscriber.getClass().getMethod("handle", command.get().getClass());
             System.out.println(commandHandleMethod.getName());
-
-
-            commandHandleMethod.invoke(subscriber, command);
+            commandHandleMethod.invoke(subscriber, command.get());
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException error) {
-          /*  throw new Exception(String.format(
-                    "The subscriber <%s> should implement a method `on` listening the domain event <%s>",
+            throw new Exception(String.format(
+                    "The subscriber <%s> should implement a method `handle` to manage command <%s>",
                     queue,
-                    command.className()
+                    command.get().className()
             ));
-            */
-            error.printStackTrace();
+
+
         } catch (Exception error) {
-            error.printStackTrace();
-            // handleConsumptionError(message, queue);
+            handleConsumptionError(message, queue);
         }
 
     }
@@ -135,6 +140,7 @@ public class RabbitMqCommandsConsumer {
     }
 
     private boolean hasBeenRedeliveredTooMuch(Message message) {
+        int MAX_RETRIES = 2;
         return (int) message.getMessageProperties().getHeaders().getOrDefault("redelivery_count", 0) >= MAX_RETRIES;
     }
 

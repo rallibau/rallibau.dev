@@ -1,14 +1,15 @@
 package com.rallibau.shared.infraestructure.bus.shared.rabbitmq;
 
+import com.rallibau.shared.domain.bus.command.Command;
+import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
 import com.rallibau.shared.infraestructure.bus.command.CommandHandlersInformation;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventSubscribersInformation;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventsInformation;
-import com.rallibau.shared.infraestructure.bus.event.rabbitmq.RabbitMqQueueNameFormatter;
 import com.rallibau.shared.infraestructure.config.ParameterNotExist;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.amqp.core.*;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -61,23 +62,23 @@ public class RabbitMqConfiguration {
     }
 
     @Bean
-    public Declarables declaration() {
-        List<Declarable> declarables = obtainsDeclarablesOfExchange(RABBITMQ_EVENT_EXCHANGE);
-        declarables.addAll(obtainsDeclarablesOfExchange(RABBITMQ_COMMAND_EXCHANGE));
-        return new Declarables(declarables);
+    public Declarables declaration() throws CommandNotRegisteredError {
+        List<Declarable> declarable = obtainsDeclarableOfExchange(RABBITMQ_EVENT_EXCHANGE);
+        declarable.addAll(obtainsDeclarableOfExchange(RABBITMQ_COMMAND_EXCHANGE));
+        return new Declarables(declarable);
     }
 
-    private List<Declarable> obtainsDeclarablesOfExchange(String exchangeName) {
+    private List<Declarable> obtainsDeclarableOfExchange(String exchangeName) throws CommandNotRegisteredError {
         String retryExchangeName = RabbitMqExchangeNameFormatter.retry(exchangeName);
         String deadLetterExchangeName = RabbitMqExchangeNameFormatter.deadLetter(exchangeName);
 
         TopicExchange exchange = new TopicExchange(exchangeName, true, false);
         TopicExchange retryExchange = new TopicExchange(retryExchangeName, true, false);
         TopicExchange deadLetterExchange = new TopicExchange(deadLetterExchangeName, true, false);
-        List<Declarable> declarables = new ArrayList<>();
-        declarables.add(exchange);
-        declarables.add(retryExchange);
-        declarables.add(deadLetterExchange);
+        List<Declarable> declarable = new ArrayList<>();
+        declarable.add(exchange);
+        declarable.add(retryExchange);
+        declarable.add(deadLetterExchange);
 
         if (exchangeName.equals(RABBITMQ_EVENT_EXCHANGE)) {
             Collection<Declarable> queuesAndBindings = declareQueuesAndBindingsEvents(
@@ -85,7 +86,7 @@ public class RabbitMqConfiguration {
                     retryExchange,
                     deadLetterExchange
             ).stream().flatMap(Collection::stream).collect(Collectors.toList());
-            declarables.addAll(queuesAndBindings);
+            declarable.addAll(queuesAndBindings);
         }
 
         if (exchangeName.equals(RABBITMQ_COMMAND_EXCHANGE)) {
@@ -94,72 +95,66 @@ public class RabbitMqConfiguration {
                     retryExchange,
                     deadLetterExchange
             ).stream().flatMap(Collection::stream).collect(Collectors.toList());
-            declarables.addAll(queuesAndBindings);
+            declarable.addAll(queuesAndBindings);
         }
 
-        return declarables;
+        return declarable;
     }
 
     private Collection<Collection<Declarable>> declareQueuesAndBindingsCommand(
             TopicExchange topicExchange,
-            TopicExchange retryTopicEchange,
+            TopicExchange retryTopicExchange,
             TopicExchange deadLetterTopicExchange
-    ) {
+    ) throws CommandNotRegisteredError {
         Collection<Collection<Declarable>> result = new ArrayList<>();
-        commandHandlersInformation.all().keySet().forEach(
-                command -> {
-                    try {
-                        String queueName = command.newInstance().formatQueueName();
-                        String retryQueueName = command.newInstance().formatQueueRetry();
-                        String deadLetterQueueName = command.newInstance().formatQueueRetryLetter();
+        for (Class<? extends Command> command : commandHandlersInformation.all().keySet()) {
+            String queueName = RabbitMqQueueNameFormatter.format(command);
+            String retryQueueName = RabbitMqQueueNameFormatter.formatRetry(command);
+            String deadLetterQueueName = RabbitMqQueueNameFormatter.formatDeadLetter(command);
 
 
-                        Queue queue = QueueBuilder.durable(queueName).build();
-                        Queue retryQueue = QueueBuilder.durable(retryQueueName).withArguments(
-                                retryQueueArguments(topicExchange, queueName)
-                        ).build();
-                        Queue deadLetterQueue = QueueBuilder.durable(deadLetterQueueName).build();
+            Queue queue = QueueBuilder.durable(queueName).build();
+            Queue retryQueue = QueueBuilder.durable(retryQueueName).withArguments(
+                    retryQueueArguments(topicExchange, queueName)
+            ).build();
+            Queue deadLetterQueue = QueueBuilder.durable(deadLetterQueueName).build();
 
-                        Binding fromExchangeSameQueueBinding = BindingBuilder
-                                .bind(queue)
-                                .to(topicExchange)
-                                .with(queueName);
+            Binding fromExchangeSameQueueBinding = BindingBuilder
+                    .bind(queue)
+                    .to(topicExchange)
+                    .with(queueName);
 
-                        Binding fromRetryExchangeSameQueueBinding = BindingBuilder
-                                .bind(retryQueue)
-                                .to(retryTopicEchange)
-                                .with(queueName);
+            Binding fromRetryExchangeSameQueueBinding = BindingBuilder
+                    .bind(retryQueue)
+                    .to(retryTopicExchange)
+                    .with(queueName);
 
-                        Binding fromDeadLetterExchangeSameQueueBinding = BindingBuilder
-                                .bind(deadLetterQueue)
-                                .to(deadLetterTopicExchange)
-                                .with(queueName);
+            Binding fromDeadLetterExchangeSameQueueBinding = BindingBuilder
+                    .bind(deadLetterQueue)
+                    .to(deadLetterTopicExchange)
+                    .with(queueName);
 
 
-                        List<Binding> fromExchangeDomainEventsBindings = Arrays.asList(
-                                BindingBuilder
-                                        .bind(queue)
-                                        .to(topicExchange)
-                                        .with(command.getCanonicalName())
-                        );
+            List<Binding> fromExchangeDomainEventsBindings = Collections.singletonList(
+                    BindingBuilder
+                            .bind(queue)
+                            .to(topicExchange)
+                            .with(command.getCanonicalName())
+            );
 
-                        List<Declarable> queuesAndBindings = new ArrayList<>();
-                        queuesAndBindings.add(queue);
-                        queuesAndBindings.add(fromExchangeSameQueueBinding);
-                        queuesAndBindings.addAll(fromExchangeDomainEventsBindings);
+            List<Declarable> queuesAndBindings = new ArrayList<>();
+            queuesAndBindings.add(queue);
+            queuesAndBindings.add(fromExchangeSameQueueBinding);
+            queuesAndBindings.addAll(fromExchangeDomainEventsBindings);
 
-                        queuesAndBindings.add(retryQueue);
-                        queuesAndBindings.add(fromRetryExchangeSameQueueBinding);
+            queuesAndBindings.add(retryQueue);
+            queuesAndBindings.add(fromRetryExchangeSameQueueBinding);
 
-                        queuesAndBindings.add(deadLetterQueue);
-                        queuesAndBindings.add(fromDeadLetterExchangeSameQueueBinding);
-                        result.add(queuesAndBindings);
-                    } catch (InstantiationException e) {
-                        //e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        // e.printStackTrace();
-                    }
-                });
+            queuesAndBindings.add(deadLetterQueue);
+            queuesAndBindings.add(fromDeadLetterExchangeSameQueueBinding);
+            result.add(queuesAndBindings);
+
+        }
 
         return result;
     }
