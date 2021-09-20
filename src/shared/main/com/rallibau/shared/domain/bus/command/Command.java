@@ -51,9 +51,6 @@ public abstract class Command {
         return nameParts[nameParts.length - 1];
     }
 
-    public static Command getInstance(){
-        return Command.getInstance();
-    }
 
     public String eventId() {
         return eventId;

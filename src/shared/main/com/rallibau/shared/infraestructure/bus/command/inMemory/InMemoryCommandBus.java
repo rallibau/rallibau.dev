@@ -7,9 +7,7 @@ import com.rallibau.shared.domain.bus.command.CommandHandler;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.infraestructure.bus.command.CommandHandlersInformation;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Primary;
 
-//@Primary
 @Service
 public class InMemoryCommandBus implements CommandBus {
 
@@ -18,7 +16,7 @@ public class InMemoryCommandBus implements CommandBus {
 
     public InMemoryCommandBus(CommandHandlersInformation information, ApplicationContext context) {
         this.information = information;
-        this.context     = context;
+        this.context = context;
     }
 
     @Override

@@ -4,11 +4,13 @@ import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.command.Command;
 import com.rallibau.shared.domain.bus.command.CommandHandler;
 import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
+import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqQueueNameFormatter;
 import org.reflections.Reflections;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -51,21 +53,16 @@ public class CommandHandlersInformation {
         return indexedCommandHandlers;
     }
 
-    public String[] rabbitMqFormattedNames() {
+    public String[] rabbitMqFormattedNames() throws CommandNotRegisteredError {
         ArrayList<String> queues = new ArrayList<>();
-        indexedCommandHandlers.keySet().forEach(command -> {
-            try {
-                queues.add(command.newInstance().formatQueueName());
-            } catch (InstantiationException e) {
-                // e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                // e.printStackTrace();
-            }
-        });
+        for (Class<? extends Command> command : indexedCommandHandlers.keySet()) {
+                String queueName = RabbitMqQueueNameFormatter.format(command);
+                queues.add(queueName);
+        }
         return queues.toArray(new String[0]);
     }
 
-    public Class<? extends Command> forName(String name) {
-        return indexedCommandHandlers.keySet().stream().filter(command -> command.getName().equals(name)).findFirst().get();
+    public Optional<Class<? extends Command>> forName(String name) {
+        return indexedCommandHandlers.keySet().stream().filter(command -> command.getName().equals(name)).findFirst();
     }
 }
