@@ -8,7 +8,6 @@ import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.infraestructure.bus.command.CommandHandlersInformation;
 import org.springframework.context.ApplicationContext;
 
-@Service
 public class InMemoryCommandBus implements CommandBus {
 
     private final CommandHandlersInformation information;
