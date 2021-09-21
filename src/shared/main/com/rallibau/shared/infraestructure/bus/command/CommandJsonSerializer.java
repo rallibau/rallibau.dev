@@ -2,7 +2,6 @@ package com.rallibau.shared.infraestructure.bus.command;
 
 import com.rallibau.shared.domain.Utils;
 import com.rallibau.shared.domain.bus.command.Command;
-import com.rallibau.shared.domain.bus.event.DomainEvent;
 
 import java.io.Serializable;
 import java.util.HashMap;
