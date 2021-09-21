@@ -19,25 +19,27 @@ import static org.mockito.Mockito.*;
 
 public class CreateStoryCommandHandlerShould {
     private CreateStoryCommandHandler createStoryCommandHandler;
-    private StoryCreator storyCreator;
     private StoryRepository storyRepository;
     protected EventBus eventBus;
-    private CommandHandlersInformation information;
     private CommandJsonDeserializer commandJsonDeserializer;
 
     @BeforeEach
     protected void setUp() {
         eventBus = mock(EventBus.class);
         storyRepository = mock(StoryRepository.class);
-        storyCreator = new StoryCreator(storyRepository, eventBus);
+        StoryCreator storyCreator = new StoryCreator(storyRepository, eventBus);
 
         createStoryCommandHandler = new CreateStoryCommandHandler(storyCreator);
-        information = mock(CommandHandlersInformation.class);
+        CommandHandlersInformation information = mock(CommandHandlersInformation.class);
         commandJsonDeserializer = new CommandJsonDeserializer(information);
+
+        when(information.forName("com.rallibau.schedule.story.application.create.CreateStoryCommand")).thenReturn(
+                Optional.of(CreateStoryCommand.class)
+        );
     }
 
     @Test
-    public void create_story_dont_failure() {
+    public void create_story_do_not_failure() {
         Story story = StoryMother.random();
 
         StoryCreatedDomainEvent storyCreatedDomainEvent = new StoryCreatedDomainEvent(story.id().value(),
@@ -51,6 +53,8 @@ public class CreateStoryCommandHandlerShould {
         createStoryCommandHandler.handle(createStoryCommand);
         verify(storyRepository, atLeastOnce()).save(story);
         verify(eventBus, atLeastOnce()).publish(Collections.singletonList(storyCreatedDomainEvent));
+
+
     }
 
     @Test
@@ -62,20 +66,12 @@ public class CreateStoryCommandHandlerShould {
 
         String commandSerialized = CommandJsonSerializer.serialize(createStoryCommand);
 
-        when(information.forName("com.rallibau.schedule.story.application.create.CreateStoryCommand")).thenReturn(
-          Optional.of(CreateStoryCommand.class)
-        );
-
-
-        System.out.println(commandSerialized);
 
         Optional<Command> command =  commandJsonDeserializer.deserialize(commandSerialized);
         assertThat("command isn't present ", command.isPresent());
-        if(command.isPresent()){
-            assertThat("command id isn't equal ", command.get().id().equals(createStoryCommand.id()));
-            assertThat("command name isn't equal ", command.get().toPrimitives().get("name").equals(createStoryCommand.name()));
-            assertThat("command processId isn't equal ", command.get().toPrimitives().get("processId").equals(createStoryCommand.processId()));
-        }
+        assertThat("command id isn't equal ", command.get().id().equals(createStoryCommand.id()));
+        assertThat("command name isn't equal ", command.get().toPrimitives().get("name").equals(createStoryCommand.name()));
+        assertThat("command processId isn't equal ", command.get().toPrimitives().get("processId").equals(createStoryCommand.processId()));
 
     }
 
