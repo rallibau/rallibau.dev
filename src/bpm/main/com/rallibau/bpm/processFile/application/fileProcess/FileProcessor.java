@@ -30,7 +30,8 @@ public class FileProcessor {
 
     public void persist(List<BpmModel> bpmModels) {
         bpmModels.forEach(bpmModel -> commandBus.dispatch(new CreateProcessCommand(bpmModel.process().id().value(),
-                bpmModel.process().name().value(), bpmModel.process().nodes().stream().map(NodeId::value).collect(Collectors.toList()))));
+                bpmModel.process().name().value(),
+                bpmModel.process().nodes().stream().map(NodeId::value).collect(Collectors.toList()))));
 
         bpmModels.forEach(bpmModel -> bpmModel.nodes().forEach(node -> commandBus.dispatch(new CreateNodeCommand(node.id().value(),
                 node.name().value(),
