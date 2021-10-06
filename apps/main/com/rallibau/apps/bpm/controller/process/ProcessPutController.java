@@ -32,7 +32,7 @@ public class ProcessPutController extends ApiController {
     }
 
     @Override
-    public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
-        return null;
+    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
+        return new HashMap<>();
     }
 }

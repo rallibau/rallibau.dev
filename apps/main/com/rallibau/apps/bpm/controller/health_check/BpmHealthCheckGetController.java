@@ -1,6 +1,5 @@
 package com.rallibau.apps.bpm.controller.health_check;
 
-import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.query.QueryBus;
 import com.rallibau.shared.infraestructure.spring.ApiController;
@@ -26,7 +25,7 @@ public class BpmHealthCheckGetController extends ApiController {
     }
 
     @Override
-    public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
+    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
         return null;
     }
 }

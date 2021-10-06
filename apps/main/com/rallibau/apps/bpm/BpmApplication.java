@@ -11,7 +11,7 @@ import java.util.HashMap;
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
 @ComponentScan(
         includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class),
-        value = {"com.rallibau.apps.config","com.rallibau.apps.aspect","com.rallibau.shared", "com.rallibau.bpm", "com.rallibau.apps.bpm"}
+        value = {"com.rallibau.apps.commons","com.rallibau.shared", "com.rallibau.bpm", "com.rallibau.apps.bpm"}
 )
 public class BpmApplication {
 

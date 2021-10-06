@@ -1,4 +1,4 @@
-package com.rallibau.apps.aspect;
+package com.rallibau.apps.commons.aspect;
 
 import com.rallibau.shared.domain.MonitoringMessage;
 import org.apache.logging.log4j.LogManager;

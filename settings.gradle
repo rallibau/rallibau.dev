@@ -10,3 +10,6 @@ project(':bpm').projectDir = new File('src/bpm')
 
 include ':schedule'
 project(':schedule').projectDir = new File('src/schedule')
+
+include ':acl'
+project(':acl').projectDir = new File('src/acl')
