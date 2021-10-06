@@ -1,4 +1,4 @@
-package com.rallibau.apps.config;
+package com.rallibau.apps.commons.config;
 
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.event.EventBus;
@@ -51,6 +51,7 @@ public class Apponfig {
             }
         };
     }
+
 
     @Bean
     public EventBus eventBus() {

@@ -1,5 +1,6 @@
 package com.rallibau.apps;
 
+import com.rallibau.apps.acl.AclApplication;
 import com.rallibau.apps.bpm.BpmApplication;
 import com.rallibau.apps.monolit.MonolitApplication;
 import com.rallibau.apps.schedule.ScheduleApplication;
@@ -73,6 +74,7 @@ public class Starter {
         HashMap<String, Class<?>> applications = new HashMap<>();
 
         applications.put("monolit", MonolitApplication.class);
+        applications.put("acl", AclApplication.class);
         applications.put("bpm", BpmApplication.class);
         applications.put("scheduler", ScheduleApplication.class);
 
@@ -83,6 +85,7 @@ public class Starter {
         HashMap<String, HashMap<String, Class<?>>> commands = new HashMap<>();
 
         commands.put("bpm", BpmApplication.commands());
+        commands.put("acl", AclApplication.commands());
         commands.put("scheduler", ScheduleApplication.commands());
         commands.put("monolit", MonolitApplication.commands());
         return commands;

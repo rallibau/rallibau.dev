@@ -50,8 +50,8 @@ public class StoryGetController extends ApiController {
     }
 
     @Override
-    public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
-        return new HashMap<Class<? extends DomainError>, HttpStatus>() {{
+    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
+        return new HashMap<Class<? extends RuntimeException>, HttpStatus>() {{
             put(StoryNotExist.class, HttpStatus.NOT_FOUND);
         }};
     }

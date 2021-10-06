@@ -1,4 +1,4 @@
-package com.rallibau.apps.config;
+package com.rallibau.apps.commons.config;
 
 
 import com.rallibau.shared.domain.Service;

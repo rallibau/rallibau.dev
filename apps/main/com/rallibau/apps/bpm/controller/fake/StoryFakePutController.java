@@ -1,13 +1,11 @@
 package com.rallibau.apps.bpm.controller.fake;
 
 import com.rallibau.schedule.story.application.create.CreateStoryCommand;
-import com.rallibau.schedule.story.application.create.StoryCreator;
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
 import com.rallibau.shared.infraestructure.spring.ApiController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +34,7 @@ public class StoryFakePutController extends ApiController {
     }
 
     @Override
-    public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
+    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
         return null;
     }
 }

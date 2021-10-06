@@ -5,6 +5,7 @@ import com.rallibau.shared.domain.AggregateRoot;
 import java.util.Objects;
 
 public final class Node extends AggregateRoot {
+
     private final NodeId id;
     private final NodeName name;
     private final NodeType nodeType;

@@ -26,7 +26,7 @@ public class SchedulerHealthCheckGetController extends ApiController {
     }
 
     @Override
-    public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
+    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
         return null;
     }
 }

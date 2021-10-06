@@ -57,7 +57,8 @@ public final class ApiExceptionMiddleware implements Filter {
             ApiController possibleController,
             NestedServletException exception
     ) throws IOException {
-        HashMap<Class<? extends DomainError>, HttpStatus> errorMapping = possibleController
+        exception.printStackTrace();
+        HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping = possibleController
                 .errorMapping();
         Throwable error = (
                 exception.getCause() instanceof CommandHandlerExecutionError ||
@@ -89,7 +90,7 @@ public final class ApiExceptionMiddleware implements Filter {
         return Utils.toSnake(error.getClass().toString());
     }
 
-    private int statusFor(HashMap<Class<? extends DomainError>, HttpStatus> errorMapping, Throwable error) {
+    private int statusFor(HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping, Throwable error) {
         return errorMapping.getOrDefault(error.getClass(), HttpStatus.INTERNAL_SERVER_ERROR).value();
     }
 }
