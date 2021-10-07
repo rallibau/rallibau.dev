@@ -1,7 +1,7 @@
 package com.rallibau.acl.user.domain;
 
 import com.rallibau.shared.domain.StringValueObject;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserPassword extends StringValueObject {
     private UserPassword(String password) {
@@ -12,7 +12,7 @@ public class UserPassword extends StringValueObject {
         super("");
     }
 
-    public static UserPassword create(BCryptPasswordEncoder bCryptPasswordEncoder,String password) {
-        return new UserPassword(bCryptPasswordEncoder.encode(password));
+    public static UserPassword create(PasswordEncoder passwordEncoder, String password) {
+        return new UserPassword(passwordEncoder.encode(password));
     }
 }

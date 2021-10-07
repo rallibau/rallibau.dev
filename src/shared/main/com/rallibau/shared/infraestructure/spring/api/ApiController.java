@@ -1,4 +1,4 @@
-package com.rallibau.shared.infraestructure.spring;
+package com.rallibau.shared.infraestructure.spring.api;
 
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.Command;

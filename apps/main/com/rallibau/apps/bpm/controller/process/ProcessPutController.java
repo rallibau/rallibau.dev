@@ -1,11 +1,10 @@
 package com.rallibau.apps.bpm.controller.process;
 
 import com.rallibau.bpm.process.application.create.CreateProcessCommand;
-import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
-import com.rallibau.shared.infraestructure.spring.ApiController;
+import com.rallibau.shared.infraestructure.spring.api.ApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

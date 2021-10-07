@@ -8,10 +8,10 @@ import com.rallibau.acl.user.domain.UserPassword;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
-import com.rallibau.shared.infraestructure.spring.ApiController;
+import com.rallibau.shared.infraestructure.spring.api.ApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,12 +22,13 @@ import java.util.HashMap;
 public class UserPutController extends ApiController {
 
     private final UserCreator userCreator;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserPutController(QueryBus queryBus, CommandBus commandBus, UserCreator userCreator, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserPutController(QueryBus queryBus, CommandBus commandBus, UserCreator userCreator,
+                             PasswordEncoder passwordEncoder) {
         super(queryBus, commandBus);
         this.userCreator = userCreator;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PutMapping(value = "/user/{id}")
@@ -38,7 +39,7 @@ public class UserPutController extends ApiController {
         userCreator.create(User.create(
                 UserId.create(id),
                 UserName.create("rallibau"),
-                UserPassword.create(bCryptPasswordEncoder, "pamesa")));
+                UserPassword.create(passwordEncoder, "pamesa")));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -1,9 +1,8 @@
 package com.rallibau.apps.schedule.controller.health_check;
 
-import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.query.QueryBus;
-import com.rallibau.shared.infraestructure.spring.ApiController;
+import com.rallibau.shared.infraestructure.spring.api.ApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,7 +1,7 @@
 package com.rallibau.acl.user.domain;
 
 import com.rallibau.shared.domain.WordMother;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -14,10 +14,10 @@ public class UserPasswordMother {
         return UserPasswordMother.create(WordMother.random());
     }
 
-    private static UserPassword create(String passsword) {
-        BCryptPasswordEncoder bCryptPasswordEncoder =  mock(BCryptPasswordEncoder.class);
-        when(bCryptPasswordEncoder.encode(anyString())).thenReturn(PASSWORD_ENCRYPTED);
-        return UserPassword.create(bCryptPasswordEncoder,passsword);
+    private static UserPassword create(String password) {
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
+        when(passwordEncoder.encode(anyString())).thenReturn(PASSWORD_ENCRYPTED);
+        return UserPassword.create(passwordEncoder, password);
     }
 }
 

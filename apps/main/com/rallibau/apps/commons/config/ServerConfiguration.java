@@ -1,7 +1,7 @@
 package com.rallibau.apps.commons.config;
 
 
-import com.rallibau.shared.infraestructure.spring.ApiExceptionMiddleware;
+import com.rallibau.shared.infraestructure.spring.api.ApiExceptionMiddleware;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
