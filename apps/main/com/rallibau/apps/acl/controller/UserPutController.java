@@ -35,10 +35,10 @@ public class UserPutController extends ApiController {
             @PathVariable String id
     ) throws CommandHandlerExecutionError {
 
-        userCreator.create(User.create(bCryptPasswordEncoder,
+        userCreator.create(User.create(
                 UserId.create(id),
                 UserName.create("rallibau"),
-                UserPassword.create("pamesa")));
+                UserPassword.create(bCryptPasswordEncoder, "pamesa")));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
