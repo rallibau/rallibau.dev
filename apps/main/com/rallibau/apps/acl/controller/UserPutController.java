@@ -8,7 +8,7 @@ import com.rallibau.acl.user.domain.UserPassword;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
-import com.rallibau.shared.domain.spring.security.PasswordEncoderFactory;
+import com.rallibau.shared.domain.spring.security.PasswordEncoder;
 import com.rallibau.shared.infraestructure.spring.api.ApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +22,13 @@ import java.util.HashMap;
 public class UserPutController extends ApiController {
 
     private final UserCreator userCreator;
-    private final PasswordEncoderFactory passwordEncoderFactory;
+    private final PasswordEncoder passwordEncoder;
 
     public UserPutController(QueryBus queryBus, CommandBus commandBus, UserCreator userCreator,
-                             PasswordEncoderFactory passwordEncoderFactory) {
+                             PasswordEncoder passwordEncoder) {
         super(queryBus, commandBus);
         this.userCreator = userCreator;
-        this.passwordEncoderFactory = passwordEncoderFactory;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
@@ -40,7 +40,7 @@ public class UserPutController extends ApiController {
         userCreator.create(User.create(
                 UserId.create(id),
                 UserName.create("rallibau"),
-                UserPassword.create(passwordEncoderFactory, "pamesa")));
+                UserPassword.create(passwordEncoder, "pamesa")));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
