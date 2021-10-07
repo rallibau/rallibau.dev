@@ -2,7 +2,7 @@ package com.rallibau.apps.commons.config;
 
 import com.rallibau.apps.commons.entryPoint.JwtAuthenticationEntryPoint;
 import com.rallibau.apps.commons.filters.JwtRequestFilter;
-import com.rallibau.shared.domain.spring.security.PasswordEncoderFactory;
+import com.rallibau.shared.domain.spring.security.PasswordEncoder;
 import com.rallibau.shared.infraestructure.spring.security.PasswordEncoderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,11 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // configure AuthenticationManager so that it knows from where to load
         // user for matching credentials
         // Use BCryptPasswordEncoder
-        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder().instance());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        passwordEncoder(encoder);
+        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(encoder);
     }
 
     @Bean
-    public PasswordEncoderFactory passwordEncoder() {
+    public PasswordEncoder passwordEncoder(org.springframework.security.crypto.password.PasswordEncoder encoder) {
         return new PasswordEncoderImpl(new BCryptPasswordEncoder());
     }
 
