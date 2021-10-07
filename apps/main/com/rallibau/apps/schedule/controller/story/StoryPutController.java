@@ -2,11 +2,10 @@ package com.rallibau.apps.schedule.controller.story;
 
 import com.rallibau.schedule.story.application.create.CreateStoryCommand;
 import com.rallibau.schedule.story.application.create.StoryCreator;
-import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
-import com.rallibau.shared.infraestructure.spring.ApiController;
+import com.rallibau.shared.infraestructure.spring.api.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
