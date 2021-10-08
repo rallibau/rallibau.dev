@@ -1,6 +1,6 @@
 package com.rallibau.apps.commons.filters;
 
-import com.rallibau.acl.token.application.UserFinder;
+import com.rallibau.acl.token.application.UserDetailsFinder;
 import com.rallibau.acl.token.domain.TokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
 
-    private final UserFinder userFinder;
+    private final UserDetailsFinder userDetailsFinder;
 
     @Value("${acl.anonymous}")
     private String anonymous;
@@ -29,8 +29,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final TokenUtil tokenUtil;
 
-    public JwtRequestFilter(UserFinder userFinder, TokenUtil tokenUtil) {
-        this.userFinder = userFinder;
+    public JwtRequestFilter(UserDetailsFinder userDetailsFinder, TokenUtil tokenUtil) {
+        this.userDetailsFinder = userDetailsFinder;
         this.tokenUtil = tokenUtil;
     }
 
@@ -73,7 +73,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.userFinder.loadUserByUsername(username);
+            UserDetails userDetails = this.userDetailsFinder.loadUserByUsername(username);
 
             // if token is valid configure Spring Security to manually set
             // authentication
