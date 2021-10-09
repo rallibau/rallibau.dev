@@ -4,7 +4,6 @@ import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.Utils;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryHandlerExecutionError;
-import com.rallibau.shared.infraestructure.spring.api.ApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Optional;
 
 public final class ApiExceptionMiddleware implements Filter {
     private RequestMappingHandlerMapping mapping;
@@ -35,16 +35,22 @@ public final class ApiExceptionMiddleware implements Filter {
         HttpServletResponse httpResponse = ((HttpServletResponse) response);
 
         try {
-            Object possibleController = (
-                    (HandlerMethod) Objects.requireNonNull(
-                            mapping.getHandler(httpRequest)).getHandler()
-            ).getBean();
+            Optional<Object> possibleController = Optional.empty();
+            if (Objects.requireNonNull(
+                    mapping.getHandler(httpRequest)).getHandler() instanceof HandlerMethod) {
+                possibleController = Optional.of((
+                        (HandlerMethod) Objects.requireNonNull(
+                                mapping.getHandler(httpRequest)).getHandler()
+                ).getBean());
+            }
+
 
             try {
                 chain.doFilter(request, response);
             } catch (NestedServletException exception) {
-                if (possibleController instanceof ApiController) {
-                    handleCustomError(response, httpResponse, (ApiController) possibleController, exception);
+                if (possibleController.isPresent() && possibleController.get() instanceof ApiController) {
+                    handleCustomError(response,
+                            httpResponse, (ApiController) possibleController.get(), exception);
                 }
             }
         } catch (Exception e) {
