@@ -50,7 +50,12 @@ public class AuthenticationController extends ApiController {
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody TokenRequest authenticationRequest) throws Exception {
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        try {
+            authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        } catch (BadCredentialsException badCredentialsException) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
 
         final UserDetails userDetails = userDetailsFinder
                 .loadUserByUsername(authenticationRequest.getUsername());
@@ -61,7 +66,8 @@ public class AuthenticationController extends ApiController {
         if (token != null && !token.isEmpty()) {
             return ResponseEntity.ok(new TokenResponse(token));
         } else {
-            throw new BadCredentialsException("user or password are bad");
+            //throw new BadCredentialsException("user or password are bad");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
 

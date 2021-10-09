@@ -39,7 +39,7 @@ public class UserPutController extends ApiController {
 
         userCreator.create(User.create(
                 UserId.create(id),
-                UserName.create("rallibau"),
+                UserName.create("rallibau@gmail.com"),
                 UserPassword.create(passwordEncoder, "pamesa")));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
