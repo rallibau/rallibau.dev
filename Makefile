@@ -27,6 +27,8 @@ start-scheduler:
 	@./gradlew :run --args="scheduler server"
 start-acl:
 	@./gradlew :run --args="acl server"
+start-cms:
+	@./gradlew :run --args="cms server"
 
 start-bpm-compose:
 	@./gradlew build --warning-mode all && docker-compose up -d --build bpm

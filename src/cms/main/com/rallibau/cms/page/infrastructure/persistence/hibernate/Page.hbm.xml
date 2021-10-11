@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.rallibau.cms.page.domain.Page" table="page">
+        <composite-id name="id" class="com.rallibau.cms.page.domain.PageId" access="field">
+            <key-property column="id" name="value" length="36" access="field" />
+        </composite-id>
+
+        <component name="pageTitle" class="com.rallibau.cms.page.domain.PageTitle" access="field">
+            <property name="value" column="page_title" type="string" access="field" />
+        </component>
+
+        <component name="pageBody" class="com.rallibau.cms.page.domain.PageBody" access="field">
+            <property name="value" column="page_body" type="string" access="field" />
+        </component>
+    </class>
+</hibernate-mapping>

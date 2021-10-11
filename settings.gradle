@@ -13,3 +13,6 @@ project(':schedule').projectDir = new File('src/schedule')
 
 include ':acl'
 project(':acl').projectDir = new File('src/acl')
+
+include ':cms'
+project(':cms').projectDir = new File('src/cms')

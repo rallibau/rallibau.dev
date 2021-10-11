@@ -10,6 +10,7 @@ import {
   Route
 } from "react-router-dom";
 import AlertComponent from './components/AlertComponent/AlertComponent';
+import News from './components/News/News';
 import PrivateRoute from './utils/PrivateRoute';
 
 
@@ -23,7 +24,7 @@ function App() {
           <div className="container d-flex align-items-center flex-column">
             <Switch>
               <Route path="/" exact={true}>
-               <Home/>
+               <News/>
               </Route>
               <Route path="/register">
                 <RegistrationForm showError={updateErrorMessage} updateTitle={updateTitle}/>
