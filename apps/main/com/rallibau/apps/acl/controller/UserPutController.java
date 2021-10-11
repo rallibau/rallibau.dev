@@ -1,10 +1,8 @@
 package com.rallibau.apps.acl.controller;
 
+import com.rallibau.acl.token.domain.TokenRequest;
 import com.rallibau.acl.user.application.create.UserCreator;
-import com.rallibau.acl.user.domain.User;
-import com.rallibau.acl.user.domain.UserId;
-import com.rallibau.acl.user.domain.UserName;
-import com.rallibau.acl.user.domain.UserPassword;
+import com.rallibau.acl.user.domain.*;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
@@ -14,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -34,13 +33,14 @@ public class UserPutController extends ApiController {
 
     @PutMapping(value = "/user/{id}")
     public ResponseEntity<String> index(
-            @PathVariable String id
+            @PathVariable String id,
+            @RequestBody UserRequest userRequest
     ) throws CommandHandlerExecutionError {
 
         userCreator.create(User.create(
                 UserId.create(id),
-                UserName.create("rallibau@gmail.com"),
-                UserPassword.create(passwordEncoder, "pamesa")));
+                UserName.create(userRequest.getEmail()),
+                UserPassword.create(passwordEncoder, userRequest.getPassword())));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
