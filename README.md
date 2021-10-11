@@ -22,3 +22,5 @@ https://github.com/facebook/create-react-app
 https://es.reactjs.org/docs/getting-started.html
 https://dev.to/surajondev/4-best-ui-framework-for-reactjs-c20
 https://medium.com/technoetics/create-basic-login-forms-using-react-js-hooks-and-bootstrap-2ae36c15e551
+
+https://earthly.dev/blog/monorepo-with-bazel/

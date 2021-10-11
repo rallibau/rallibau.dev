@@ -44,7 +44,7 @@ function LoginForm(props) {
             })
             .catch(function (error) {
                 console.log(error);
-                if(error.response.status === 401){
+                if(error.response != undefined && error.response.status === 401){
                     props.showError("Username and password do not match");
                 }else{
                     props.showError("error: "+ error.message);

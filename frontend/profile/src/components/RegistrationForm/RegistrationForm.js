@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import uuid from 'react-uuid'
 import axios from 'axios';
 import './RegistrationForm.css';
 import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiConstants';
@@ -25,7 +26,7 @@ function RegistrationForm(props) {
                 "email":state.email,
                 "password":state.password,
             }
-            axios.put(API_BASE_URL+'/user/9c199525-7f88-4ca7-b982-3f91f087d482', payload)
+            axios.put(API_BASE_URL+'/user/'+uuid(), payload)
                 .then(function (response) {
                     if(response.status === 201){
                         setState(prevState => ({
