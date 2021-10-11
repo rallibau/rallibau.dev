@@ -51,6 +51,7 @@ services:
       echo 'CREATE DATABASE IF NOT EXISTS bpm;' > /docker-entrypoint-initdb.d/init.sql;
       echo 'CREATE DATABASE IF NOT EXISTS schedule;' > /docker-entrypoint-initdb.d/init.sql;
       echo 'CREATE DATABASE IF NOT EXISTS acl;' > /docker-entrypoint-initdb.d/init.sql;
+      echo 'CREATE DATABASE IF NOT EXISTS cms;' > /docker-entrypoint-initdb.d/init.sql;
       /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
       "
     command: [ "--default-authentication-plugin=mysql_native_password" ]
