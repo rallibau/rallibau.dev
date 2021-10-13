@@ -11,7 +11,7 @@ function Header(props) {
         title = 'Welcome';
     }
     function renderLogout() {
-        if(props.location.pathname != '/login'){
+        if(props.location.pathname !== '/login'){
             if(localStorage.getItem(ACCESS_TOKEN_NAME)){
                 return(
                     <div className="ml-auto">
