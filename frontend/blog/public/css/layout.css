@@ -229,6 +229,59 @@ ul#nav li.current a { color: #F06000; }
    margin-right: 15px;
    font-size: 20px;
 }
+/* ------------------------------------------------------------------ */
+/* c. blog_left_bar Section
+/* ------------------------------------------------------------------ */
+
+#blog_left_bar {
+   padding-top: 2px;
+   padding-bottom: 66px;
+   overflow: hidden;
+}
+
+#blog_left_bar a, #blog_left_bar a:visited  {
+     font: 22px/30px 'opensans-bold', sans-serif;
+     color: #2B2B2B;
+     width: 100%;
+}
+#blog_left_bar a:hover, #blog_left_bar a:focus {
+    font: 22px/30px 'opensans-bold', sans-serif;
+    color: #2B2B2B;
+    width: 100%;
+}
+
+#blog_left_bar h2 {
+   font: 22px/30px 'opensans-bold', sans-serif;
+   margin-bottom: 12px;
+}
+#blog_left_bar p {
+   line-height: 30px;
+   color: #7A7A7A;
+}
+#blog_left_bar .profile-pic {
+   position: relative;
+   width: 120px;
+   height: 120px;
+   border-radius: 100%;
+}
+#blog_left_bar .contact-details { width: 41.66667%; }
+#blog_left_bar .download {
+   width: 58.33333%;
+   padding-top: 6px;
+}
+#blog_left_bar .main-col { padding-right: 5%; }
+#blog_left_bar .download .button {
+   margin-top: 6px;
+   background: #444;
+}
+#blog_left_bar .download .button:hover {
+   background: #fff;
+   color: #2B2B2B;
+}
+#blog_left_bar .download .button i {
+   margin-right: 15px;
+   font-size: 20px;
+}
 
 
 /* ------------------------------------------------------------------ */
@@ -931,6 +984,7 @@ footer {
    font-size: 14px;
    text-align: center;
    position: relative;
+   border-top: 1px solid;
 }
 
 footer a, footer a:visited { color: #525252; }

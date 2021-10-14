@@ -3,6 +3,7 @@ import Post from './Post';
 import styled from 'styled-components';
 import { getPosts } from '../../utils/api';
 import resumeData from '../../resumeData';
+import VerticalBar from '../../components/VerticalBar/VerticalBar';
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
@@ -46,25 +47,7 @@ render() {
     return (
       <Container className="row">
         <div className="three columns align-left">
-            <img className="profile-pic"  src="images/rlb.webp" alt="" />
-            <h2 >{resumeData.name}</h2>
-            <p>
-            {
-                resumeData.aboutme
-            }
-            </p>
-            <p className="align-center">
-            {
-                resumeData.socialLinks && resumeData.socialLinks.map((item)=>{
-                return(
-                        <a href={item.url} className="linkGrey">
-                          <i className={item.className} />
-                        </a>
-                    )
-                })
-            }
-            </p>
-
+            <VerticalBar resumeData={resumeData}/>
         </div>
         <div className="nine columns main-col">
             {loading ? 'loading...' : this.renderPosts()}

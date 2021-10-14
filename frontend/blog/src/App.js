@@ -42,9 +42,9 @@ function App() {
               <Route path="/login">
                  <LoginForm showError={updateErrorMessage} updateTitle={updateTitle}/>
               </Route>
-              <PrivateRoute path="/home">
+              <Route path="/home">
                 <Home/>
-              </PrivateRoute>
+              </Route>
             </Switch>
             <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>
           </div>

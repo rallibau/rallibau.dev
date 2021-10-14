@@ -2,6 +2,7 @@ import React,{ useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../../constants/apiConstants';
 import About from '../../components/about/about';
+import Portfolio from '../../components/portfolio/portfolio';
 import Resume from '../../components/resume/resume';
 import ContactUs from '../../components/contactus/contactus';
 import resumeData from '../../resumeData';
@@ -13,12 +14,12 @@ function Home(props) {
         .then(function (response) {
              console.log(response.status)
             if(response.status !== 200){
-              redirectToLogin()
+             // redirectToLogin()
             }
         })
         .catch(function (error) {
           console.log("error...")
-          redirectToLogin()
+          //redirectToLogin()
         });
       })
     function redirectToLogin() {
@@ -27,9 +28,9 @@ function Home(props) {
     }
     return(
         <div className="mt-2">
+             <Portfolio resumeData={resumeData}/>
              <About resumeData={resumeData}/>
              <Resume resumeData={resumeData}/>
-             <ContactUs resumeData={resumeData}/>
         </div>
     )
 }

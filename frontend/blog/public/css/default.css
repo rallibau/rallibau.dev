@@ -540,7 +540,7 @@ select {
    border: 0;
    outline: none;
    vertical-align: middle;
-   min-width: 225px;
+   min-width: 100%;
 	max-width: 100%;
    font-size: 15px;
    line-height: 24px;
@@ -807,7 +807,7 @@ properly.
 	text-align: left !important;
 }
 .toolBarBlack {
-    background-color: black;
+    background-color: #2B2B2B;
 }
 
 .linkGrey{
