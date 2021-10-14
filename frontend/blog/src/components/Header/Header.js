@@ -11,21 +11,20 @@ function Header(props) {
         title = 'Welcome';
     }
     function renderLogout() {
-        if(props.location.pathname !== '/login'){
             if(localStorage.getItem(ACCESS_TOKEN_NAME)){
                 return(
-                    <div className="ml-auto">
-                        <button className="btn btn-danger" onClick={() => handleLogout()}>Logout</button>
-                    </div>
+                    <li>
+                        <a className="" onClick={() => handleLogout()}>Logout</a>
+                    </li>
                 )
             }else{
                 return(
-                    <div className="ml-auto">
-                        <button className="btn btn-info" onClick={() => props.history.push('/login')}>Login</button>
-                    </div>
+                    <li>
+                        <a className="" href="/login">Login</a>
+                    </li>
                  )
             }
-        }
+
     }
     function handleLogout() {
         localStorage.removeItem(ACCESS_TOKEN_NAME)
@@ -33,14 +32,16 @@ function Header(props) {
     }
      if(props.location.pathname === '/' || props.location.pathname === '/home'){
             return(
-            <header id="home">
+                <header id="home">
                      <nav id="nav-wrap">
                                      <a className="mobile-btn" href="#nav-wrap" title="Show navigation">Show navigation</a>
                                      <a className="mobile-btn" href="#" title="Hide navigation">Hide navigation</a>
                                      <ul id="nav" className="nav">
                                          <li className="current"><a className="" href="/">Home</a></li>
                                          <li><a className="" href="/blog">Blog</a></li>
-                                         <li><a className="" href="/login">Login</a></li>
+                                         {
+                                            renderLogout()
+                                         }
                                      </ul>
                                  </nav>
 
@@ -61,7 +62,7 @@ function Header(props) {
                         <a className="smoothscroll" href="#about"><i className="icon-down-circle"></i></a>
                      </p>
 
-                  </header>
+                </header>
 
             )
     }else{
@@ -70,9 +71,11 @@ function Header(props) {
                 <a className="mobile-btn" href="#nav-wrap" title="Show navigation">Show navigation</a>
                 <a className="mobile-btn" href="#" title="Hide navigation">Hide navigation</a>
                 <ul id="nav" className="nav">
-                    <li className="current"><a className="" href="/">Home</a></li>
+                    <li className="current"><a className="" href="/home">Home</a></li>
                     <li><a className="" href="/blog">Blog</a></li>
-                    <li><a className="" href="/login">Login</a></li>
+                    {
+                        renderLogout()
+                    }
                 </ul>
             </nav>
         )

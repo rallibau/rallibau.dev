@@ -6,6 +6,8 @@ import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiConstants';
 import { withRouter } from "react-router-dom";
 
 import styled from 'styled-components';
+import resumeData from '../../resumeData';
+import VerticalBar from '../../components/VerticalBar/VerticalBar';
 
 const Container = styled.div`
   display: flex;
@@ -76,7 +78,10 @@ function RegistrationForm(props) {
     }
     return(
     <Container className="row">
-        <div className="twelve columns main-col">
+         <div className="three columns align-left">
+            <VerticalBar resumeData={resumeData}/>
+         </div>
+         <div className="nine columns main-col">
             <form>
                 <div className="form-group text-left">
                 <label htmlFor="exampleInputEmail1">Email address</label>
