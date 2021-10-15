@@ -6,6 +6,10 @@ export function getPosts() {
   return axios.get(API_BASE_URL+'/page', { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN_NAME) }});
 }
 
+export function getPost(id) {
+  return axios.get(API_BASE_URL+'/page/'+id, { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN_NAME) }});
+}
+
 export function postPost({ title, body }) {
   return axios({
     method: 'put',

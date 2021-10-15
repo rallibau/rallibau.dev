@@ -4,6 +4,18 @@ import TextArea from '../Form/TextArea';
 import Button from   '../Form/Button';
 import Form from     '../Form/Form';
 import { postPost } from '../../utils/api';
+import styled from 'styled-components';
+import resumeData from '../../resumeData';
+import VerticalBar from '../../components/VerticalBar/VerticalBar';
+
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 50px;
+`;
 
 class PostForm extends Component {
   constructor(props) {
@@ -29,7 +41,9 @@ class PostForm extends Component {
     e.preventDefault();
 
     postPost(this.state)
-      .then((res) => console.log(res))
+      .then((res) =>
+        console.log(res)
+      )
       .catch((err) => console.log(err));
   }
 
@@ -37,21 +51,29 @@ class PostForm extends Component {
     const { title, body } = this.state;
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Input
-          name="title"
-          onChange={this.handleChange}
-          placeholder="title"
-          value={title}
-        />
-        <TextArea
-          name="body"
-          onChange={this.handleChange}
-          placeholder="body"
-          value={body}
-        />
-        <Button>Submit</Button>
-      </Form>
+        <Container className="row">
+            <div className="three columns align-left">
+                <VerticalBar resumeData={resumeData}/>
+            </div>
+            <div className="nine columns main-col">
+                <Form onSubmit={this.handleSubmit}>
+                        <Input
+                          name="title"
+                          onChange={this.handleChange}
+                          placeholder="title"
+                          value={title}
+                        />
+                        <TextArea
+                          name="body"
+                          onChange={this.handleChange}
+                          placeholder="body"
+                          value={body}
+                        />
+                        <Button>Submit</Button>
+                      </Form>
+            </div>
+          </Container>
+
     );
   }
 }
