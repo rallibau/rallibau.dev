@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import AlertComponent from './components/AlertComponent/AlertComponent';
 import Posts from './components/Posts/Posts';
+import PostDetail from './components/Posts/PostDetail';
 import PostForm from './components/Posts/PostForm';
 import Footer from './components/footer/footer';
 import PrivateRoute from './utils/PrivateRoute';
@@ -32,6 +33,9 @@ function App() {
               </Route>
               <Route path="/blog" exact={true}>
                <Posts/>
+              </Route>
+              <Route path="/blog/:id" exact={true}>
+                <PostDetail/>
               </Route>
               <Route path="/NewPost" exact={true}>
                 <PostForm/>

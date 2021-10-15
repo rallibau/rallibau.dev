@@ -11,7 +11,7 @@ const Container = styled.div`
   width: 100%;
   margin-top: 50px;
 `;
-class Posts extends Component {
+class PostDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,4 +59,4 @@ render() {
     );
   }
 }
-export default Posts;
+export default PostDetail;
