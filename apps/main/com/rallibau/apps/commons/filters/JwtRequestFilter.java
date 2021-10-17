@@ -2,6 +2,7 @@ package com.rallibau.apps.commons.filters;
 
 import com.rallibau.shared.domain.authentication.TokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -94,6 +95,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             logger.warn("Unable to get JWT Token");
         } catch (ExpiredJwtException e) {
             logger.warn("JWT Token has expired");
+        } catch(SignatureException e){
+            logger.warn("JWT bad signature");
+        } catch(Exception e){
+            logger.warn("JWT unexpected error",e);
         }
         return userName;
     }

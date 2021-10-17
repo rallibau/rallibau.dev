@@ -1,7 +1,6 @@
 package com.rallibau.shared.infraestructure.authentication.jwt;
 
 import com.rallibau.shared.domain.authentication.TokenUtil;
-import com.rallibau.shared.domain.authentication.UserDetailResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -24,12 +23,10 @@ public class JwtTokenUtil implements TokenUtil {
     @Value("${jwt.secret}")
     private String secret;
 
-    //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-    //retrieve expiration date from jwt token
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -39,21 +36,18 @@ public class JwtTokenUtil implements TokenUtil {
         return claimsResolver.apply(claims);
     }
 
-    //for retrieveing any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
-    //check if the token has expired
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
-    //generate token for user
-    public String generateToken(UserDetailResponse userDetails) {
+    public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.userName());
+        return doGenerateToken(claims, userName);
     }
 
     //while creating the token -
@@ -71,9 +65,8 @@ public class JwtTokenUtil implements TokenUtil {
                 .signWith(key).compact();
     }
 
-    //validate token
     public Boolean validateToken(String token) {
-        final String username = getUsernameFromToken(token);
+        getUsernameFromToken(token);
         return !isTokenExpired(token);
     }
 }

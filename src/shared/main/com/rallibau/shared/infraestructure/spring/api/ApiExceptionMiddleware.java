@@ -5,6 +5,7 @@ import com.rallibau.shared.domain.Utils;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryHandlerExecutionError;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.NestedServletException;
@@ -67,6 +68,7 @@ public final class ApiExceptionMiddleware implements Filter {
         exception.printStackTrace();
         HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping = possibleController
                 .errorMapping();
+        errorMapping.put(BadCredentialsException.class, HttpStatus.UNAUTHORIZED);
         Throwable error = (
                 exception.getCause() instanceof CommandHandlerExecutionError ||
                         exception.getCause() instanceof QueryHandlerExecutionError
@@ -92,6 +94,10 @@ public final class ApiExceptionMiddleware implements Filter {
     private String errorCodeFor(Throwable error) {
         if (error instanceof DomainError) {
             return ((DomainError) error).errorCode();
+        }
+
+        if (error instanceof BadCredentialsException) {
+            return "bad_credentials";
         }
 
         return Utils.toSnake(error.getClass().toString());
