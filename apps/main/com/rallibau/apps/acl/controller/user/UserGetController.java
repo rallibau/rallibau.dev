@@ -1,4 +1,4 @@
-package com.rallibau.apps.acl.controller;
+package com.rallibau.apps.acl.controller.user;
 
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.query.QueryBus;
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-public class MeController extends ApiController {
+public class UserGetController extends ApiController {
 
-    public MeController(QueryBus queryBus, CommandBus commandBus) {
+    public UserGetController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
 
-    @GetMapping(value = "/me")
+    @GetMapping(value = "/user")
     public ResponseEntity<String> index() {
         return new ResponseEntity<>(HttpStatus.OK);
     }

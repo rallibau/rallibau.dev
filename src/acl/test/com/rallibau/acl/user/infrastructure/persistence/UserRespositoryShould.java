@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -54,7 +55,13 @@ public class UserRespositoryShould {
                                         "contains",
                                         user.userName().value()))),
                 Order.asc("name"));
-        assertThat(Arrays.asList(user), containsInAnyOrder(repository.matching(criteria).toArray()));
+        assertThat(Collections.singletonList(user), containsInAnyOrder(repository.matching(criteria).toArray()));
+    }
 
+    @Test
+    public void search_by_test(){
+        User user = UserMother.random();
+        repository.save(user);
+        assertThat("obtnemos un usuario", repository.findByName(user.userName().value()).isPresent());
     }
 }

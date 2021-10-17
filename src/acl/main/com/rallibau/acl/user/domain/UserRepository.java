@@ -14,4 +14,6 @@ public interface UserRepository {
 
     List<User> matching(Criteria criteria);
 
+    Optional<User> findByName(String userName);
+
 }
