@@ -1,4 +1,4 @@
-package com.rallibau.apps.acl.controller;
+package com.rallibau.apps.acl.controller.user;
 
 import com.rallibau.acl.token.domain.TokenRequest;
 import com.rallibau.acl.user.application.create.UserCreator;

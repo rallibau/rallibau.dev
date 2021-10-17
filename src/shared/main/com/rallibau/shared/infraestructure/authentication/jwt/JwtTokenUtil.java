@@ -1,12 +1,12 @@
-package com.rallibau.acl.token.infrastructure.jwt;
+package com.rallibau.shared.infraestructure.authentication.jwt;
 
-import com.rallibau.acl.token.domain.TokenUtil;
+import com.rallibau.shared.domain.authentication.TokenUtil;
+import com.rallibau.shared.domain.authentication.UserDetailResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -51,9 +51,9 @@ public class JwtTokenUtil implements TokenUtil {
     }
 
     //generate token for user
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetailResponse userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, userDetails.userName());
     }
 
     //while creating the token -
@@ -72,8 +72,8 @@ public class JwtTokenUtil implements TokenUtil {
     }
 
     //validate token
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return !isTokenExpired(token);
     }
 }
