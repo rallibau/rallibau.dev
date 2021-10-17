@@ -3,6 +3,8 @@ package com.rallibau.apps.cms.controller.page;
 import com.rallibau.cms.page.application.find.PageFinder;
 import com.rallibau.cms.page.application.find.PageResponse;
 import com.rallibau.cms.page.domain.Page;
+import com.rallibau.shared.domain.authentication.HasPermission;
+import com.rallibau.shared.domain.authentication.Permission;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
@@ -37,6 +39,7 @@ public class PageGetController extends ApiController {
     }
 
     @GetMapping(value = "/page")
+    @HasPermission(value = Permission.READ, aggregate = Page.class)
     public ResponseEntity<?> all() throws CommandHandlerExecutionError {
         List<Page> pages = pageFinder.find();
         ArrayList<PageResponse> response = new ArrayList<>();

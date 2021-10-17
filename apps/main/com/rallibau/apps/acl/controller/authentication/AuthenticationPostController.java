@@ -43,7 +43,7 @@ public class AuthenticationPostController extends ApiController {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         UserDetailResponse userDetailResponse = ask(new UserQuery(authenticationRequest.getUsername()));
-        String token = tokenUtil.generateToken(userDetailResponse);
+        String token = tokenUtil.generateToken(userDetailResponse.userName());
         return ResponseEntity.ok(new TokenResponse(token));
     }
 

@@ -1,6 +1,8 @@
 package com.rallibau.cms.page.domain;
 
-public final class Page {
+import com.rallibau.shared.domain.AggregateRoot;
+
+public final class Page extends AggregateRoot {
 
     private final PageId id;
     private final PageTitle pageTitle;
