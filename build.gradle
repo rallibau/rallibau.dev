@@ -12,7 +12,7 @@ allprojects {
     }
 
     ext {
-        set('springCloudVersion', "Hoxton.M3")
+        set('springCloudVersion', "Hoxton.SR12")
     }
 
     ext {
@@ -103,7 +103,6 @@ subprojects {
     }
 
     dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-web:2.1.8.RELEASE'
 
         testImplementation rootProject.sourceSets.main.output
         testImplementation 'org.springframework.boot:spring-boot-starter-test:2.2.1.RELEASE'

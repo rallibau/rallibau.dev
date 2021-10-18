@@ -1,4 +1,4 @@
-package com.rallibau.shared.infraestructure.config;
+package com.rallibau.apps.commons.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Bean;

@@ -18,7 +18,8 @@ run:
 
 # Start the app
 #set enviroment: export env=local
-
+start-gateway:
+	@./gradlew :run --args="gateway server"
 start-monolit:
 	@./gradlew :run --args="monolit server"
 start-bpm:
