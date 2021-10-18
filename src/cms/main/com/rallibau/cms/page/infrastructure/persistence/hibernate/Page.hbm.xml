@@ -9,6 +9,10 @@
             <key-property column="id" name="value" length="36" access="field" />
         </composite-id>
 
+        <component name="pageIdUser" class="com.rallibau.cms.page.domain.PageIdUser" access="field">
+            <property name="value" column="page_id_user" type="string" access="field" />
+        </component>
+
         <component name="pageTitle" class="com.rallibau.cms.page.domain.PageTitle" access="field">
             <property name="value" column="page_title" type="string" access="field" />
         </component>
