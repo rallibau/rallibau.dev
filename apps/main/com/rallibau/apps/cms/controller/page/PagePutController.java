@@ -3,6 +3,7 @@ package com.rallibau.apps.cms.controller.page;
 import com.rallibau.cms.page.application.create.PageCreator;
 import com.rallibau.cms.page.application.create.PageRequest;
 import com.rallibau.cms.page.domain.*;
+import com.rallibau.shared.domain.authentication.SessionInfo;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
@@ -20,6 +21,9 @@ public class PagePutController extends ApiController {
     @Autowired
     private PageCreator pageCreator;
 
+    @Autowired
+    private SessionInfo sessionInfo;
+
     public PagePutController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
@@ -31,6 +35,7 @@ public class PagePutController extends ApiController {
 
     ) throws CommandHandlerExecutionError {
         pageCreator.create(Page.create(PageId.create(id),
+                PageIdUser.create(sessionInfo.logedUserId()),
                 PageTitle.create(pageRequest.getTitle()),
                 PageBody.create(pageRequest.getBody())));
         return new ResponseEntity<>(HttpStatus.CREATED);

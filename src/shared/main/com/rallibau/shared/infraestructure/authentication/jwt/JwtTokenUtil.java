@@ -20,11 +20,17 @@ public class JwtTokenUtil implements TokenUtil {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
+
     @Value("${jwt.secret}")
     private String secret;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    public String getUserIdFromToken(String token) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claims.get(TokenUtil.USER_ID,String.class);
     }
 
     public Date getExpirationDateFromToken(String token) {
@@ -45,8 +51,9 @@ public class JwtTokenUtil implements TokenUtil {
         return expiration.before(new Date());
     }
 
-    public String generateToken(String userName) {
+    public String generateToken(String userId,String userName) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put(USER_ID,userId);
         return doGenerateToken(claims, userName);
     }
 

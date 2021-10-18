@@ -24,7 +24,9 @@ public class UserQueryHandler implements QueryHandler<UserQuery, UserDetailRespo
         if (!user.isPresent()) {
             throw new UserNotExist(UserName.create(query.userName()));
         }
-        return new UserDetailResponse(user.get().userName().value(), user.get().userPassword().value());
+        return new UserDetailResponse(user.get().id().value(),
+                user.get().userName().value(),
+                user.get().userPassword().value());
 
     }
 }

@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,12 +18,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-
-    private final UserDetailsService userDetailsService;
 
     @Value("${acl.anonymous}")
     private String anonymous;
@@ -31,13 +31,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final TokenUtil tokenUtil;
 
-    public JwtRequestFilter(UserDetailsService userDetailsService, TokenUtil tokenUtil) {
-        this.userDetailsService = userDetailsService;
+    public JwtRequestFilter(TokenUtil tokenUtil) {
+
         this.tokenUtil = tokenUtil;
     }
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+    protected void doFilterInternal(@NotNull HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    @NotNull FilterChain chain)
             throws ServletException, IOException {
 
         if (isAnonymousAccessAllowed()) {
@@ -64,11 +66,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (tokenUtil.validateToken(jwtToken)) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+                UserDetails userDetails =  new User(userName, "", new ArrayList<>());
+                HashMap<String, String> credentials = new HashMap<>();
+                credentials.put(TokenUtil.USER_ID, getUserId(jwtToken));
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
-                                null,
+                                credentials,
                                 userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -95,12 +99,28 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             logger.warn("Unable to get JWT Token");
         } catch (ExpiredJwtException e) {
             logger.warn("JWT Token has expired");
-        } catch(SignatureException e){
+        } catch (SignatureException e) {
             logger.warn("JWT bad signature");
-        } catch(Exception e){
-            logger.warn("JWT unexpected error",e);
+        } catch (Exception e) {
+            logger.warn("JWT unexpected error", e);
         }
         return userName;
+    }
+
+    private String getUserId(String jwtToken) {
+        String userId = null;
+        try {
+            userId = tokenUtil.getUserIdFromToken(jwtToken);
+        } catch (IllegalArgumentException e) {
+            logger.warn("Unable to get JWT Token");
+        } catch (ExpiredJwtException e) {
+            logger.warn("JWT Token has expired");
+        } catch (SignatureException e) {
+            logger.warn("JWT bad signature");
+        } catch (Exception e) {
+            logger.warn("JWT unexpected error", e);
+        }
+        return userId;
     }
 
     private boolean haveGoodToken(String requestTokenHeader) {
