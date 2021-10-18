@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -47,10 +47,8 @@ public class UserFinderShould {
         Criteria criteria = new Criteria(new Filters(Arrays.asList(Filter.create("userName", "=", user.userName().value()))), Order.asc("userName"));
 
         when(userRepository.matching(criteria)).thenReturn(Arrays.asList(user));
-        assertThat(Arrays.asList(user), containsInAnyOrder(userFinder.findByCriteria(criteria).toArray()));
+        assertThat(Collections.singletonList(user), containsInAnyOrder(userFinder.findByCriteria(criteria).toArray()));
     }
-
-
 
 
 }

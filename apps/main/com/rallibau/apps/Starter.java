@@ -3,6 +3,7 @@ package com.rallibau.apps;
 import com.rallibau.apps.acl.AclApplication;
 import com.rallibau.apps.bpm.BpmApplication;
 import com.rallibau.apps.cms.CmsApplication;
+import com.rallibau.apps.gateway.GatewayApplication;
 import com.rallibau.apps.monolit.MonolitApplication;
 import com.rallibau.apps.schedule.ScheduleApplication;
 import com.rallibau.shared.infraestructure.cli.ConsoleCommand;
@@ -79,6 +80,7 @@ public class Starter {
         applications.put("bpm", BpmApplication.class);
         applications.put("scheduler", ScheduleApplication.class);
         applications.put("cms", CmsApplication.class);
+        applications.put("gateway", GatewayApplication.class);
 
         return applications;
     }
@@ -91,6 +93,7 @@ public class Starter {
         commands.put("scheduler", ScheduleApplication.commands());
         commands.put("monolit", MonolitApplication.commands());
         commands.put("cms", CmsApplication.commands());
+        commands.put("gateway", GatewayApplication.commands());
         return commands;
     }
 

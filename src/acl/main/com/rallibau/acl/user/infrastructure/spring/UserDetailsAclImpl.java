@@ -1,5 +1,6 @@
-package com.rallibau.acl.user.application.find;
+package com.rallibau.acl.user.infrastructure.spring;
 
+import com.rallibau.acl.user.application.find.UserFinder;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

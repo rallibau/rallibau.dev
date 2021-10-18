@@ -1,9 +1,10 @@
-package com.rallibau.shared.infraestructure.spring.api;
+package com.rallibau.apps.commons;
 
 import com.rallibau.shared.domain.DomainError;
 import com.rallibau.shared.domain.Utils;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryHandlerExecutionError;
+import com.rallibau.shared.infraestructure.spring.api.ApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.method.HandlerMethod;
