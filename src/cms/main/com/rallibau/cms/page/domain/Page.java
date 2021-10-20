@@ -1,6 +1,7 @@
 package com.rallibau.cms.page.domain;
 
 import com.rallibau.shared.domain.AggregateRoot;
+import com.rallibau.shared.domain.events.cms.PageCreatedDomainEvent;
 
 public final class Page extends AggregateRoot {
 
@@ -9,7 +10,7 @@ public final class Page extends AggregateRoot {
     private final PageTitle pageTitle;
     private final PageBody pageBody;
 
-    public Page(PageId id, PageIdUser pageIdUser, PageTitle pageTitle, PageBody pageBody) {
+    private Page(PageId id, PageIdUser pageIdUser, PageTitle pageTitle, PageBody pageBody) {
         this.id = id;
         this.pageIdUser = pageIdUser;
         this.pageTitle = pageTitle;
@@ -24,7 +25,12 @@ public final class Page extends AggregateRoot {
     }
 
     public static Page create(PageId id, PageIdUser pageIdUser, PageTitle pageTitle, PageBody pageBody) {
-        return new Page(id, pageIdUser, pageTitle, pageBody);
+        Page page = new Page(id, pageIdUser, pageTitle, pageBody);
+        page.record(new PageCreatedDomainEvent(
+                id.value(),
+                pageTitle.value(),
+                pageIdUser.value()));
+        return page;
     }
 
     public PageId id() {

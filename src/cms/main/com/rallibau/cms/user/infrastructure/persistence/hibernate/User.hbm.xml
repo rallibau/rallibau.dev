@@ -12,5 +12,9 @@
         <component name="userName" class="com.rallibau.cms.user.domain.UserName" access="field">
             <property name="value" column="user_name" type="string" access="field" />
         </component>
+
+        <component name="pageCount" class="com.rallibau.cms.user.domain.PageCount" access="field">
+            <property name="value" column="page_count" type="integer" access="field" />
+        </component>
     </class>
 </hibernate-mapping>

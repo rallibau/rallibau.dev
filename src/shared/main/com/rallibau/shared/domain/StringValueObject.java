@@ -13,7 +13,7 @@ public abstract class StringValueObject {
         return value;
     }
 
-    public void setValue(String value) {
+    public void value(String value) {
         this.value = value;
     }
 

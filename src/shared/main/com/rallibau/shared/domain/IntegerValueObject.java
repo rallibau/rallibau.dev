@@ -13,6 +13,10 @@ public abstract class IntegerValueObject {
         return value;
     }
 
+    public void value(Integer value) {
+        this.value = value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

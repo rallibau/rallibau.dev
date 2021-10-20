@@ -1,9 +1,9 @@
-package com.rallibau.cms.user.application.onUserCreated;
+package com.rallibau.cms.user.application.create;
 
+import com.rallibau.cms.user.domain.PageCount;
 import com.rallibau.cms.user.domain.User;
 import com.rallibau.cms.user.domain.UserId;
 import com.rallibau.cms.user.domain.UserName;
-import com.rallibau.cms.user.domain.UserCmsRepository;
 import com.rallibau.shared.domain.Monitor;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.event.DomainEventSubscriber;
@@ -14,17 +14,18 @@ import org.springframework.context.event.EventListener;
 @DomainEventSubscriber({UserCreatedDomainEvent.class})
 public class UserCreatedAclListener {
 
-    private final UserCmsRepository userRepository;
+    private final UserCmsCreator userCmsCreator;
 
-    public UserCreatedAclListener(UserCmsRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserCreatedAclListener(UserCmsCreator userCmsCreator) {
+        this.userCmsCreator = userCmsCreator;
     }
 
     @EventListener
     @Monitor
     public void on(UserCreatedDomainEvent event) {
-        userRepository.save(
+        userCmsCreator.create(
                 User.create(UserId.create(event.aggregateId()),
-                        UserName.create(event.userName())));
+                        UserName.create(event.userName()),
+                        PageCount.create(0)));
     }
 }

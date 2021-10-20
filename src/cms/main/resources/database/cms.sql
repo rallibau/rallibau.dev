@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS `page` (
 CREATE TABLE IF NOT EXISTS `user` (
     `id` CHAR(36) NOT NULL,
     `user_name` VARCHAR(255) NOT NULL,
+    `page_count` INT NOT NULL,
     PRIMARY KEY (`id`)
 );
