@@ -14,7 +14,6 @@ import Posts from './components/Posts/Posts';
 import PostDetail from './components/Posts/PostDetail';
 import PostForm from './components/Posts/PostForm';
 import Footer from './components/footer/footer';
-import PrivateRoute from './utils/PrivateRoute';
 import resumeData from './resumeData';
 
 

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import { getPosts } from '../../utils/api';
 import resumeData from '../../resumeData';
 export default class VerticalBar extends Component {
   render() {

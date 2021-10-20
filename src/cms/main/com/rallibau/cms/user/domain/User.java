@@ -1,8 +1,7 @@
-package com.rallibau.acl.user.domain;
+package com.rallibau.cms.user.domain;
 
 import com.rallibau.shared.domain.AggregateRoot;
 import com.rallibau.shared.domain.events.acl.UserCreatedDomainEvent;
-import com.rallibau.shared.domain.events.bpm.ProcessCreatedDomainEvent;
 
 import java.util.Objects;
 
@@ -10,23 +9,20 @@ public final class User extends AggregateRoot {
 
     private final UserId id;
     private final UserName userName;
-    private final UserPassword userPassword;
 
     public User() {
         this.id = null;
         this.userName = null;
-        this.userPassword = null;
     }
 
-    private User(UserId id, UserName userName, UserPassword userPassword) {
+    private User(UserId id, UserName userName) {
         this.id = id;
         this.userName = userName;
-        this.userPassword = userPassword;
     }
 
 
-    public static User create(UserId id, UserName userName, UserPassword userPassword) {
-        User user = new User(id, userName, userPassword);
+    public static User create(UserId id, UserName userName) {
+        User user = new User(id, userName);
         user.record(new UserCreatedDomainEvent(
                 id.value(),
                 userName.value()));
@@ -43,9 +39,6 @@ public final class User extends AggregateRoot {
         return userName;
     }
 
-    public UserPassword userPassword() {
-        return userPassword;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -57,12 +50,12 @@ public final class User extends AggregateRoot {
         }
         User user = (User) o;
         return id.equals(user.id) &&
-                userName.equals(user.userName) && userPassword.equals(user.userPassword);
+                userName.equals(user.userName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, userPassword);
+        return Objects.hash(id, userName);
     }
 
 }

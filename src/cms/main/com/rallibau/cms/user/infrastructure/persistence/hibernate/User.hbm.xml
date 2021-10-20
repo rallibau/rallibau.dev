@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.rallibau.cms.user.domain.User" table="user">
+        <composite-id name="id" class="com.rallibau.cms.user.domain.UserId" access="field">
+            <key-property column="id" name="value" length="36" access="field" />
+        </composite-id>
+
+        <component name="userName" class="com.rallibau.cms.user.domain.UserName" access="field">
+            <property name="value" column="user_name" type="string" access="field" />
+        </component>
+    </class>
+</hibernate-mapping>

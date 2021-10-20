@@ -4,13 +4,12 @@ import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../../constants/apiConstants';
 import About from '../../components/about/about';
 import Portfolio from '../../components/portfolio/portfolio';
 import Resume from '../../components/resume/resume';
-import ContactUs from '../../components/contactus/contactus';
 import resumeData from '../../resumeData';
 import axios from 'axios'
 function Home(props) {
     useEffect(() => {
         console.log("consultando token...")
-        axios.get(API_BASE_URL+'/me', { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN_NAME) }})
+        axios.get(API_BASE_URL+'/user', { headers: { 'Authorization': localStorage.getItem(ACCESS_TOKEN_NAME) }})
         .then(function (response) {
              console.log(response.status)
             if(response.status !== 200){
@@ -22,11 +21,7 @@ function Home(props) {
           //redirectToLogin()
         });
       })
-    function redirectToLogin() {
-        console.log("go to login...")
-        props.history.push('/login');
-    }
-    return(
+      return(
         <div className="mt-2">
              <Portfolio resumeData={resumeData}/>
              <About resumeData={resumeData}/>
