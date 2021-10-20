@@ -7,6 +7,7 @@ import com.rallibau.shared.infraestructure.bus.event.DomainEventJsonDeserializer
 import com.rallibau.shared.infraestructure.bus.event.DomainEventSubscribersInformation;
 import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqExchangeNameFormatter;
 import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqPublisher;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessagePropertiesBuilder;
@@ -15,13 +16,12 @@ import org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.context.ApplicationContext;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public  class RabbitMqDomainEventsConsumer {
+public class RabbitMqDomainEventsConsumer {
     private final String CONSUMER_NAME = "domain_events_consumer";
     private final int MAX_RETRIES = 2;
     private final DomainEventJsonDeserializer deserializer;
@@ -65,19 +65,23 @@ public  class RabbitMqDomainEventsConsumer {
         Object subscriber = domainEventSubscribers.containsKey(queue)
                 ? domainEventSubscribers.get(queue)
                 : subscriberFor(queue);
-
-        Method subscriberOnMethod = subscriber.getClass().getMethod("on", domainEvent.getClass());
-
         try {
-            subscriberOnMethod.invoke(subscriber, domainEvent);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException error) {
+            getOnMethod(domainEvent, subscriber,queue).invoke(subscriber,domainEvent);
+        } catch (Exception error) {
+            handleConsumptionError(message, queue);
+        }
+    }
+
+    @NotNull
+    private Method getOnMethod(DomainEvent domainEvent, Object subscriber, String queue) throws Exception {
+        try {
+            return subscriber.getClass().getMethod("on", domainEvent.getClass());
+        } catch (NoSuchMethodException e) {
             throw new Exception(String.format(
                     "The subscriber <%s> should implement a method `on` listening the domain event <%s>",
                     queue,
                     domainEvent.eventName()
             ));
-        } catch (Exception error) {
-            handleConsumptionError(message, queue);
         }
     }
 

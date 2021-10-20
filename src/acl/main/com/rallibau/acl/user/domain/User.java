@@ -2,7 +2,6 @@ package com.rallibau.acl.user.domain;
 
 import com.rallibau.shared.domain.AggregateRoot;
 import com.rallibau.shared.domain.events.acl.UserCreatedDomainEvent;
-import com.rallibau.shared.domain.events.bpm.ProcessCreatedDomainEvent;
 
 import java.util.Objects;
 
