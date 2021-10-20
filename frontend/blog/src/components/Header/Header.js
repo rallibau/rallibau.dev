@@ -2,19 +2,11 @@ import React from 'react';
 import { withRouter } from "react-router-dom";
 import { ACCESS_TOKEN_NAME } from '../../constants/apiConstants';
 function Header(props) {
-    const capitalize = (s) => {
-        if (typeof s !== 'string') return ''
-        return s.charAt(0).toUpperCase() + s.slice(1)
-    }
-    let title = capitalize(props.location.pathname.substring(1,props.location.pathname.length))
-    if(props.location.pathname === '/') {
-        title = 'Welcome';
-    }
     function renderLogout() {
             if(localStorage.getItem(ACCESS_TOKEN_NAME)){
                 return(
                     <li>
-                        <a className="" onClick={() => handleLogout()}>Logout</a>
+                        <a className="" href = "/" onClick={() => handleLogout()}>Logout</a>
                     </li>
                 )
             }else{

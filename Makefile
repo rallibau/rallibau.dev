@@ -18,6 +18,9 @@ run:
 
 # Start the app
 #set enviroment: export env=local
+start-frontend:
+	@npm start --prefix frontend/blog/
+
 start-gateway:
 	@./gradlew :run --args="gateway server"
 start-monolit:
