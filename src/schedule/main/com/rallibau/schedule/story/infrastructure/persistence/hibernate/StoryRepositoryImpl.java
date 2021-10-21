@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @Transactional("schedule-transaction_manager")
-public class StoryRepositoryImpl extends HibernateRepository<Story> implements StoryRepository {
+public class StoryRepositoryImpl extends HibernateRepository<Story,StoryId> implements StoryRepository {
 
     public StoryRepositoryImpl(@Qualifier("schedule-session_factory") SessionFactory sessionFactory) {
         super(sessionFactory, Story.class);

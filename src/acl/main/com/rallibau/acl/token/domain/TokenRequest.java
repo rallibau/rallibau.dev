@@ -1,8 +1,8 @@
 package com.rallibau.acl.token.domain;
 
-import java.io.Serializable;
+import com.rallibau.shared.domain.bus.command.Request;
 
-public class TokenRequest implements Serializable {
+public class TokenRequest implements Request {
 
 
     private String username;

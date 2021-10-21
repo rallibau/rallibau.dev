@@ -1,6 +1,5 @@
 package com.rallibau.shared.infraestructure.bus.command.inMemory;
 
-import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.command.Command;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandler;
@@ -32,7 +31,7 @@ public class InMemoryCommandBus implements CommandBus {
     }
 
     @Override
-    public void asynchronDispatch(Command command) throws CommandHandlerExecutionError {
+    public void asynchronousDispatch(Command command) throws CommandHandlerExecutionError {
         //TODO
     }
 }

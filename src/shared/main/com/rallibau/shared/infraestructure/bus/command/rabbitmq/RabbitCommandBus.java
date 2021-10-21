@@ -23,7 +23,7 @@ public class RabbitCommandBus implements CommandBus {
     }
 
     @Override
-    public void asynchronDispatch(Command command) throws CommandHandlerExecutionError {
+    public void asynchronousDispatch(Command command) throws CommandHandlerExecutionError {
         throw new CommandHandlerExecutionError(new NotSupportedException());
     }
 }

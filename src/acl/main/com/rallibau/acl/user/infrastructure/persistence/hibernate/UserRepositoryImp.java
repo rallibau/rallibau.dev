@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @Transactional("acl-transaction_manager")
-public class UserRepositoryImp extends HibernateRepository<User> implements UserRepository {
+public class UserRepositoryImp extends HibernateRepository<User,UserId> implements UserRepository {
 
     public UserRepositoryImp(@Qualifier("acl-session_factory") SessionFactory sessionFactory) {
         super(sessionFactory, User.class);
@@ -32,6 +32,7 @@ public class UserRepositoryImp extends HibernateRepository<User> implements User
     public Optional<User> get(UserId id) {
         return byId(id);
     }
+
 
     @Override
     public List<User> searchAll() {
