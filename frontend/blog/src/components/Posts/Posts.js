@@ -23,7 +23,7 @@ componentDidMount() {
     getPosts()
       .then((res) => {
         this.setState({
-          posts: res.data,
+          posts: res.data.pages,
           loading: false,
         });
       })

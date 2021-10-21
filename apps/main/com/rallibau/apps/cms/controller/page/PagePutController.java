@@ -8,24 +8,27 @@ import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
 import com.rallibau.shared.domain.bus.query.QueryBus;
 import com.rallibau.shared.infraestructure.spring.api.ApiController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PagePutController extends ApiController {
 
-    @Autowired
-    private PageCreator pageCreator;
+    private final PageCreator pageCreator;
 
-    @Autowired
-    private SessionInfo sessionInfo;
+    private final SessionInfo sessionInfo;
 
-    public PagePutController(QueryBus queryBus, CommandBus commandBus) {
+    public PagePutController(QueryBus queryBus,
+                             CommandBus commandBus,
+                             PageCreator pageCreator,
+                             SessionInfo sessionInfo) {
         super(queryBus, commandBus);
+        this.pageCreator = pageCreator;
+        this.sessionInfo = sessionInfo;
     }
 
     @PutMapping(value = "/page/{id}")
@@ -39,10 +42,5 @@ public class PagePutController extends ApiController {
                 PageTitle.create(pageRequest.getTitle()),
                 PageBody.create(pageRequest.getBody())));
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @Override
-    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
-        return new HashMap();
     }
 }
