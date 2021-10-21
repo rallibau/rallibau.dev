@@ -1,6 +1,7 @@
 package com.rallibau.cms.page.application.find;
 
 import com.rallibau.cms.page.domain.Page;
+import com.rallibau.cms.user.application.find.UserCmsFinder;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.QueryHandler;
 
@@ -11,9 +12,11 @@ import java.util.List;
 public class GetAllPageQueryHandler implements QueryHandler<GetAllPageQuery, PagesResponse> {
 
     private final PageFinder pageFinder;
+    private final UserCmsFinder userCmsFinder;
 
-    public GetAllPageQueryHandler(PageFinder pageFinder) {
+    public GetAllPageQueryHandler(PageFinder pageFinder, UserCmsFinder userCmsFinder) {
         this.pageFinder = pageFinder;
+        this.userCmsFinder = userCmsFinder;
     }
 
     @Override
@@ -27,9 +30,13 @@ public class GetAllPageQueryHandler implements QueryHandler<GetAllPageQuery, Pag
                 page.id().value(),
                 page.pageTitle().value(),
                 page.pageBody().value(),
-                page.pageIdUser().value()
+                userName(page.pageIdUser().value())
         )));
 
         return response;
+    }
+
+    private String userName(String idUser) {
+        return userCmsFinder.find(idUser).userName().value();
     }
 }

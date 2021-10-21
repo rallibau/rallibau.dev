@@ -33,13 +33,14 @@ renderPosts = () => {
     const { posts } = this.state;
     return posts.map(post => {
 
-      const { title, body, id } = post;
+      const { title, body, id, author } = post;
 
       return (
-        <Post
+        <Post key={id}
           id={id}
           title={title}
           body={body}
+          author={author}
         />
       );
     });

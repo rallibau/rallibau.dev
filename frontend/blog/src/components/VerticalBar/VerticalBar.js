@@ -14,7 +14,7 @@ export default class VerticalBar extends Component {
                 {
                     resumeData.socialLinks && resumeData.socialLinks.map((item)=>{
                         return(
-                            <p>
+                            <p key={item.name}>
                                 <a href={item.url}>
                                     <i className={item.className} /> {item.name}
                                 </a>
