@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-
 @RestController
 public class NodePutController extends ApiController {
 
@@ -27,10 +25,5 @@ public class NodePutController extends ApiController {
 
         dispatch(new CreateNodeCommand(id, "nombre", "TASK"));
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @Override
-    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
-        return null;
     }
 }

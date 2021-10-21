@@ -27,5 +27,7 @@ public abstract class ApiController {
         return queryBus.ask(query);
     }
 
-    abstract public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping();
+    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping(){
+        return new HashMap<>();
+    }
 }

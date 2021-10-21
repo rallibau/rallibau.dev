@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-
 @RestController
 public class UserGetController extends ApiController {
 
@@ -20,10 +18,5 @@ public class UserGetController extends ApiController {
     @GetMapping(value = "/user")
     public ResponseEntity<String> index() {
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
-        return new HashMap<>();
     }
 }

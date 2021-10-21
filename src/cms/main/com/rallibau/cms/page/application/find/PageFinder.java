@@ -7,7 +7,6 @@ import com.rallibau.cms.page.domain.PageRepository;
 import com.rallibau.shared.domain.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PageFinder {

@@ -7,9 +7,7 @@ import com.rallibau.schedule.story.domain.Story;
 import com.rallibau.schedule.story.domain.StoryNotExist;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.query.QueryBus;
-import com.rallibau.shared.domain.bus.query.QueryHandlerExecutionError;
 import com.rallibau.shared.infraestructure.spring.api.ApiController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,15 +19,17 @@ import java.util.List;
 @RestController
 public class StoryGetController extends ApiController {
 
-    @Autowired
-    private StoryFinder storyFinder;
+    private final StoryFinder storyFinder;
 
-    public StoryGetController(QueryBus queryBus, CommandBus commandBus) {
+    public StoryGetController(QueryBus queryBus,
+                              CommandBus commandBus,
+                              StoryFinder storyFinder) {
         super(queryBus, commandBus);
+        this.storyFinder = storyFinder;
     }
 
     @GetMapping(value = "/story/{id}")
-    public StoryResponse byId(@PathVariable String id) throws QueryHandlerExecutionError {
+    public StoryResponse byId(@PathVariable String id) {
         Story story = storyFinder.find(id);
 
         return new StoryResponse(story.id().value(),
@@ -39,7 +39,7 @@ public class StoryGetController extends ApiController {
     }
 
     @GetMapping(value = "/story")
-    public StoriesResponse all() throws QueryHandlerExecutionError {
+    public StoriesResponse all() {
         StoriesResponse storiesResponse = new StoriesResponse();
         List<Story> stories = storyFinder.find();
         stories.forEach(story -> storiesResponse.getStories().add(new StoryResponse(story.id().value(),
