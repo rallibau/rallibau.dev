@@ -8,11 +8,13 @@ const ContainerPost = styled.div`
   background-color: #fff;
   text-align:left;
 `;
-const Post = ({ id,title, body }) => {
+const Post = ({ id,title, body,author }) => {
   return (
     <ContainerPost>
       <h1><a href={"blog/"+id}>{title}</a></h1>
       <p>{body}</p>
+      <hr />
+      by {author}
       <hr />
     </ContainerPost>
   );

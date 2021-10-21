@@ -1,6 +1,5 @@
 package com.rallibau.apps.cms.controller.page;
 
-import com.rallibau.bpm.node.domain.NodeNotExist;
 import com.rallibau.cms.page.application.find.GetAllPageQuery;
 import com.rallibau.cms.page.application.find.PageFinderQuery;
 import com.rallibau.cms.page.domain.Page;
