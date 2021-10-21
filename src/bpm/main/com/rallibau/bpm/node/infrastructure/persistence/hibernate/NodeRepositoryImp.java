@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @Transactional("bpm-transaction_manager")
-public  class NodeRepositoryImp extends HibernateRepository<Node> implements NodeRepository {
+public  class NodeRepositoryImp extends HibernateRepository<Node,NodeId> implements NodeRepository {
 
     public NodeRepositoryImp(@Qualifier("bpm-session_factory")SessionFactory sessionFactory) {
         super(sessionFactory,Node.class);

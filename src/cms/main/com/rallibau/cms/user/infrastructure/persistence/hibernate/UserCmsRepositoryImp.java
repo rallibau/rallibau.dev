@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Service
 @Transactional("cms-transaction_manager")
-public class UserCmsRepositoryImp extends HibernateRepository<User> implements UserCmsRepository {
+public class UserCmsRepositoryImp extends HibernateRepository<User,UserId> implements UserCmsRepository {
 
     public UserCmsRepositoryImp(@Qualifier("cms-session_factory") SessionFactory sessionFactory) {
         super(sessionFactory, User.class);

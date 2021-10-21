@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class Identifier<Z> implements Serializable {
+public abstract class Identifier implements Serializable {
     final protected String value;
 
     public Identifier(String value) {
@@ -29,7 +29,7 @@ public abstract class Identifier<Z> implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Identifier<Z> that = (Identifier<Z>) o;
+        Identifier that = (Identifier) o;
         return value.equals(that.value);
     }
 

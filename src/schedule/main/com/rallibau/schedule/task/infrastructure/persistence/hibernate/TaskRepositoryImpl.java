@@ -15,10 +15,10 @@ import java.util.Optional;
 
 @Service
 @Transactional("schedule-transaction_manager")
-public  class TaskRepositoryImpl extends HibernateRepository<Task> implements TaskRepository {
+public class TaskRepositoryImpl extends HibernateRepository<Task, TaskId> implements TaskRepository {
 
-    public TaskRepositoryImpl(@Qualifier("schedule-session_factory")SessionFactory sessionFactory) {
-        super(sessionFactory,Task.class);
+    public TaskRepositoryImpl(@Qualifier("schedule-session_factory") SessionFactory sessionFactory) {
+        super(sessionFactory, Task.class);
     }
 
     @Override

@@ -11,7 +11,7 @@ public final class User extends AggregateRoot {
     private final UserName userName;
     private final UserPassword userPassword;
 
-    public User() {
+    private User() {
         this.id = null;
         this.userName = null;
         this.userPassword = null;

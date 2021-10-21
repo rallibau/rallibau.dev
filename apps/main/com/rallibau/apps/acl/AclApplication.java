@@ -17,9 +17,6 @@ public class AclApplication {
 
 
     public static HashMap<String, Class<?>> commands() {
-        return new HashMap<String, Class<?>>() {{
-            //put("domain-events:mysql:consume", ConsumeMySqlDomainEventsCommand.class);
-            //put("domain-events:rabbitmq:consume", ConsumeRabbitMqDomainEventsCommand.class);
-        }};
+        return new HashMap<>();
     }
 }

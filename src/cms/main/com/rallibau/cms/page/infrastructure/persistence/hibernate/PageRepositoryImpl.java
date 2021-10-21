@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @Transactional("cms-transaction_manager")
-public class PageRepositoryImpl extends HibernateRepository<Page> implements PageRepository {
+public class PageRepositoryImpl extends HibernateRepository<Page,PageId> implements PageRepository {
 
     public PageRepositoryImpl(@Qualifier("cms-session_factory") SessionFactory sessionFactory) {
         super(sessionFactory, Page.class);

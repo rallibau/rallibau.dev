@@ -1,8 +1,10 @@
 package com.rallibau.bpm.connection.domain;
 
+import com.rallibau.shared.domain.AggregateRoot;
+
 import java.util.Objects;
 
-public class Connection {
+public class Connection extends AggregateRoot {
 
     private final ConnectionId id;
     private final NodeIdOwner nodeIdOwner;

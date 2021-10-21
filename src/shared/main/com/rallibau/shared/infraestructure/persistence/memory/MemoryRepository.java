@@ -1,5 +1,6 @@
 package com.rallibau.shared.infraestructure.persistence.memory;
 
+import com.rallibau.shared.domain.AggregateRoot;
 import com.rallibau.shared.domain.Identifier;
 import com.rallibau.shared.domain.StringValueObject;
 import com.rallibau.shared.domain.criteria.Criteria;
@@ -14,9 +15,9 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public abstract class MemoryRepository<T, Z> {
+public abstract class MemoryRepository<T extends AggregateRoot, J extends Identifier> {
     protected final Class<T> aggregateClass;
-    private List<T> store;
+    private final List<T> store;
     private final HashMap<FilterOperator, Function<Filter, Predicate<T>>> predicateTransformers =
             new HashMap<FilterOperator, Function<Filter, Predicate<T>>>() {{
                 put(FilterOperator.EQUAL, MemoryRepository.this::equalsPredicateTransformer);

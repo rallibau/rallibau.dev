@@ -1,5 +1,6 @@
 package com.rallibau.shared.infraestructure.persistence.hibernate;
 
+import com.rallibau.shared.domain.AggregateRoot;
 import com.rallibau.shared.domain.Identifier;
 import com.rallibau.shared.domain.criteria.Criteria;
 import org.hibernate.SessionFactory;
@@ -8,15 +9,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class HibernateRepository<T> {
+public abstract class HibernateRepository<T extends AggregateRoot,J extends Identifier> {
     protected final SessionFactory sessionFactory;
     protected final Class<T> aggregateClass;
-    protected final HibernateCriteriaConverter criteriaConverter;
+    protected final HibernateCriteriaConverter<T> criteriaConverter;
 
     public HibernateRepository(SessionFactory sessionFactory, Class<T> aggregateClass) {
         this.sessionFactory = sessionFactory;
         this.aggregateClass = aggregateClass;
-        this.criteriaConverter = new HibernateCriteriaConverter<T>(sessionFactory.getCriteriaBuilder());
+        this.criteriaConverter = new HibernateCriteriaConverter<>(sessionFactory.getCriteriaBuilder());
     }
 
     protected void persist(T entity) {
@@ -27,7 +28,7 @@ public abstract class HibernateRepository<T> {
 
     }
 
-    protected Optional<T> byId(Identifier id) {
+    protected Optional<T> byId(J id) {
         return Optional.ofNullable(sessionFactory.getCurrentSession().byId(aggregateClass).load(id));
     }
 
