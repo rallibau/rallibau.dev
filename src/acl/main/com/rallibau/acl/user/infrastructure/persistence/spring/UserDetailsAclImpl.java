@@ -1,4 +1,4 @@
-package com.rallibau.acl.user.infrastructure.spring;
+package com.rallibau.acl.user.infrastructure.persistence.spring;
 
 import com.rallibau.acl.user.application.find.UserFinder;
 import org.springframework.context.annotation.Primary;

@@ -1,52 +1,48 @@
-package com.rallibau.cms.page.infrastructure.persistence;
+package com.rallibau.cms.page.infrastructure.persistence.hibernate;
 
+import com.rallibau.apps.cms.CmsApplication;
 import com.rallibau.cms.page.domain.Page;
 import com.rallibau.cms.page.domain.PageMother;
 import com.rallibau.cms.page.domain.PageRepository;
-import com.rallibau.cms.page.infrastructure.persistence.inMemory.PageRepositoryInMemoryImpl;
+import com.rallibau.cms.user.domain.UserCmsRepository;
 import com.rallibau.shared.domain.criteria.Criteria;
 import com.rallibau.shared.domain.criteria.Filter;
 import com.rallibau.shared.domain.criteria.Filters;
 import com.rallibau.shared.domain.criteria.Order;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
-import java.util.Arrays;
+import javax.transaction.Transactional;
 import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
-
+@ContextConfiguration(classes = CmsApplication.class)
+@SpringBootTest
+@Transactional
 public class PageRespositoryShould {
 
+    @Autowired
     private PageRepository repository;
 
-    @BeforeEach
-    public void prepare() {
-        repository = new PageRepositoryInMemoryImpl();
-    }
+    @Autowired
+    private UserCmsRepository userCmsRepository;
 
 
     @Test
     protected void save_a_page() {
-        repository.save(PageMother.random());
-
-    }
-
-
-    @Test
-    public void search_all_existing_page() {
         Page page = PageMother.random();
+        userCmsRepository.save(page.getCreator());
         repository.save(page);
-        Page page2 = PageMother.random();
-        repository.save(page2);
-        assertThat(Arrays.asList(page, page2), containsInAnyOrder(repository.searchAll().toArray()));
     }
 
     @Test
     public void search_by_criteria() {
         Page page = PageMother.random();
+        userCmsRepository.save(page.getCreator());
         repository.save(page);
         Criteria criteria = new Criteria(
                 new Filters(
@@ -54,7 +50,7 @@ public class PageRespositoryShould {
                                 Filter.create("pageTitle",
                                         "contains",
                                         page.pageTitle().value()))),
-                Order.asc("name"));
+                Order.asc("pageTitle"));
         assertThat(Collections.singletonList(page),
                 containsInAnyOrder(repository.matching(criteria).toArray()));
 

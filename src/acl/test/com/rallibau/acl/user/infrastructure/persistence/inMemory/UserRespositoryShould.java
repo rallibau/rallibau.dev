@@ -1,4 +1,4 @@
-package com.rallibau.acl.user.infrastructure.persistence;
+package com.rallibau.acl.user.infrastructure.persistence.inMemory;
 
 import com.rallibau.acl.user.domain.User;
 import com.rallibau.acl.user.domain.UserMother;

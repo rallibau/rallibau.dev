@@ -1,17 +1,19 @@
 package com.rallibau.cms.page.domain;
 
-import com.rallibau.shared.domain.StringValueObject;
+import com.rallibau.shared.domain.BlobValueObject;
 
-public final class PageBody extends StringValueObject {
-    public PageBody(String value) {
+import java.sql.SQLException;
+
+public final class PageBody extends BlobValueObject {
+    public PageBody(String value){
         super(value);
     }
 
-    public PageBody() {
+    public PageBody() throws SQLException {
         super("");
     }
 
-    public static PageBody create(String name) {
+    public static PageBody create(String name){
         return new PageBody(name);
     }
 }
