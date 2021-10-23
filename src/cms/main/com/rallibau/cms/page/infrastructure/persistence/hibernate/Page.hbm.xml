@@ -9,16 +9,16 @@
             <key-property column="id" name="value" length="36" access="field" />
         </composite-id>
 
-        <component name="pageIdUser" class="com.rallibau.cms.page.domain.PageIdUser" access="field">
-            <property name="value" column="page_id_user" type="string" access="field" />
-        </component>
+        <many-to-one name="creator" class="com.rallibau.cms.user.domain.User" fetch="join">
+            <column name="page_id_user"/>
+        </many-to-one>
 
         <component name="pageTitle" class="com.rallibau.cms.page.domain.PageTitle" access="field">
             <property name="value" column="page_title" type="string" access="field" />
         </component>
 
         <component name="pageBody" class="com.rallibau.cms.page.domain.PageBody" access="field">
-            <property name="value" column="page_body" type="string" access="field" />
+            <property name="value" column="page_body" type="blob" access="field" />
         </component>
     </class>
 </hibernate-mapping>
