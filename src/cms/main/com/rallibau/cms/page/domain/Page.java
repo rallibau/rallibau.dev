@@ -12,12 +12,14 @@ public final class Page extends AggregateRoot {
     private User creator;
     private final PageTitle pageTitle;
     private final PageBody pageBody;
+    private final PageCreationDate pageCreationDate;
 
-    private Page(PageId id, User creator, PageTitle pageTitle, PageBody pageBody) {
+    private Page(PageId id, PageCreationDate pageCreationDate, User creator, PageTitle pageTitle, PageBody pageBody) {
         this.id = id;
         this.creator = creator;
         this.pageTitle = pageTitle;
         this.pageBody = pageBody;
+        this.pageCreationDate = pageCreationDate;
     }
 
     public Page() {
@@ -25,10 +27,11 @@ public final class Page extends AggregateRoot {
         this.creator = null;
         this.pageTitle = null;
         this.pageBody = null;
+        this.pageCreationDate = null;
     }
 
-    public static Page create(PageId id, User creator, PageTitle pageTitle, PageBody pageBody) {
-        Page page = new Page(id, creator, pageTitle, pageBody);
+    public static Page create(PageId id, PageCreationDate pageCreationDate, User creator, PageTitle pageTitle, PageBody pageBody) {
+        Page page = new Page(id, pageCreationDate, creator, pageTitle, pageBody);
         page.record(new PageCreatedDomainEvent(
                 id.value(),
                 pageTitle.value(),
@@ -52,8 +55,12 @@ public final class Page extends AggregateRoot {
         return creator;
     }
 
-    public void setCreator(User creator){
+    public void setCreator(User creator) {
         this.creator = creator;
+    }
+
+    public PageCreationDate pageCreationDate() {
+        return pageCreationDate;
     }
 
     @Override
