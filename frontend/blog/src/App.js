@@ -7,7 +7,8 @@ import LoginForm from './components/LoginForm/LoginForm';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  useParams
 } from "react-router-dom";
 import AlertComponent from './components/AlertComponent/AlertComponent';
 import Posts from './components/Posts/Posts';
@@ -34,7 +35,7 @@ function App() {
                <Posts/>
               </Route>
               <Route path="/blog/:id" exact={true}>
-                <PostDetail/>
+                <PostDetail idPost='8a386a-1770-07a1-4bad-df0fcdf71a4f'/>
               </Route>
               <Route path="/NewPost" exact={true}>
                 <PostForm/>
