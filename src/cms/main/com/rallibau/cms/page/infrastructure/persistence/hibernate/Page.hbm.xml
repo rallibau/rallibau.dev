@@ -9,6 +9,10 @@
             <key-property column="id" name="value" length="36" access="field" />
         </composite-id>
 
+        <component name="pageCreationDate" class="com.rallibau.cms.page.domain.PageCreationDate" access="field">
+            <property name="value" column="page_creation_date" type="date" access="field" />
+        </component>
+
         <many-to-one name="creator" class="com.rallibau.cms.user.domain.User" fetch="join">
             <column name="page_id_user"/>
         </many-to-one>
