@@ -1,12 +1,17 @@
 import React from 'react';
-import { withRouter } from "react-router-dom";
+import {
+    withRouter,
+    useParams
+ } from "react-router-dom";
 import { ACCESS_TOKEN_NAME } from '../../constants/apiConstants';
 function Header(props) {
+    const { idPost } = useParams();
+    console.log(useParams());
     function renderLogout() {
             if(localStorage.getItem(ACCESS_TOKEN_NAME)){
                 return(
                     <li>
-                        <a className="" href = "/" onClick={() => handleLogout()}>Logout</a>
+                        <a className="" href = "/" onClick={() => handleLogout()}>Logout{idPost}</a>
                     </li>
                 )
             }else{
