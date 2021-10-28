@@ -22,7 +22,7 @@ public class GetAllPageQueryHandler implements QueryHandler<GetAllPageQuery, Pag
     @Override
     public PagesResponse handle(GetAllPageQuery query) {
         PagesResponse response = new PagesResponse(new ArrayList<>());
-        List<Page> pages = pageFinder.find();
+        List<Page> pages = pageFinder.coverResume();
         if (pages.isEmpty()) {
             return response;
         }
