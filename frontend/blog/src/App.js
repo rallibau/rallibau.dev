@@ -7,8 +7,7 @@ import LoginForm from './components/LoginForm/LoginForm';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  useParams
+  Route
 } from "react-router-dom";
 import AlertComponent from './components/AlertComponent/AlertComponent';
 import Posts from './components/Posts/Posts';
@@ -17,11 +16,16 @@ import PostForm from './components/Posts/PostForm';
 import Footer from './components/footer/footer';
 import resumeData from './resumeData';
 
+function getIdPost(){
+    //console.log(this.props.match.params);
+    return '8a386a-1770-07a1-4bad-df0fcdf71a4f'
+}
 
 
 function App() {
   const [title, updateTitle] = useState(null);
   const [errorMessage, updateErrorMessage] = useState(null);
+  //const { idPost } = useParams();
   return (
    <Router>
       <div className="App">
@@ -34,9 +38,9 @@ function App() {
               <Route path="/blog" exact={true}>
                <Posts/>
               </Route>
-              <Route path="/blog/:id" exact={true}>
-                <PostDetail idPost='8a386a-1770-07a1-4bad-df0fcdf71a4f'/>
-              </Route>
+              <Route exact path="/blog/:id" render={(props) => (
+                  <PostDetail id={props.match.params.id}/>
+              )} />
               <Route path="/NewPost" exact={true}>
                 <PostForm/>
               </Route>

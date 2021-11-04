@@ -27,7 +27,7 @@ start-frontend:
 
 start-gateway:
 	@./gradlew :run --args="gateway server"
-start-monolit:
+start-monolith:
 	@./gradlew :run --args="monolit server"
 start-bpm:
 	@./gradlew :run --args="bpm server"

@@ -3,7 +3,6 @@ package com.rallibau.apps.cms.controller.page;
 import com.rallibau.cms.page.application.create.PageCreator;
 import com.rallibau.cms.page.application.create.PageRequest;
 import com.rallibau.cms.page.domain.*;
-import com.rallibau.cms.user.application.find.UserCmsFinder;
 import com.rallibau.shared.domain.authentication.SessionInfo;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
@@ -22,17 +21,14 @@ import java.util.Date;
 public class PagePutController extends ApiController {
 
     private final PageCreator pageCreator;
-    private final UserCmsFinder userCmsFinder;
     private final SessionInfo sessionInfo;
 
     public PagePutController(QueryBus queryBus,
                              CommandBus commandBus,
                              PageCreator pageCreator,
-                             UserCmsFinder userCmsFinder,
                              SessionInfo sessionInfo) {
         super(queryBus, commandBus);
         this.pageCreator = pageCreator;
-        this.userCmsFinder = userCmsFinder;
         this.sessionInfo = sessionInfo;
     }
 
@@ -45,7 +41,7 @@ public class PagePutController extends ApiController {
         pageCreator.create(Page.create(
                 PageId.create(id),
                 PageCreationDate.create(new Date()),
-                userCmsFinder.find(sessionInfo.logedUserId()),
+                PageIdUser.create(sessionInfo.logedUserId()),
                 PageTitle.create(pageRequest.getTitle()),
                 PageBody.create(pageRequest.getBody())
         ));
