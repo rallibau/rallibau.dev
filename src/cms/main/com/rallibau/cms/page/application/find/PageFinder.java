@@ -5,6 +5,9 @@ import com.rallibau.cms.page.domain.PageId;
 import com.rallibau.cms.page.domain.PageNotExist;
 import com.rallibau.cms.page.domain.PageRepository;
 import com.rallibau.shared.domain.Service;
+import com.rallibau.shared.domain.criteria.Criteria;
+import com.rallibau.shared.domain.criteria.Filters;
+import com.rallibau.shared.domain.criteria.Order;
 
 import java.util.List;
 
@@ -22,5 +25,12 @@ public class PageFinder {
 
     public List<Page> find() {
         return pageRepository.searchAll();
+    }
+
+    public List<Page> coverResume() {
+        Criteria criteria = new Criteria(
+                Filters.none(),
+                Order.desc("pageCreationDate"));
+        return pageRepository.matching(criteria);
     }
 }

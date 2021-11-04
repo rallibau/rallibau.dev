@@ -1,4 +1,4 @@
-package com.rallibau.apps.monolit;
+package com.rallibau.apps.monolith;
 
 import com.rallibau.shared.domain.Service;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +13,7 @@ import java.util.HashMap;
         includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class),
         value = {"com.rallibau"}
 )
-public class MonolitApplication {
+public class MonolithApplication {
 
 
     public static HashMap<String, Class<?>> commands() {

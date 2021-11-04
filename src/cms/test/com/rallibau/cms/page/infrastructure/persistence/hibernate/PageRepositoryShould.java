@@ -35,14 +35,12 @@ public class PageRepositoryShould {
     @Test
     protected void save_a_page() {
         Page page = PageMother.random();
-        userCmsRepository.save(page.getCreator());
         repository.save(page);
     }
 
     @Test
     public void search_by_criteria() {
         Page page = PageMother.random();
-        userCmsRepository.save(page.getCreator());
         repository.save(page);
         Criteria criteria = new Criteria(
                 new Filters(
