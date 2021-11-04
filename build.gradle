@@ -1,10 +1,25 @@
+// Main project (located in apps/)
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE')
+    }
+}
+
+plugins {
+    id "org.sonarqube" version "2.7"
+}
+
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.springframework.boot'
 
-    sourceCompatibility = 8
-    targetCompatibility = 8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 
     repositories {
         mavenCentral()
@@ -120,16 +135,6 @@ subprojects {
 
     jar {
         enabled = true
-    }
-}
-
-// Main project (located in apps/)
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE')
     }
 }
 

@@ -14,6 +14,10 @@ run-tests:
 
 run:
 	@./gradlew :run
+
+sonar-qube:
+	@./gradlew sonarqube -Dsonar.projectKey=rallibau.dev -Dsonar.host.url=http://localhost:9000 -Dsonar.login=94b26d5fb9a8faed257807297ee0cca63cf397b5
+
 	
 
 # Start the app
@@ -42,6 +46,7 @@ start-schedule-compose:
 
 stop-bpm-compose:
 	@docker-compose stop bpm
+
 
 
 
