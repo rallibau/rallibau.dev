@@ -12,3 +12,8 @@ CREATE TABLE IF NOT EXISTS `user` (
     `page_count` INT NOT NULL,
     PRIMARY KEY (`id`)
 );
+CREATE TABLE IF NOT EXISTS `chapter` (
+    `id` CHAR(36) NOT NULL,
+    `chapter_title` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`)
+);
