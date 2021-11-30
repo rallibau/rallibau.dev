@@ -45,7 +45,7 @@ public class RabbitMqPublisher {
         rabbitTemplate.send(exchangeName, command.formatQueueName(), message);
     }
 
-    public void publish(Message domainEvent, String exchangeName, String routingKey) throws AmqpException {
-        rabbitTemplate.send(exchangeName, routingKey, domainEvent);
+    public void publish(Message message, String exchangeName, String routingKey) throws AmqpException {
+        rabbitTemplate.send(exchangeName, routingKey, message);
     }
 }
