@@ -23,7 +23,6 @@ import java.util.Map;
 @Service
 public class RabbitMqDomainEventsConsumer {
     private final String CONSUMER_NAME = "domain_events_consumer";
-    private final int MAX_RETRIES = 2;
     private final DomainEventJsonDeserializer deserializer;
     private final ApplicationContext context;
     private final RabbitMqPublisher publisher;
@@ -121,6 +120,7 @@ public class RabbitMqDomainEventsConsumer {
     }
 
     private boolean hasBeenRedeliveredTooMuch(Message message) {
+        int MAX_RETRIES = 2;
         return (int) message.getMessageProperties().getHeaders().getOrDefault("redelivery_count", 0) >= MAX_RETRIES;
     }
 

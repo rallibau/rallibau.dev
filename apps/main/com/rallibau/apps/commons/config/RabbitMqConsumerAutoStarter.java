@@ -2,7 +2,7 @@ package com.rallibau.apps.commons.config;
 
 
 import com.rallibau.shared.domain.Service;
-import com.rallibau.shared.infraestructure.bus.event.rabbitmq.command.ConsumeRabbitMqCommand;
+import com.rallibau.shared.infraestructure.bus.command.rabbitmq.command.ConsumeRabbitMqCommand;
 import com.rallibau.shared.infraestructure.bus.event.rabbitmq.command.ConsumeRabbitMqDomainEvents;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;

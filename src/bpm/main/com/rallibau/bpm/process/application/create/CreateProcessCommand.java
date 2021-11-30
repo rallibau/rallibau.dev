@@ -30,7 +30,7 @@ public class CreateProcessCommand extends Command {
 
     @Override
     public HashMap<String, Serializable> toPrimitives() {
-        return new HashMap<String, Serializable>() {{
+        return new HashMap<>() {{
             put("name", name);
         }};
     }

@@ -13,6 +13,7 @@ public class CreateConnectionCommandHandler implements CommandHandler<CreateConn
         this.connectionCreator = connectionCreator;
     }
 
+    @Override
     public void handle(CreateConnectionCommand createConnectionCommand) {
         Connection connection = Connection.create(new ConnectionId(createConnectionCommand.id()),
                 new NodeIdOwner(createConnectionCommand.owner()),

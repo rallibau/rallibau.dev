@@ -28,7 +28,7 @@ public class RabbitMqCommandsConsumer {
     private final CommandJsonDeserializer deserializer;
     private final ApplicationContext context;
     private final RabbitMqPublisher publisher;
-    private final HashMap<String, Object> commandsSubscribers = new HashMap<>();
+    private final HashMap<String, Optional<Object>> commandsSubscribers = new HashMap<>();
     RabbitListenerEndpointRegistry registry;
     private final CommandHandlersInformation information;
 
@@ -65,28 +65,28 @@ public class RabbitMqCommandsConsumer {
         String serializedMessage = new String(message.getBody());
         String queue = message.getMessageProperties().getConsumerQueue();
 
-        Object subscriber = commandsSubscribers.containsKey(queue)
+        Optional<Object> subscriberOptional = commandsSubscribers.containsKey(queue)
                 ? commandsSubscribers.get(queue)
                 : subscriberFor(queue);
 
-        Optional<Command> command = deserializer.deserialize(serializedMessage);
-        if (!command.isPresent()) {
-            throw new Exception(String.format(
-                    "The subscriber <%s> can't deserialize the message",
-                    queue));
+        if (subscriberOptional.isEmpty()) {
+            throw new Exception(String.format("There are not registered subscribers for <%s> queue", queue));
         }
+        Optional<Command> command = Optional.empty();
         try {
-
+            Object subscriber = subscriberOptional.get();
+            command = deserializer.deserialize(serializedMessage);
+            if (command.isEmpty()) {
+                throw new Exception("Message can not be empty");
+            }
             Method commandHandleMethod = subscriber.getClass().getMethod("handle", command.get().getClass());
-            System.out.println(commandHandleMethod.getName());
             commandHandleMethod.invoke(subscriber, command.get());
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException error) {
             throw new Exception(String.format(
                     "The subscriber <%s> should implement a method `handle` to manage command <%s>",
                     queue,
-                    command.get().className()
+                    command.isPresent() ? command.get().className() : "UNDEFINED"
             ));
-
 
         } catch (Exception error) {
             handleConsumptionError(message, queue);
@@ -94,18 +94,17 @@ public class RabbitMqCommandsConsumer {
 
     }
 
-    private Object subscriberFor(String queue) throws Exception {
+    private Optional<Object> subscriberFor(String queue) {
         String[] queueParts = queue.split("\\.");
         String commandHandlerName = Utils.toCamelFirstLower(queueParts[queueParts.length - 1]).concat("Handler");
 
-        try {
-            Object commandHandler = context.getBean(commandHandlerName);
+        if (context.containsBean(commandHandlerName)) {
+            Optional<Object> commandHandler = Optional.of(context.getBean(commandHandlerName));
             commandsSubscribers.put(queue, commandHandler);
-
             return commandHandler;
-        } catch (Exception e) {
-            throw new Exception(String.format("There are not registered subscribers for <%s> queue", queue));
         }
+        return Optional.empty();
+
     }
 
     private void handleConsumptionError(Message message, String queue) {

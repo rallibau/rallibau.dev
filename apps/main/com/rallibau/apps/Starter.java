@@ -19,7 +19,7 @@ public class Starter {
         if (args.length < 2) {
             // throw new RuntimeException("There are not enough arguments");
             args = new String[2];
-            args[0] = "monolit";
+            args[0] = "cms";
             args[1] = "server";
         }
 

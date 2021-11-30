@@ -23,7 +23,7 @@ public class CommandJsonDeserializer {
         HashMap<String, Serializable> data = (HashMap<String, Serializable>) eventData.get("data");
         HashMap<String, Serializable> attributes = (HashMap<String, Serializable>) data.get("attributes");
         Optional<Class<? extends Command>> commandClass = information.forName((String) data.get("type"));
-        if (!commandClass.isPresent()) {
+        if (commandClass.isEmpty()) {
             return Optional.empty();
         }
 

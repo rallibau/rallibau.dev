@@ -7,17 +7,31 @@ import com.google.common.base.CaseFormat;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 
 public final class Utils {
-    public static String dateToString(LocalDateTime dateTime) {
-        return dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE);
+
+    public static final String DATA_TIME_FORMAT = "yyyyMMdd HH:mm:ss.SSSSSS Z";
+
+    public static String dateToString(ZonedDateTime dateTime) {
+        return dateTime.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT));
     }
 
     public static String dateToString(Timestamp timestamp) {
-        return dateToString(timestamp.toLocalDateTime());
+        return dateToString(timestamp.toLocalDateTime().atZone(ZoneId.systemDefault()));
+    }
+
+    public static ZonedDateTime dateFromString(String dateTimeString) {
+        return ZonedDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern(DATA_TIME_FORMAT));
+    }
+
+    public static Date convertToDateViaInstant(ZonedDateTime dateToConvert) {
+        return java.util.Date
+                .from(dateToConvert.toInstant());
     }
 
     public static String jsonEncode(HashMap<String, Serializable> map) {

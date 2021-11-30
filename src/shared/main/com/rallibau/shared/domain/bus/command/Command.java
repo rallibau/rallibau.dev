@@ -1,21 +1,21 @@
 package com.rallibau.shared.domain.bus.command;
 
 import com.rallibau.shared.domain.Utils;
-import com.rallibau.shared.domain.bus.event.DomainEvent;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.UUID;
 
 public abstract class Command {
 
-    private String eventId;
-    private String occurredOn;
+    private final String eventId;
+    private final String occurredOn;
 
     protected Command() {
         this.eventId = UUID.randomUUID().toString();
-        this.occurredOn = Utils.dateToString(LocalDateTime.now());
+        this.occurredOn = Utils.dateToString(ZonedDateTime.now());
     }
 
 

@@ -1,8 +1,7 @@
 package com.rallibau.apps.cms.controller.page;
 
-import com.rallibau.cms.page.application.create.PageCreator;
+import com.rallibau.cms.page.application.create.CreatePageCommand;
 import com.rallibau.cms.page.application.create.PageRequest;
-import com.rallibau.cms.page.domain.*;
 import com.rallibau.shared.domain.authentication.SessionInfo;
 import com.rallibau.shared.domain.bus.command.CommandBus;
 import com.rallibau.shared.domain.bus.command.CommandHandlerExecutionError;
@@ -15,20 +14,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 @RestController
 public class PagePutController extends ApiController {
 
-    private final PageCreator pageCreator;
     private final SessionInfo sessionInfo;
 
     public PagePutController(QueryBus queryBus,
                              CommandBus commandBus,
-                             PageCreator pageCreator,
                              SessionInfo sessionInfo) {
         super(queryBus, commandBus);
-        this.pageCreator = pageCreator;
         this.sessionInfo = sessionInfo;
     }
 
@@ -38,13 +34,15 @@ public class PagePutController extends ApiController {
             @RequestBody PageRequest pageRequest
 
     ) throws CommandHandlerExecutionError {
-        pageCreator.create(Page.create(
-                PageId.create(id),
-                PageCreationDate.create(new Date()),
-                PageIdUser.create(sessionInfo.logedUserId()),
-                PageTitle.create(pageRequest.getTitle()),
-                PageBody.create(pageRequest.getBody())
-        ));
+        dispatch(
+                new CreatePageCommand(
+                        id,
+                        ZonedDateTime.now(),
+                        sessionInfo.logedUserId(),
+                        pageRequest.getTitle(),
+                        pageRequest.getBody()
+                )
+        );
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

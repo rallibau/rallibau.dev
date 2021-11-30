@@ -13,7 +13,11 @@ public final class Page extends AggregateRoot {
     private final PageBody pageBody;
     private final PageCreationDate pageCreationDate;
 
-    private Page(PageId id, PageCreationDate pageCreationDate, PageIdUser pageIdUser, PageTitle pageTitle, PageBody pageBody) {
+    private Page(PageId id,
+                 PageCreationDate pageCreationDate,
+                 PageIdUser pageIdUser,
+                 PageTitle pageTitle,
+                 PageBody pageBody) {
         this.id = id;
         this.pageIdUser = pageIdUser;
         this.pageTitle = pageTitle;
