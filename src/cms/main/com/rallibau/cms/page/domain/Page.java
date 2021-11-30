@@ -1,5 +1,6 @@
 package com.rallibau.cms.page.domain;
 
+import com.rallibau.cms.user.domain.User;
 import com.rallibau.shared.domain.AggregateRoot;
 import com.rallibau.shared.domain.events.cms.PageCreatedDomainEvent;
 
@@ -8,18 +9,18 @@ import java.util.Objects;
 public final class Page extends AggregateRoot {
 
     private final PageId id;
-    private final PageIdUser pageIdUser;
+    private User user;
     private final PageTitle pageTitle;
     private final PageBody pageBody;
     private final PageCreationDate pageCreationDate;
 
     private Page(PageId id,
                  PageCreationDate pageCreationDate,
-                 PageIdUser pageIdUser,
+                 User user,
                  PageTitle pageTitle,
                  PageBody pageBody) {
         this.id = id;
-        this.pageIdUser = pageIdUser;
+        this.user = user;
         this.pageTitle = pageTitle;
         this.pageBody = pageBody;
         this.pageCreationDate = pageCreationDate;
@@ -27,18 +28,18 @@ public final class Page extends AggregateRoot {
 
     public Page() {
         this.id = null;
-        this.pageIdUser = null;
+        this.user = null;
         this.pageTitle = null;
         this.pageBody = null;
         this.pageCreationDate = null;
     }
 
-    public static Page create(PageId id, PageCreationDate pageCreationDate, PageIdUser pageIdUser, PageTitle pageTitle, PageBody pageBody) {
-        Page page = new Page(id, pageCreationDate, pageIdUser, pageTitle, pageBody);
+    public static Page create(PageId id, PageCreationDate pageCreationDate, User user, PageTitle pageTitle, PageBody pageBody) {
+        Page page = new Page(id, pageCreationDate, user, pageTitle, pageBody);
         page.record(new PageCreatedDomainEvent(
                 id.value(),
                 pageTitle.value(),
-                pageIdUser.value()));
+                user.id().value()));
         return page;
     }
 
@@ -54,8 +55,12 @@ public final class Page extends AggregateRoot {
         return pageBody;
     }
 
-    public PageIdUser pageIdUser() {
-        return pageIdUser;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public PageCreationDate pageCreationDate() {

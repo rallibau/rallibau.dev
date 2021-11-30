@@ -23,7 +23,7 @@ public class PageCreatorShould {
     }
 
     @Test
-    public void page_creator_dont_failure() {
+    public void page_creator_do_not_failure() {
         Page page = PageMother.random();
         pageCreator.create(page);
         verify(repository, atLeastOnce()).save(page);

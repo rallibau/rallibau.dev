@@ -13,9 +13,7 @@
             <property name="value" column="page_creation_date" type="date" access="field" />
         </component>
 
-        <component name="pageIdUser" class="com.rallibau.cms.page.domain.PageIdUser" access="field">
-            <property name="value" column="page_id_user" type="string" access="field" />
-        </component>
+        <many-to-one name="user" class="com.rallibau.cms.user.domain.User" column="page_id_user"/>
 
         <component name="pageTitle" class="com.rallibau.cms.page.domain.PageTitle" access="field">
             <property name="value" column="page_title" type="string" access="field" />
