@@ -8,15 +8,15 @@ import com.rallibau.shared.infraestructure.cli.ConsoleCommand;
 
 @Service
 public final class ConsumeRabbitMqDomainEvents extends ConsoleCommand {
-    private final RabbitMqDomainEventsConsumer eventconsumer;
+    private final RabbitMqDomainEventsConsumer eventConsumer;
 
 
-    public ConsumeRabbitMqDomainEvents(RabbitMqDomainEventsConsumer eventconsumer) {
-        this.eventconsumer = eventconsumer;
+    public ConsumeRabbitMqDomainEvents(RabbitMqDomainEventsConsumer eventConsumer) {
+        this.eventConsumer = eventConsumer;
     }
 
     @Override
     public void execute(String[] args) {
-        eventconsumer.consume();
+        eventConsumer.consume();
     }
 }

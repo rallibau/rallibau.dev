@@ -5,9 +5,6 @@ import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
 import com.rallibau.shared.infraestructure.bus.command.CommandHandlersInformation;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventSubscribersInformation;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventsInformation;
-import com.rallibau.shared.infraestructure.config.ParameterNotExist;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -20,10 +17,13 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class RabbitMqConfiguration {
+    public static final String EVENT_STORE_QUEUE_NAME = "com.rallibau.share.event.store";
     @Value("${rabbit.event.exchange}")
     private String RABBITMQ_EVENT_EXCHANGE;
     @Value("${rabbit.command.exchange}")
     private String RABBITMQ_COMMAND_EXCHANGE;
+    @Value("${rabbit.store.exchange}")
+    private String RABBITMQ_STORE_EXCHANGE;
     @Value("${rabbit.host}")
     private String RABBITMQ_HOST;
     @Value("${rabbit.port}")
@@ -43,7 +43,7 @@ public class RabbitMqConfiguration {
             DomainEventSubscribersInformation domainEventSubscribersInformation,
             DomainEventsInformation domainEventsInformation,
             CommandHandlersInformation commandHandlersInformation
-    ) throws ParameterNotExist {
+    ) {
         this.domainEventSubscribersInformation = domainEventSubscribersInformation;
         this.domainEventsInformation = domainEventsInformation;
         this.commandHandlersInformation = commandHandlersInformation;
@@ -65,7 +65,22 @@ public class RabbitMqConfiguration {
     public Declarables declaration() throws CommandNotRegisteredError {
         List<Declarable> declarable = obtainsDeclarableOfExchange(RABBITMQ_EVENT_EXCHANGE);
         declarable.addAll(obtainsDeclarableOfExchange(RABBITMQ_COMMAND_EXCHANGE));
+        declarable.addAll(obtainsDeclarableOfEventStore());
         return new Declarables(declarable);
+    }
+
+    private List<Declarable> obtainsDeclarableOfEventStore() {
+        List<Declarable> declarable = new ArrayList<>();
+        TopicExchange eventStoreExchange = new TopicExchange(RABBITMQ_STORE_EXCHANGE, true, false);
+        Queue queue = QueueBuilder.durable(EVENT_STORE_QUEUE_NAME).build();
+        Binding fromExchangeSameQueueBinding = BindingBuilder
+                .bind(queue)
+                .to(eventStoreExchange)
+                .with(EVENT_STORE_QUEUE_NAME);
+        declarable.add(eventStoreExchange);
+        declarable.add(queue);
+        declarable.add(fromExchangeSameQueueBinding);
+        return declarable;
     }
 
     private List<Declarable> obtainsDeclarableOfExchange(String exchangeName) throws CommandNotRegisteredError {
@@ -97,6 +112,7 @@ public class RabbitMqConfiguration {
             ).stream().flatMap(Collection::stream).collect(Collectors.toList());
             declarable.addAll(queuesAndBindings);
         }
+
 
         return declarable;
     }
@@ -162,7 +178,7 @@ public class RabbitMqConfiguration {
 
     private Collection<Collection<Declarable>> declareQueuesAndBindingsEvents(
             TopicExchange topicExchange,
-            TopicExchange retryTopicEchange,
+            TopicExchange retryTopicExchange,
             TopicExchange deadLetterTopicExchange
     ) {
 
@@ -184,7 +200,7 @@ public class RabbitMqConfiguration {
 
             Binding fromRetryExchangeSameQueueBinding = BindingBuilder
                     .bind(retryQueue)
-                    .to(retryTopicEchange)
+                    .to(retryTopicExchange)
                     .with(queueName);
 
             Binding fromDeadLetterExchangeSameQueueBinding = BindingBuilder
@@ -216,10 +232,8 @@ public class RabbitMqConfiguration {
         }).collect(Collectors.toList());
     }
 
-    @NotNull
-    @Contract("_, _ -> new")
     private HashMap<String, Object> retryQueueArguments(TopicExchange exchange, String routingKey) {
-        return new HashMap<String, Object>() {{
+        return new HashMap<>() {{
             put("x-dead-letter-exchange", exchange.getName());
             put("x-dead-letter-routing-key", routingKey);
             put("x-message-ttl", 1000);

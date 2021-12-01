@@ -9,6 +9,7 @@ import org.springframework.context.annotation.FilterType;
 import java.util.HashMap;
 
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
+//@EnableEurekaServer
 @ComponentScan(
         includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class),
         value = {"com.rallibau.apps.commons","com.rallibau.shared", "com.rallibau.apps.gateway"}

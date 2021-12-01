@@ -3,7 +3,6 @@ package com.rallibau.shared.domain.bus.command;
 import com.rallibau.shared.domain.Utils;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.UUID;

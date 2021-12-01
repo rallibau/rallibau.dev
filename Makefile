@@ -25,6 +25,7 @@ sonar-qube:
 start-frontend:
 	@npm start --prefix frontend/blog/
 
+#start backend local
 start-gateway:
 	@./gradlew :run --args="gateway server"
 start-monolith:
@@ -38,14 +39,27 @@ start-acl:
 start-cms:
 	@./gradlew :run --args="cms server"
 
+#start backend compose
 start-bpm-compose:
 	@./gradlew build --warning-mode all && docker-compose up -d --build bpm
-
 start-schedule-compose:
 	@./gradlew build --warning-mode all && docker-compose up -d --build schedule
+start-acl-compose:
+	@./gradlew build --warning-mode all && docker-compose up -d --build acl
+start-cms-compose:
+	@./gradlew build --warning-mode all && docker-compose up -d --build cms
 
+#stop
 stop-bpm-compose:
 	@docker-compose stop bpm
+stop-schedule-compose:
+	@docker-compose stop schedule
+stop-acl-compose:
+	@docker-compose stop acl
+stop-cms-compose:
+	@docker-compose stop cms
+
+
 
 
 

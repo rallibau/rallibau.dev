@@ -12,6 +12,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @Service
 public class RabbitMqPublisher {
+    public static final String STORE_EVENTS = "store_events";
     private final RabbitTemplate rabbitTemplate;
 
     public RabbitMqPublisher(RabbitTemplate rabbitTemplate) {
@@ -30,6 +31,7 @@ public class RabbitMqPublisher {
         );
 
         rabbitTemplate.send(exchangeName, domainEvent.eventName(), message);
+        sendToStore(message);
     }
 
     public void publish(Command command, String exchangeName) throws AmqpException {
@@ -43,9 +45,14 @@ public class RabbitMqPublisher {
         );
 
         rabbitTemplate.send(exchangeName, command.formatQueueName(), message);
+        sendToStore(message);
     }
 
-    public void publish(Message message, String exchangeName, String routingKey) throws AmqpException {
+    public void rePublish(Message message, String exchangeName, String routingKey) throws AmqpException {
         rabbitTemplate.send(exchangeName, routingKey, message);
+    }
+
+    private void sendToStore(Message message){
+        rabbitTemplate.send(STORE_EVENTS, RabbitMqConfiguration.EVENT_STORE_QUEUE_NAME, message);
     }
 }

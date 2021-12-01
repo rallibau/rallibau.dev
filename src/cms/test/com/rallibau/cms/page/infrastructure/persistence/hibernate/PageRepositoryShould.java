@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,7 +24,6 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 
 @ContextConfiguration(classes = CmsApplication.class)
 @SpringBootTest
-@Transactional
 public class PageRepositoryShould {
 
     @Autowired

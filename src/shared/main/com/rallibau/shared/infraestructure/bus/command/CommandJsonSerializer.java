@@ -11,14 +11,16 @@ public final class CommandJsonSerializer {
         HashMap<String, Serializable> attributes = command.toPrimitives();
         attributes.put("id", command.id());
 
-        return Utils.jsonEncode(new HashMap<String, Serializable>() {{
+        return Utils.jsonEncode(new HashMap<>() {{
             put("data", new HashMap<String, Serializable>() {{
                 put("id", command.eventId());
                 put("type", command.getClass().getName());
                 put("occurred_on", command.occurredOn());
                 put("attributes", attributes);
             }});
-            put("meta", new HashMap<String, Serializable>());
+            HashMap<String, Serializable> meta = new HashMap<>();
+            meta.put("type", "command");
+            put("meta", meta);
         }});
     }
 }

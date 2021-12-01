@@ -18,7 +18,9 @@ public final class DomainEventJsonSerializer {
                 put("occurred_on", domainEvent.occurredOn());
                 put("attributes", attributes);
             }});
-            put("meta", new HashMap<String, Serializable>());
+            HashMap<String, Serializable> meta = new HashMap<>();
+            meta.put("type", "event");
+            put("meta", meta);
         }});
     }
 }

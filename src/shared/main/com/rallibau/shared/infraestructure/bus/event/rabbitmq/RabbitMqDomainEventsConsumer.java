@@ -116,7 +116,7 @@ public class RabbitMqDomainEventsConsumer {
                         .copyHeaders(headers)
                         .build());
 
-        publisher.publish(message, exchange, queue);
+        publisher.rePublish(message, exchange, queue);
     }
 
     private boolean hasBeenRedeliveredTooMuch(Message message) {
