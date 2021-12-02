@@ -36,41 +36,42 @@ allprojects {
 
     dependencies {
         // Prod
-        implementation 'org.apache.logging.log4j:log4j-core:2.12.1'
-        implementation 'org.apache.logging.log4j:log4j-api:2.12.1'
-        implementation 'com.vlkan.log4j2:log4j2-logstash-layout:0.21'
-        implementation 'io.github.cdimascio:java-dotenv:5.1.3'
+        implementation 'org.apache.logging.log4j:log4j-core:2.14.1'
+        implementation 'org.apache.logging.log4j:log4j-api:2.14.1'
+        implementation 'com.vlkan.log4j2:log4j2-logstash-layout:1.0.5'
+        implementation 'io.github.cdimascio:java-dotenv:5.2.2'
 
         implementation 'org.hibernate:hibernate-core:5.4.9.Final'
         implementation 'org.springframework:spring-orm:5.2.2.RELEASE'
-        implementation 'org.apache.tomcat:tomcat-dbcp:9.0.29'
-        implementation 'com.sun.xml.bind:jaxb-impl:2.3.2'
-        implementation 'javax.xml.bind:jaxb-api:2.3.1'
+        implementation 'org.apache.tomcat:tomcat-dbcp:10.0.12'
+        implementation 'com.sun.xml.bind:jaxb-impl:3.0.1'
+        implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
         implementation 'org.springframework:spring-context-support:5.2.1.RELEASE'
-        implementation 'org.freemarker:freemarker-gae:2.3.29'
-        implementation 'org.reflections:reflections:0.9.11'
+        implementation 'org.freemarker:freemarker-gae:2.3.31'
+        implementation 'org.reflections:reflections:0.10.2'
         implementation 'org.springframework.boot:spring-boot-starter-amqp'
         implementation 'org.springframework.cloud:spring-cloud-starter-config'
         implementation 'org.elasticsearch.client:elasticsearch-rest-client:6.8.5'
         implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:6.8.4'
         implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-        implementation 'commons-io:commons-io:2.6'
-        implementation 'org.aspectj:aspectjweaver:1.9.5'
-        implementation 'org.json:json:20090211'
+        implementation 'commons-io:commons-io:20030203.000550'
+        implementation 'org.aspectj:aspectjweaver:1.9.7'
+        implementation 'org.json:json:20210307'
+        implementation 'com.google.guava:guava:31.0.1-jre'
 
 
         runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
         runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-        runtimeOnly 'mysql:mysql-connector-java:8.0.18'
-        runtimeOnly 'com.h2database:h2'
-        runtimeOnly 'org.aspectj:aspectjrt:1.9.5'
+        runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+        runtimeOnly 'com.h2database:h2:1.4.200'
+        runtimeOnly 'org.aspectj:aspectjrt:1.9.7'
 
 
 
         // Test
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
         testImplementation 'org.mockito:mockito-core:2.+'
-        testImplementation 'com.github.javafaker:javafaker:1.0.1'
+        testImplementation 'com.github.javafaker:javafaker:1.0.2'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
     }
 
