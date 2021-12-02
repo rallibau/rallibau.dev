@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rallibau-mysql
+  labels:
+    app: rallibau-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rallibau-mysql
+  template:
+    metadata:
+      labels:
+        app: rallibau-mysql
+    spec:
+      containers:
+        - name: rallibau-mysql
+          image: mysql:8
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: "/var/lib/mysql"
+              subPath: "mysql"
+              name: mysql-data
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: ROOT_PASSWORD
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-data-disk

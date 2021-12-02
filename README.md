@@ -24,3 +24,20 @@ https://dev.to/surajondev/4-best-ui-framework-for-reactjs-c20
 https://medium.com/technoetics/create-basic-login-forms-using-react-js-hooks-and-bootstrap-2ae36c15e551
 
 https://earthly.dev/blog/monorepo-with-bazel/
+
+
+
+argocd and k8s
+
+iniciar argocd:  minikube service argocd-server -n argocd
+Set admin password:
+kubectl -n argocd patch secret argocd-secret \
+-p '{"stringData": {
+"admin.password": "$2a$10$0F1oETpELme5n23AHO26T.jg1GQv0VuhtoHM4UtXM0D4NP9LXUCU.",
+"admin.passwordMtime": "'$(date +%FT%T%Z)'"
+}}'
+password encrypt: https://www.browserling.com/tools/bcrypt
+
+minikube start
+minikube dashboard
+minikube service list
