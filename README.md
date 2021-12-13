@@ -41,3 +41,8 @@ password encrypt: https://www.browserling.com/tools/bcrypt
 minikube start
 minikube dashboard
 minikube service list
+
+k8s rabbit:
+https://www.rabbitmq.com/kubernetes/operator/install-operator.html
+kubectl -n default get secret rallibau-rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
+kubectl -n default get secret rallibau-rabbitmq-default-user -o jsonpath="{.data.password}" | base64 --decode

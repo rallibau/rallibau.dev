@@ -61,7 +61,9 @@ stop-cms-compose:
 
 
 #k8s
-start-stage-infra:
-	@pwd @eval $(minikube docker-env) && docker-compose build mysql && kubectl apply -f k8s-infrastructure/stage/persistence/secret.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/persistentVolumeClaim.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/mysql-deployment.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/service.yaml
+start-stage-rabbit:
+	@eval $(minikube docker-env) && kubectl apply -f k8s-infrastructure/stage/mq/service.yaml
+start-stage-mysql:
+	@eval $(minikube docker-env) && docker-compose build mysql && kubectl apply -f k8s-infrastructure/stage/persistence/secret.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/persistentVolumeClaim.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/mysql-deployment.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/service.yaml
 start-stage-services:
 	@eval $(minikube docker-env) && docker-compose build acl && kubectl apply -f k8s-infrastructure/stage/acl/acl-deployment.yaml

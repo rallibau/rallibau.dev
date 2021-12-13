@@ -1,0 +1,34 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: bpm-service
+spec:
+  selector:
+    app: bpm-service
+  ports:
+    - protocol: TCP
+      port: 8081
+      nodePort: 30082
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bpm-service
+spec:
+  selector:
+    matchLabels:
+      app: bpm-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bpm-service
+    spec:
+      containers:
+        - name: bpm-service
+          image: rallibaudev_bpm:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
