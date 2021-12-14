@@ -1,33 +1,35 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: cms-service
+  name: bpm-service
 spec:
   selector:
-    app: cms-service
+    app: bpm-service
   ports:
     - protocol: TCP
       port: 8081
-      nodePort: 30083
+      nodePort: 30082
   type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cms-service
+  name: bpm-service
 spec:
   selector:
     matchLabels:
-      app: cms-service
+      app: bpm-service
   replicas: 1
   template:
     metadata:
       labels:
-        app: cms-service
+        app: bpm-service
     spec:
       containers:
-        - name: cms-service
-          image: rallibaudev_cms:latest
+        - name: bpm-service
+          image: rallibau-java:latest
+          command: [ "/bin/sh","-c" ]
+          args: [ "java -Denv=stage -jar app.jar bpm server" ]
           imagePullPolicy: Never
           ports:
             - containerPort: 8081

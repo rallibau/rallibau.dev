@@ -1,33 +1,35 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: acl-service
+  name: cms-service
 spec:
   selector:
-    app: acl-service
+    app: cms-service
   ports:
     - protocol: TCP
       port: 8081
-      nodePort: 30081
+      nodePort: 30083
   type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: acl-service
+  name: cms-service
 spec:
   selector:
     matchLabels:
-      app: acl-service
+      app: cms-service
   replicas: 1
   template:
     metadata:
       labels:
-        app: acl-service
+        app: cms-service
     spec:
       containers:
-        - name: acl-service
-          image: rallibaudev_acl:latest
+        - name: cms-service
+          image: rallibau-java:latest
+          command: [ "/bin/sh","-c" ]
+          args: [ "java -Denv=stage -jar app.jar cms server" ]
           imagePullPolicy: Never
           ports:
             - containerPort: 8081

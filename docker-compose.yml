@@ -7,15 +7,11 @@ networks:
 services:
   acl:
     container_name: rallibau-acl
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 'rallibau-java:latest'
     restart: unless-stopped
     entrypoint: [ "sh", "-c", "java $JAVA_OPTS -Denv=compose-local -jar app.jar acl server" ]
     ports:
       - "8081:8081"
-    volumes:
-      - .:/app:delegated
     env_file:
       - .env
     tty: true
@@ -23,9 +19,7 @@ services:
       - rallibau-net
   bpm:
     container_name: rallibau-bpm
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 'rallibau-java:latest'
     restart: unless-stopped
     entrypoint: [ "sh", "-c", "java $JAVA_OPTS -Denv=compose-local -jar app.jar bpm server" ]
     ports:
@@ -39,9 +33,7 @@ services:
       - rallibau-net
   cms:
     container_name: rallibau-cms
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 'rallibau-java:latest'
     restart: unless-stopped
     entrypoint: [ "sh", "-c", "java $JAVA_OPTS -Denv=compose-local -jar app.jar cms server" ]
     ports:
@@ -56,9 +48,7 @@ services:
 
   schedule:
     container_name: rallibau-schedule
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: 'rallibau-java:latest'
     restart: unless-stopped
     entrypoint: [ "sh", "-c", "java $JAVA_OPTS -Denv=compose-local -jar app.jar scheduler server" ]
     ports:

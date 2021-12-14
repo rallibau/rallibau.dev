@@ -113,19 +113,15 @@ public  class HibernateConfigurationFactory {
         Path currentRelativePath = Paths.get("");
         String BASE_PATH = BASE_PACKAGE.replace(".","/");
         String s = currentRelativePath.toAbsolutePath().toString();
-        log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!Current absolute path is: " + s);
         String path = "./src/" + contextName + "/main/"+ BASE_PATH +"/" + contextName + "/";
-        log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!Current absolute path is: " + path);
         String[] files = new File(path).list((current, name) -> new File(current, name).isDirectory());
 
         if (null == files) {
             path = "./main/" + BASE_PATH + "/" + contextName + "/";
-            log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!Current absolute path is: " + path);
             files = new File(path).list((current, name) -> new File(current, name).isDirectory());
         }
         if (null == files) {
             path = "./app/src/" + contextName + "/main/" + BASE_PATH + "/" + contextName + "/";
-            log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!Current absolute path is: " + path);
             files = new File(path).list((current, name) -> new File(current, name).isDirectory());
         }
 

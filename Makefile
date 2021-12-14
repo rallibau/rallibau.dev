@@ -40,14 +40,17 @@ start-cms:
 	@./gradlew :run --args="cms server"
 
 #start backend compose
+compile-image:
+	@./gradlew build --warning-mode all && docker build -t rallibau-java .
+
 start-bpm-compose:
-	@./gradlew build --warning-mode all && docker-compose up -d --build bpm
+	@docker-compose up -d --build bpm
 start-schedule-compose:
-	@./gradlew build --warning-mode all && docker-compose up -d --build schedule
+	@docker-compose up -d --build schedule
 start-acl-compose:
-	@./gradlew build --warning-mode all && docker-compose up -d --build acl
+	@docker-compose up -d --build acl
 start-cms-compose:
-	@./gradlew build --warning-mode all && docker-compose up -d --build cms
+	@docker-compose up -d --build cms
 
 #stop
 stop-bpm-compose:
@@ -61,9 +64,11 @@ stop-cms-compose:
 
 
 #k8s
+compile-image-stage:
+	@./gradlew build --warning-mode all && eval $(minikube docker-env) && docker build -t rallibau-java .
 start-stage-rabbit:
 	@eval $(minikube docker-env) && kubectl apply -f k8s-infrastructure/stage/mq/service.yaml
 start-stage-mysql:
 	@eval $(minikube docker-env) && docker-compose build mysql && kubectl apply -f k8s-infrastructure/stage/persistence/secret.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/persistentVolumeClaim.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/mysql-deployment.yaml && kubectl apply -f k8s-infrastructure/stage/persistence/service.yaml
 start-stage-services:
-	@eval $(minikube docker-env) && docker-compose build acl && kubectl apply -f k8s-infrastructure/stage/acl/acl-deployment.yaml
+	@kubectl delete -f k8s-infrastructure/stage/acl/deployment.yaml && kubectl apply -f k8s-infrastructure/stage/acl/deployment.yaml

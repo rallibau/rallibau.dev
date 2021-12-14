@@ -1,33 +1,35 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: bpm-service
+  name: acl-service
 spec:
   selector:
-    app: bpm-service
+    app: acl-service
   ports:
     - protocol: TCP
       port: 8081
-      nodePort: 30082
+      nodePort: 30081
   type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bpm-service
+  name: acl-service
 spec:
   selector:
     matchLabels:
-      app: bpm-service
+      app: acl-service
   replicas: 1
   template:
     metadata:
       labels:
-        app: bpm-service
+        app: acl-service
     spec:
       containers:
-        - name: bpm-service
-          image: rallibaudev_bpm:latest
+        - name: acl-service
+          image: rallibau-java:latest
+          command: ["/bin/sh","-c"]
+          args: ["java -Denv=stage -jar app.jar acl server" ]
           imagePullPolicy: Never
           ports:
             - containerPort: 8081
