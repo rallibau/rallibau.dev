@@ -1,6 +1,5 @@
 package com.rallibau.apps.acl.controller.user;
 
-import com.rallibau.acl.token.domain.TokenRequest;
 import com.rallibau.acl.user.application.create.UserCreator;
 import com.rallibau.acl.user.domain.*;
 import com.rallibau.shared.domain.bus.command.CommandBus;
@@ -46,7 +45,7 @@ public class UserPutController extends ApiController {
 
     @Override
     public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
-        return new HashMap<Class<? extends RuntimeException>, HttpStatus>() {{
+        return new HashMap<>() {{
             put(RuntimeException.class, HttpStatus.INTERNAL_SERVER_ERROR);
         }};
     }

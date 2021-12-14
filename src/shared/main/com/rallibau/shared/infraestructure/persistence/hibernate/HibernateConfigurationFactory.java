@@ -16,6 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -53,7 +54,7 @@ public  class HibernateConfigurationFactory {
 
         List<Resource> mappingFiles = searchMappingFiles(contextName);
 
-        sessionFactory.setMappingLocations(mappingFiles.toArray(new Resource[mappingFiles.size()]));
+        sessionFactory.setMappingLocations(mappingFiles.toArray(new Resource[0]));
 
         return sessionFactory;
     }
@@ -86,7 +87,7 @@ public  class HibernateConfigurationFactory {
                 "classpath:database/%s.sql",
                 databaseName
         ));
-        String mysqlSentences = new Scanner(sqlResources.getInputStream(), "UTF-8").useDelimiter("\\A").next();
+        String mysqlSentences = new Scanner(sqlResources.getInputStream(), StandardCharsets.UTF_8).useDelimiter("\\A").next();
 
         dataSource.setConnectionInitSqls(new ArrayList<>(Arrays.asList(mysqlSentences.split(";"))));
 
@@ -112,16 +113,19 @@ public  class HibernateConfigurationFactory {
         Path currentRelativePath = Paths.get("");
         String BASE_PATH = BASE_PACKAGE.replace(".","/");
         String s = currentRelativePath.toAbsolutePath().toString();
+        log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!Current absolute path is: " + s);
         String path = "./src/" + contextName + "/main/"+ BASE_PATH +"/" + contextName + "/";
-
+        log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!Current absolute path is: " + path);
         String[] files = new File(path).list((current, name) -> new File(current, name).isDirectory());
 
         if (null == files) {
             path = "./main/" + BASE_PATH + "/" + contextName + "/";
+            log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!Current absolute path is: " + path);
             files = new File(path).list((current, name) -> new File(current, name).isDirectory());
         }
         if (null == files) {
             path = "./app/src/" + contextName + "/main/" + BASE_PATH + "/" + contextName + "/";
+            log.error("!!!!!!!!!!!!!!!!!!!!!!!!!!Current absolute path is: " + path);
             files = new File(path).list((current, name) -> new File(current, name).isDirectory());
         }
 

@@ -39,7 +39,7 @@ public class PageGetController extends ApiController {
 
     @Override
     public HashMap<Class<? extends RuntimeException>, HttpStatus> errorMapping() {
-        return new HashMap<Class<? extends RuntimeException>, HttpStatus>() {{
+        return new HashMap<>() {{
             put(PageNotExist.class, HttpStatus.NOT_FOUND);
         }};
     }
