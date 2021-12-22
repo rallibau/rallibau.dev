@@ -4,10 +4,13 @@ import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.Query;
 import com.rallibau.shared.domain.bus.query.QueryHandler;
 import com.rallibau.shared.domain.bus.query.QueryNotRegisteredError;
+import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqQueriesQueueNameFormatter;
 import org.reflections.Reflections;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -44,5 +47,22 @@ public class QueryHandlersInformation {
         }
 
         return handlers;
+    }
+
+    public HashMap<Class<? extends Query>, Class<? extends QueryHandler>> all() {
+        return indexedQueryHandlers;
+    }
+
+    public String[] rabbitMqFormattedNames() throws QueryNotRegisteredError {
+        ArrayList<String> queues = new ArrayList<>();
+        for (Class<? extends Query> query : indexedQueryHandlers.keySet()) {
+            String queueName = RabbitMqQueriesQueueNameFormatter.format(query);
+            queues.add(queueName);
+        }
+        return queues.toArray(new String[0]);
+    }
+
+    public Optional<Class<? extends Query>> forName(String name) {
+        return indexedQueryHandlers.keySet().stream().filter(query -> query.getName().equals(name)).findFirst();
     }
 }

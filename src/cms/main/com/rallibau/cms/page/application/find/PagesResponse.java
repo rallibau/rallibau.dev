@@ -6,7 +6,13 @@ import java.util.List;
 
 public class PagesResponse implements Response {
 
+
+
     private final List<PageResponse> pages;
+
+    public PagesResponse() {
+        this.pages = null;
+    }
 
     public PagesResponse(List<PageResponse> pages) {
         this.pages = pages;

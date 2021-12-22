@@ -4,7 +4,7 @@ import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.command.Command;
 import com.rallibau.shared.domain.bus.command.CommandHandler;
 import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
-import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqQueueNameFormatter;
+import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqCommandQueueNameFormatter;
 import org.reflections.Reflections;
 
 import java.lang.reflect.ParameterizedType;
@@ -56,8 +56,8 @@ public class CommandHandlersInformation {
     public String[] rabbitMqFormattedNames() throws CommandNotRegisteredError {
         ArrayList<String> queues = new ArrayList<>();
         for (Class<? extends Command> command : indexedCommandHandlers.keySet()) {
-                String queueName = RabbitMqQueueNameFormatter.format(command);
-                queues.add(queueName);
+            String queueName = RabbitMqCommandQueueNameFormatter.format(command);
+            queues.add(queueName);
         }
         return queues.toArray(new String[0]);
     }

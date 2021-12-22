@@ -5,6 +5,19 @@ networks:
     external: false
 
 services:
+  frontend:
+    container_name: rallibau-frontend
+    build:
+      context: .
+      dockerfile: frontend/blog/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    tty: true
+    networks:
+      - rallibau-net
   acl:
     container_name: rallibau-acl
     image: 'rallibau-java:latest'
@@ -87,8 +100,8 @@ services:
     image: 'rabbitmq:3.7-management'
     restart: unless-stopped
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=rallibau
       - RABBITMQ_DEFAULT_PASS=secreto

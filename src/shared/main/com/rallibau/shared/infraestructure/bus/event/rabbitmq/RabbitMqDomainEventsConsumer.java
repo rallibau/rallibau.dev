@@ -3,6 +3,7 @@ package com.rallibau.shared.infraestructure.bus.event.rabbitmq;
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.Utils;
 import com.rallibau.shared.domain.bus.event.DomainEvent;
+import com.rallibau.shared.domain.bus.event.SubscriberNotRegisteredError;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventJsonDeserializer;
 import com.rallibau.shared.infraestructure.bus.event.DomainEventSubscribersInformation;
 import com.rallibau.shared.infraestructure.bus.shared.rabbitmq.RabbitMqExchangeNameFormatter;
@@ -58,15 +59,16 @@ public class RabbitMqDomainEventsConsumer {
     public void consumer(Message message) throws Exception {
         String serializedMessage = new String(message.getBody());
         DomainEvent domainEvent = deserializer.deserialize(serializedMessage);
-
         String queue = message.getMessageProperties().getConsumerQueue();
-
-        Object subscriber = domainEventSubscribers.containsKey(queue)
-                ? domainEventSubscribers.get(queue)
-                : subscriberFor(queue);
         try {
-            getOnMethod(domainEvent, subscriber,queue).invoke(subscriber,domainEvent);
-        } catch (Exception error) {
+            Object subscriber = domainEventSubscribers.containsKey(queue)
+                    ? domainEventSubscribers.get(queue)
+                    : subscriberFor(queue);
+            getOnMethod(domainEvent, subscriber, queue).invoke(subscriber, domainEvent);
+        }catch (SubscriberNotRegisteredError error) {
+           //empty
+        }
+        catch (Exception error) {
             handleConsumptionError(message, queue);
         }
     }
@@ -96,6 +98,7 @@ public class RabbitMqDomainEventsConsumer {
         }
     }
 
+
     private void sendToRetry(Message message, String queue) {
         sendMessageTo(RabbitMqExchangeNameFormatter.retry("domain_events"), message, queue);
     }
@@ -124,17 +127,15 @@ public class RabbitMqDomainEventsConsumer {
         return (int) message.getMessageProperties().getHeaders().getOrDefault("redelivery_count", 0) >= MAX_RETRIES;
     }
 
-    private Object subscriberFor(String queue) throws Exception {
+    private Object subscriberFor(String queue) throws SubscriberNotRegisteredError {
         String[] queueParts = queue.split("\\.");
         String subscriberName = Utils.toCamelFirstLower(queueParts[queueParts.length - 1]);
-
         try {
             Object subscriber = context.getBean(subscriberName);
             domainEventSubscribers.put(queue, subscriber);
-
             return subscriber;
         } catch (Exception e) {
-            throw new Exception(String.format("There are not registered subscribers for <%s> queue", queue));
+            throw new SubscriberNotRegisteredError(queue);
         }
     }
 }

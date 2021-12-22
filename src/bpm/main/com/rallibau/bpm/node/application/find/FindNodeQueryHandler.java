@@ -9,7 +9,6 @@ import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.QueryHandler;
 import com.rallibau.shared.domain.criteria.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +36,7 @@ public class FindNodeQueryHandler implements QueryHandler<NodeFinderQuery, NodeR
     private List<String> getConnections(String nodeId) {
         Criteria criteria = new Criteria(
                 new Filters(
-                        Arrays.asList(
+                        List.of(
                                 Filter.create("nodeIdOwner",
                                         FilterOperator.EQUAL.value(),
                                         nodeId))),

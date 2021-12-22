@@ -3,6 +3,7 @@ package com.rallibau.shared.infraestructure.cli;
 
 import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
+import com.rallibau.shared.domain.bus.query.QueryNotRegisteredError;
 
 @Service
 public abstract class ConsoleCommand {
@@ -11,7 +12,7 @@ public abstract class ConsoleCommand {
     private static final String ANSI_CYAN  = "\u001B[36m";
     private static final String ANSI_GREEN = "\u001B[32m";
 
-    abstract public void execute(String[] args);
+    abstract public void execute(String[] args) throws CommandNotRegisteredError, QueryNotRegisteredError;
 
     protected void log(String text) {
         System.out.println(String.format("%s%s%s", ANSI_GREEN, text, ANSI_RESET));

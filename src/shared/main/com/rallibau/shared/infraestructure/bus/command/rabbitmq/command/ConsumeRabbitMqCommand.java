@@ -2,6 +2,7 @@ package com.rallibau.shared.infraestructure.bus.command.rabbitmq.command;
 
 
 import com.rallibau.shared.domain.Service;
+import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
 import com.rallibau.shared.infraestructure.bus.command.rabbitmq.RabbitMqCommandsConsumer;
 import com.rallibau.shared.infraestructure.cli.ConsoleCommand;
 
@@ -15,7 +16,7 @@ public final class ConsumeRabbitMqCommand extends ConsoleCommand {
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args) throws CommandNotRegisteredError {
         commandsConsumer.consume();
     }
 }

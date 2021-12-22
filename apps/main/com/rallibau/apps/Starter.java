@@ -6,6 +6,8 @@ import com.rallibau.apps.cms.CmsApplication;
 import com.rallibau.apps.gateway.GatewayApplication;
 import com.rallibau.apps.monolith.MonolithApplication;
 import com.rallibau.apps.schedule.ScheduleApplication;
+import com.rallibau.shared.domain.bus.command.CommandNotRegisteredError;
+import com.rallibau.shared.domain.bus.query.QueryNotRegisteredError;
 import com.rallibau.shared.infraestructure.cli.ConsoleCommand;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -15,11 +17,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Starter {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CommandNotRegisteredError, QueryNotRegisteredError {
         if (args.length < 2) {
             // throw new RuntimeException("There are not enough arguments");
             args = new String[2];
-            args[0] = "cms";
+            args[0] = "monolith";
             args[1] = "server";
         }
 
@@ -75,7 +77,7 @@ public class Starter {
     private static HashMap<String, Class<?>> applications() {
         HashMap<String, Class<?>> applications = new HashMap<>();
 
-        applications.put("monolit", MonolithApplication.class);
+        applications.put("monolith", MonolithApplication.class);
         applications.put("acl", AclApplication.class);
         applications.put("bpm", BpmApplication.class);
         applications.put("scheduler", ScheduleApplication.class);
@@ -91,7 +93,7 @@ public class Starter {
         commands.put("bpm", BpmApplication.commands());
         commands.put("acl", AclApplication.commands());
         commands.put("scheduler", ScheduleApplication.commands());
-        commands.put("monolit", MonolithApplication.commands());
+        commands.put("monolith", MonolithApplication.commands());
         commands.put("cms", CmsApplication.commands());
         commands.put("gateway", GatewayApplication.commands());
         return commands;

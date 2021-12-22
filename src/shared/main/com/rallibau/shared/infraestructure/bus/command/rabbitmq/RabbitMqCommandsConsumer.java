@@ -46,16 +46,12 @@ public class RabbitMqCommandsConsumer {
         this.publisher = publisher;
     }
 
-    public void consume() {
+    public void consume() throws CommandNotRegisteredError {
         AbstractMessageListenerContainer container = (AbstractMessageListenerContainer) registry.getListenerContainer(
                 CONSUMER_NAME
         );
 
-        try {
-            container.addQueueNames(information.rabbitMqFormattedNames());
-        } catch (CommandNotRegisteredError commandNotRegisteredError) {
-            commandNotRegisteredError.printStackTrace();
-        }
+        container.addQueueNames(information.rabbitMqFormattedNames());
 
         container.start();
     }

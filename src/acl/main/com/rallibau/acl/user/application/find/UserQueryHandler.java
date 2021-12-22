@@ -21,7 +21,7 @@ public class UserQueryHandler implements QueryHandler<UserQuery, UserDetailRespo
     @Override
     public UserDetailResponse handle(UserQuery query) {
         Optional<User> user = userFinder.findByName(query.userName());
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new UserNotExist(UserName.create(query.userName()));
         }
         return new UserDetailResponse(user.get().id().value(),

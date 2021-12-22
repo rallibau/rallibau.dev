@@ -13,15 +13,21 @@ public class UserDetailResponse implements Response {
         this.password = password;
     }
 
-    public String userName() {
+    public UserDetailResponse() {
+        this.userId = null;
+        this.userName = null;
+        this.password = null;
+    }
+
+    public String getUserName() {
         return userName;
     }
 
-    public String password() {
+    public String getPassword() {
         return password;
     }
 
-    public String userId() {
+    public String getUserId() {
         return userId;
     }
 }
