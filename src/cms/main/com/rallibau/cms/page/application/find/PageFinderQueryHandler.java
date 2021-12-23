@@ -5,11 +5,11 @@ import com.rallibau.shared.domain.Service;
 import com.rallibau.shared.domain.bus.query.QueryHandler;
 
 @Service
-public class FindPageQueryHandler implements QueryHandler<PageFinderQuery, PageResponse> {
+public class PageFinderQueryHandler implements QueryHandler<PageFinderQuery, PageResponse> {
 
     private final PageFinder pageFinder;
 
-    public FindPageQueryHandler(PageFinder pageFinder) {
+    public PageFinderQueryHandler(PageFinder pageFinder) {
         this.pageFinder = pageFinder;
     }
 
