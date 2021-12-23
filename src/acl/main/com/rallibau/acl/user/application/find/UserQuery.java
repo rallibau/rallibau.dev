@@ -8,7 +8,6 @@ import com.rallibau.shared.domain.bus.query.Response;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Optional;
 
 public final class UserQuery extends Query {
     private final String userName;
@@ -40,7 +39,7 @@ public final class UserQuery extends Query {
     @Override
     public Response parseResponse(String message) {
         try {
-            return Optional.of(new ObjectMapper().readValue(message, UserDetailResponse.class)).get();
+            return new ObjectMapper().readValue(message, UserDetailResponse.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
