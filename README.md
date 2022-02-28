@@ -1,6 +1,6 @@
 # ☕🚀 Rallibau.dev
 
-## 🏁 How To Start
+## 🏁 How To Start from visual
 
 1. Install Java 11: `brew cask install corretto`
 2. Set it as your default JVM: `export JAVA_HOME='/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home'`
